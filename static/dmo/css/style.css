@@ -1,0 +1,241 @@
+@page {
+    size: A4 landscape;
+    margin: 1.5em;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #dmo,
+    #dmo * {
+        visibility: visible;
+        box-shadow: none;
+    }
+
+    #dmo {
+        background-color: white !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .green {
+        background-color: gray;
+    }
+}
+
+body {
+    margin: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+    margin: 0px;
+}
+
+table {
+    border-spacing: 1px;
+    page-break-inside: avoid;
+}
+
+.dmo-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    font-family: vazir;
+}
+
+#dmo {
+    background-color: #fafafa;
+    border: 2px solid #eee;
+    padding: 20px;
+}
+
+.dmo-mini-table {
+    direction: ltr;
+    margin: 10px 0px;
+}
+
+.dmo-mini-info {
+    padding: 1em 2em;
+    margin: 0.1em;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.dmo-table {
+    float: left;
+    direction: ltr;
+    width: 70%;
+    margin: 10px 0px;
+}
+
+.dmo-info {
+    float: right;
+    width: 30%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    text-align: right;
+}
+
+.cell {
+    width: 25px;
+    height: 10px;
+    padding: 0;
+    font-size: x-small;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cell-mini {
+    height: 5px;
+}
+
+.emp {
+    border: none;
+}
+
+
+.actions {
+    margin: 10px 0px;
+}
+
+.dmo-btn {
+    display: inline-block;
+    padding: 0.5em 2em;
+    margin: 0.1em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 400;
+    font-family: vazir;
+    color: #fff;
+    background-color: #CCCCCC;
+    text-align: center;
+    border: none;
+        margin-right: 0px;
+}
+
+.dmo-btn:hover {
+    background-color: #0f7e5d;
+    cursor: pointer;
+}
+
+.dmo-btn:active {
+    background-color: #03553c;
+}
+
+.card {
+    box-shadow: 1px 4px 4px  #eee;
+}
+.clear {
+    clear: both;
+}
+
+#image-container{
+    visibility: hidden;
+}
+
+.image-background {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#image {
+    text-align: center;
+}
+
+.close {
+    font-size: xx-large;
+    margin: 10px 50px;
+    color: #eee;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+.close:hover {
+    color: #aaa;
+}
+
+.green {
+    background-color: #03553c;
+    color: #eee;
+}
+
+.dmo-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fafafa;
+    padding: 0px 10px;
+    padding-bottom: 10px;
+}
+
+.dmo-action {
+    text-align: center;
+}
+
+.dmo-info-block {
+    margin-bottom: 50px;
+}
+
+.day {
+    border: 1px solid #aaa;
+}
+
+.full-btn {
+    display: block;
+    padding: 1em 2em;
+    text-decoration: none;
+    font-family: vazir;
+    color: rgb(80, 116, 170);
+    text-align: center;
+}
+
+.full-btn:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.full-btn:active {
+    background-color: #c0d6ee38;
+}
+
+.btn-5 {
+    width: 20%;
+    display: inline;
+    padding: 0px;
+    margin: 10px 0px;
+}
+
+.btn-green {
+    background-color: #1aa179;
+}
+
+.btn-delete {
+    color: darkred
+}
+
+
+.dmo-public {
+    color: goldenrod;
+}
+.dmo-private {
+    color: darkgreen;
+}
+
+.px-0 {
+    padding-left: 5px;
+    padding-right: 5px;
+}

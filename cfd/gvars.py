@@ -1,0 +1,10 @@
+PTA_ANALYSIS_FORM_TEMPLATE = 'gentelella/pta_analysis.html'
+CLASSIC_ANALYSIS_FORM_TEMPLATE = 'gentelella/classic_analysis.html'
+SIGNAL_FORM = 'gentelella/signal_form.html'
+SIGNAL_INFO = 'gentelella/signal_info.html'
+SIGNALS = 'gentelella/signals.html'
+
+GENERIC_MODEL_FORM = 'generic_model_multiform.html'
+GENERIC_MODEL_LIST = 'generic_model_list.html'
+GENERIC_MESSAGE = 'message.html'
+HTTP403PAGE = 'http403.html'

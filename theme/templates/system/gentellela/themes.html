@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static i18n jalali_tags %}
+{% load model_list_tags %}
+
+{% block title %} {{block.super}} {% trans 'پوسته‌ها' %} {% endblock title %}
+{%block page_content%}
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'پوسته‌ها' %}
+                    <small>{% trans 'نصب‌شده' %}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                {% for theme in themes %}
+                <div class="col-md-6 col-sm-6 col-lg-4">
+                    <div class="thumbnail" style="height:auto; padding: 0px">
+                        <div class="theme_image"
+                            style="background-image: url({% if theme.image %}'{% static theme.image %}'{% else %}{% static 'theme/asset/noimg.png' %}{% endif %});">
+                        </div>
+                        <div class="caption">
+                            <div class="theme_item">
+                                <h2>{{theme.name}}</h2>
+                                <p>{% if theme.desc %}{{theme.desc}}{% endif %}</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-user"></i>{% trans 'توسعه‌دهنده' %}:
+                                        {% if theme.author_name %}{{theme.author_name}}{% else %}{% trans 'نامشخص' %}{%endif %}</li>
+                                    <li><i class="fa fa-at"></i>{% trans 'ایمیل' %}:
+                                        {% if theme.author_email %}{{theme.author_email}}{% else %}{% trans 'نامشخص' %}{%endif %}
+                                    </li>
+                                    <li><i class="fa fa-globe"></i>{% trans 'وبسایت' %}:
+                                        {% if theme.website %}{{theme.author}}{% else %}{% trans 'نامشخص' %}{%endif %}
+                                    </li>
+                                    <li>{% if theme.is_active %}<div style="color: green"><i class="fa fa-circle"
+                                                style="color: green"></i>{% trans 'وضعیت' %}:
+                                            {% trans 'فعال' %}</div>{% else %}<i
+                                            class="fa fa-circle-thin"></i>{% trans 'وضعیت' %}:
+                                        {% trans 'غیرفعال' %}{%endif %}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 theme_footer">
+                            <div class="col-xs-12 col-sm-12 emphasis">
+                                {% if theme.is_active %}
+                                <a href="{% url 'theme_manage_theme_deactivate' theme.id %}"
+                                    class="btn btn-default btn-xs"><i class="fa fa-remove">
+                                    </i>{% trans 'غیرفعال‌سازی' %}</a>
+                                {% else %}
+                                <a href="{% url 'theme_manage_theme_activate' theme.id %}"
+                                    class="btn btn-default btn-xs"><i class="fa fa-check">
+                                    </i>{% trans 'فعال‌سازی' %}</a>
+                                {% endif %}
+                                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-cog">
+                                    </i>{% trans 'تنظیمات' %}</button>
+                                <a href="{% url 'theme_manage_page_list' theme.id %}" class="btn btn-default btn-xs"><i class="fa fa-file-o">
+                                    </i>{% trans 'صفحات' %}</a>
+                                <a href="{% url 'theme_manage_theme_delete' theme.id %}" class="btn btn-default btn-xs btn-danger"><i class="fa fa-trash">
+                                    </i>{% trans 'حذف' %}</a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content%}

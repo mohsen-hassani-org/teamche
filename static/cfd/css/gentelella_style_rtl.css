@@ -1,0 +1,10 @@
+.signal-table tr td:last-child {
+    text-align: left;
+    direction: ltr;
+}
+.signal-table tr td:first-child {
+    text-align: right;
+}
+.signal-status {
+    direction: rtl;
+}

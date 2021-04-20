@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static i18n jalali_tags %}
+{% load model_list_tags %}
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+
+{% block extra_head %}{{extra_head|safe}}
+    <style>
+        .vote {
+            max-width: 500px;
+            width: 100%;
+            margin:0px auto;
+            padding: 10px;
+        }
+        .vote-choices {
+            padding: 0px 30px;
+        }
+    </style>
+{% endblock extra_head %}
+    
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 id="page_title">
+                    {% trans 'شرکت در نظرسنجی' %}
+                    <small>#{{vote.id}}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="vote">
+                    <div class="alert alert-warning fade in" role="alert">
+                        <strong>{{vote.title}}</strong><br />
+                        {{vote.body}}
+                    </div>
+                    <div class="vote-choices">
+                        {% for choice in vote.choices.all %}
+                            <a href="{% url 'team_profile_participate' choice.id %}" class="btn btn-default btn-block">{{choice.choice}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <a class="btn btn-default" href="{% url 'team_profile_votes_list' vote.team.id %}">{% trans 'بازگشت' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock page_content%}

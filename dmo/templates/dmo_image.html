@@ -1,0 +1,122 @@
+{% load static i18n %}
+<html dir="rtl" lang="fa-IR">
+<head>
+    <meta charset="utf-8" />
+    <link href="{% static "dmo/css/font-awesome.min.css" %}" rel="stylesheet">
+    <link href="{% static "dmo/css/style.css" %}" rel="stylesheet">
+    <link href="{% static "dmo/css/loader.css" %}" rel="stylesheet">
+    <style>        
+        .green {
+            background-color: {{dmo.color}};
+            color: #eee;
+        }
+        .title {
+            color: {{dmo.color}};
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1000px;
+            background-color: #fff;
+        }
+        .image-background {
+            padding-top: 30px;
+            height: 1000px;
+        }
+        #dmo_holder {
+            opacity: 0;
+        }
+        .lds-ellipsis div {
+            background: {{dmo.color}};
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="dmo_holder">
+            <div id="dmo">
+                <div class="dmo-info">
+                    <div class="dmo-info-block">
+                        <h2 class="title">{% trans 'نمودار DMO در' %} {{dmo.month|month_name}} {{dmo.year}}</h2>
+                        <h3>{% trans 'برای' %} {{dmo.user.get_full_name}}</h3>
+                    </div>
+                    <div class="dmo-info-block">
+                        <h4>{% trans 'هدف' %}</h4>
+                        <p>{{dmo.goal}}</p>
+                    </div>
+                    <div class="dmo-info-block">
+                        <h4>{% trans 'میکرواکشن‌ها' %}</h4>
+                        <div>
+                            {% for microaction in dmo.microactions.all %}
+                                <div>{{microaction.title}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="dmo-table">
+                    <table>
+                        {% for row in table%}
+                        <tr>
+                            {% for cell in row.values %}
+                            <td class="cell {{cell.class}}">{{cell.value}}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="overlay">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div id="image-container">
+            <div class="image-background">
+                <div id="image"><img id="img" /></div> 
+            </div>
+        </div>
+    </div>
+<script src="{% static "vendors/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "dmo/html2canvas.js" %}"></script>
+<script>
+    function save() {
+        document.getElementById('dmo_holder').setAttribute('style', 'opacity:1');
+        html2canvas(document.querySelector("#dmo"), {
+            scrollX: 0,
+            scrollY: -window.scrollY,
+            
+        }).then(canvas => {
+            // document.getElementById("image").appendChild(canvas);
+            var image = canvas.toDataURL("image/png");
+            var img = document.getElementById("img");
+            img.setAttribute("src", image);
+            document.getElementById("image-container").setAttribute("style", "visibility: visible");
+
+        });
+    }
+    function close_image() {
+        document.getElementById("img").setAttribute("src", "");
+        document.getElementById("image-container").setAttribute("style", "visibility: hidden");
+    }
+    document.onload(save());
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+

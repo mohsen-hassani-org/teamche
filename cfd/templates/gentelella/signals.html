@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+{% block extra_head %}
+    <link href="{% static "cfd/css/gentelella_style.css" %}" rel="stylesheet">
+    {% if BIDI %}
+    <link href="{% static "cfd/css/gentelella_style_rtl.css" %}" rel="stylesheet">
+    {% endif %}
+{% endblock %}
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <div class="">
+                    <a tabindex="0" class="btn buttons-html5 btn-success" href="{% url 'cfd_profile_signals_add' %}">
+                        <i class="fa fa-plus"></i><span>{% trans 'افزودن سیگنال جدید' %}</span>
+                    </a>
+                    <a tabindex="1" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_signals_all_view' %}">
+                        <span>{% trans 'مشاهده تمام سیگنال‌ها' %}</span>
+                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_pta_view' %}">
+                        <span>{% trans 'تحلیل‌های PTA' %}</span>
+                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_classic_view' %}">
+                        <span>{% trans 'تحلیل‌های Classic' %}</span>
+                    </a>
+                    {% if user.is_superuser %}
+                    <a tabindex="2" class="btn buttons-html5 btn-warning" href="{% url 'cfd_manage_asset_view' %}">
+                        <span>{% trans 'مدیریت دارایی‌ها' %}</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'سیگنال‌های جاری' %}
+                    <small>{{year}} {{month}}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    {% for signal in running_signals %}
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="card border-{{signal.entry_type}}">
+                                <div class="header bg-{{signal.entry_type}}">
+                                    <small class="{{signal.entry_type}}">{{signal.get_entry_type_display}}</small>
+                                    <h4 class="{{signal.entry_type}}">{{signal.asset}}</h4>
+                                </div>
+                                <div class="body">
+                                    <table class="signal-table">
+                                        <tr><td>{% trans 'شماره سیگنال' %}</td><td>#{{signal.id}}</td></tr>
+                                        <tr><td>{% trans 'نقطه ورود' %}</td><td>{{signal.entry_point1}}</td></tr>
+                                        <tr><td>{% trans 'حد ضرر' %}</td><td>{{signal.stop_loss1}}</td></tr>
+                                        <tr><td>{% trans 'حد سود' %}</td><td>{{signal.take_profit1}}</td></tr>
+                                        <tr><td>{% trans 'سود به ضرر' %}</td><td>1/{{signal.risk_reward}}</td></tr>
+                                    </table>
+                                    <div class="row action-buttons">
+                                        <div class="col-md-4 col-sm-4 col-xs-4">
+                                            <a class="btn btn-block" href="{% url 'cfd_profile_signals_fill' signal.id %}" 
+                                                data-toggle="tooltip" data-placement="top" 
+                                                title="" data-original-title="{% trans 'پایان معامله' %}"><i class="fa fa-check"></i></a>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4">
+                                            <a class="btn btn-block" href="{% url 'cfd_profile_signals_info' signal.id %}"
+                                                data-toggle="tooltip" data-placement="top" 
+                                                title="" data-original-title="{% trans 'مشاهده جزئیات' %}"><i class="fa fa-info"></i></a>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-4">
+                                            <a class="btn btn-block" href="{% url 'cfd_profile_signals_cancel' signal.id %}" 
+                                                data-toggle="tooltip" data-placement="top" 
+                                                title="" data-original-title="{% trans 'لغو سیگنال' %}"><i class="fa fa-close"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <small>
+                                        {{signal.signal_datetime }}<br /> {% trans 'توسط' %} {{signal.user.get_full_name}}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    سایر سیگنال‌های این ماه
+                    <small>{{year}} {{month}}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    {% for signal in all_signals %}
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="card {% if signal.status == signal.SignalStatus.CANCELED%}canceled{% else %}{% if signal.result_pip > 0 %}success{% else %}failure{% endif %}{% endif %}-card">
+                                <div class="header">
+                                    <small>{{signal.get_entry_type_display}}</small>
+                                    <h4>{{signal.asset}}</h4>
+                                </div>
+                                <div class="body">
+                                    <table class="signal-table">
+                                        <tr><td>{% trans 'شماره سیگنال' %}</td><td>#{{signal.id}}</td></tr>
+                                        <tr><td>{% trans 'پیپ نهایی' %}</td><td>{{signal.result_pip}}</td></tr>
+                                        <tr><td>{% trans 'شروع معامله' %}</td><td>{{signal.signal_datetime|date:"m/d H:i"}}</td></tr>
+                                        {% if signal.status == cancel_status %}
+                                        <tr><td>{% trans 'زمان لغو' %}</td><td>{{signal.canceled_datetime|date:"m/d H:i"}}</td></tr>
+                                        {% else %}
+                                        <tr><td>{% trans 'پایان معامله' %}</td><td>{{signal.result_datetime|date:"m/d H:i"}}</td></tr>
+                                        {% endif %}
+                                        <tr><td>{% trans 'وضعیت' %}</td><td>{{signal.get_status_display}}</td></tr>
+                                    </table>
+                                    <div class="action-buttons">
+                                        <a class="btn btn-block" href="{% url 'cfd_profile_signals_info' signal.id %}">مشاهده جزئیات</a>
+                                    </div>
+                                </div>
+                                <div class="footer no-bg">
+                                    <small>
+                                        {{signal.signal_datetime }}<br /> {% trans 'توسط' %} {{signal.user.get_full_name}}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

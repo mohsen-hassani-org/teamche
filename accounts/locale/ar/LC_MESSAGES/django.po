@@ -1,0 +1,450 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-20 11:05+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+#: accounts/apps.py:6
+msgid "مدیریت حساب‌ها"
+msgstr ""
+
+#: accounts/manage/group/views.py:27
+msgid "لیست گروه‌ها"
+msgstr ""
+
+#: accounts/manage/group/views.py:29
+msgid "نام گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:29 accounts/manage/user/views.py:53
+msgid "مجوزها"
+msgstr ""
+
+#: accounts/manage/group/views.py:29
+msgid "کاربران"
+msgstr ""
+
+#: accounts/manage/group/views.py:33
+msgid "افزودن گروه جدید"
+msgstr ""
+
+#: accounts/manage/group/views.py:41 accounts/manage/user/views.py:29
+msgid "لیست کاربران"
+msgstr ""
+
+#: accounts/manage/group/views.py:46
+msgid "ویرایش نام گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:51
+msgid "مجوز‌های گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:71
+msgid "افزودن گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:73 accounts/manage/user/views.py:297
+#: accounts/profile/views.py:113
+msgid "افزودن"
+msgstr ""
+
+#: accounts/manage/group/views.py:91
+msgid "ویرایش گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:119
+msgid "لیست کاربران گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:122 accounts/models.py:79
+#: accounts/strings.py:18
+msgid "کاربر"
+msgstr ""
+
+#: accounts/manage/group/views.py:126
+msgid "افزودن کاربر به این گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:134
+msgid "حذف کاربر از گروه"
+msgstr ""
+
+#: accounts/manage/group/views.py:143 accounts/manage/user/views.py:271
+#: accounts/profile/views.py:87
+msgid "بازگشت"
+msgstr ""
+
+#: accounts/manage/group/views.py:172
+msgid "افزودن کاربر به گروه"
+msgstr ""
+
+#: accounts/manage/settings/views.py:25
+msgid "تنظیمات حساب کاربری"
+msgstr ""
+
+#: accounts/manage/user/views.py:31 accounts/strings.py:3
+#: accounts/templates/gentellela/login.html:38
+#: accounts/templates/gentellela/profile.html:44
+msgid "نام کاربری"
+msgstr ""
+
+#: accounts/manage/user/views.py:31 accounts/strings.py:4
+msgid "نام"
+msgstr ""
+
+#: accounts/manage/user/views.py:31 accounts/strings.py:5
+msgid "نام خانوادگی"
+msgstr ""
+
+#: accounts/manage/user/views.py:31 accounts/strings.py:8
+msgid "ایمیل"
+msgstr ""
+
+#: accounts/manage/user/views.py:31
+msgid "وضعیت"
+msgstr ""
+
+#: accounts/manage/user/views.py:43
+msgid "ویرایش کاربر"
+msgstr ""
+
+#: accounts/manage/user/views.py:48
+#: accounts/templates/gentellela/profile.html:58
+msgid "ویرایش پروفایل"
+msgstr ""
+
+#: accounts/manage/user/views.py:58
+#: accounts/templates/gentellela/profile.html:60
+msgid "آدرس‌ها"
+msgstr ""
+
+#: accounts/manage/user/views.py:63
+msgid "گروه‌ها"
+msgstr ""
+
+#: accounts/manage/user/views.py:68
+msgid "تغییر رمز"
+msgstr ""
+
+#: accounts/manage/user/views.py:250 accounts/profile/views.py:67
+msgid "لیست آدرس‌های کاربر"
+msgstr ""
+
+#: accounts/manage/user/views.py:253 accounts/models.py:80
+#: accounts/profile/views.py:70
+msgid "آدرس"
+msgstr ""
+
+#: accounts/manage/user/views.py:253 accounts/profile/views.py:70
+msgid "شماره تلفن"
+msgstr ""
+
+#: accounts/manage/user/views.py:253 accounts/models.py:84
+#: accounts/profile/views.py:70
+msgid "کد پستی"
+msgstr ""
+
+#: accounts/manage/user/views.py:256
+msgid "افزودن آدرس جدید به کاربر"
+msgstr ""
+
+#: accounts/manage/user/views.py:264 accounts/profile/views.py:80
+msgid "ویرایش"
+msgstr ""
+
+#: accounts/manage/user/views.py:293
+msgid "افزودن آدرس به کاربر"
+msgstr ""
+
+#: accounts/manage/user/views.py:316
+msgid "ویرایش آدرس کاربر"
+msgstr ""
+
+#: accounts/manage/user/views.py:320 accounts/profile/views.py:57
+#: accounts/profile/views.py:139 accounts/strings.py:9
+msgid "ذخیره"
+msgstr ""
+
+#: accounts/models.py:24
+#, python-brace-format
+msgid ""
+"سایز فایل شما بیشتر از حد مجاز است. حداکثر حجم مجاز فایل {0} مگابایت می‌باشد."
+msgstr ""
+
+#: accounts/models.py:31 accounts/strings.py:14
+msgid "شماره تماس"
+msgstr ""
+
+#: accounts/models.py:33 accounts/strings.py:15
+msgid "تصویر نمایه"
+msgstr ""
+
+#: accounts/models.py:34
+msgid "زبان"
+msgstr ""
+
+#: accounts/models.py:82
+msgid "تلفن"
+msgstr ""
+
+#: accounts/models.py:82
+msgid "شماره تلفن را بدون صفر ابتدای آن وارد کنید"
+msgstr ""
+
+#: accounts/models.py:91
+msgid "ویرایش تنظیمات"
+msgstr ""
+
+#: accounts/models.py:94
+msgid "اجازه ثبت‌نام در سایت"
+msgstr ""
+
+#: accounts/models.py:98
+msgid "حجم مجاز آپلود تصویر نمایه (مگابایت)"
+msgstr ""
+
+#: accounts/profile/views.py:31 accounts/templates/gentellela/profile.html:59
+msgid "تغییر رمز ورود"
+msgstr ""
+
+#: accounts/profile/views.py:53 accounts/strings.py:11
+msgid "ویرایش اطلاعات کاربری"
+msgstr ""
+
+#: accounts/profile/views.py:73
+msgid "افزودن آدرس جدید"
+msgstr ""
+
+#: accounts/profile/views.py:110
+msgid "افزودن آدرس"
+msgstr ""
+
+#: accounts/profile/views.py:135
+msgid "ویرایش آدرس"
+msgstr ""
+
+#: accounts/strings.py:6 accounts/templates/gentellela/login.html:42
+msgid "رمز عبور"
+msgstr ""
+
+#: accounts/strings.py:7
+msgid "تایید رمز عبور"
+msgstr ""
+
+#: accounts/strings.py:10
+msgid "انصراف"
+msgstr ""
+
+#: accounts/strings.py:12
+msgid "افزودن کاربر"
+msgstr ""
+
+#: accounts/strings.py:13
+msgid "ویرایش اطلاعات پروفایل"
+msgstr ""
+
+#: accounts/strings.py:16
+msgid "پروفایل"
+msgstr ""
+
+#: accounts/strings.py:17
+msgid "پروفایل‌ها"
+msgstr ""
+
+#: accounts/strings.py:19
+#, python-brace-format
+msgid "حداکثر حجم قابل قبول {0} مگابایت"
+msgstr ""
+
+#: accounts/strings.py:20
+msgid "تنظیم رمز کاربر"
+msgstr ""
+
+#: accounts/strings.py:21
+msgid "رمزهای وارد شده یکسان نیستند."
+msgstr ""
+
+#: accounts/strings.py:22
+msgid "فعال"
+msgstr ""
+
+#: accounts/strings.py:23
+msgid "غیرفعال"
+msgstr ""
+
+#: accounts/strings.py:24
+msgid ""
+"جهت صدور اجازه‌های مختلف، کلید CTLR را نگه داشته و مجوزها را انتخاب کنید."
+msgstr ""
+
+#: accounts/strings.py:25
+msgid ""
+"جهت انتخاب بیش از یک گروه برای کاربر، کلید CTRL را نگه داشته و گروه‌های مورد "
+"نظر خود را انتخاب کنید."
+msgstr ""
+
+#: accounts/strings.py:26
+msgid "مجوزهای کاربر"
+msgstr ""
+
+#: accounts/strings.py:28
+msgid "ویرایش کاربران یا گروه‌ها"
+msgstr ""
+
+#: accounts/strings.py:29
+msgid "مشاهده کاربران و پروفایل‌ها"
+msgstr ""
+
+#: accounts/strings.py:30
+msgid "ایجاد کاربران و پروفایل‌ها"
+msgstr ""
+
+#: accounts/strings.py:32
+msgid "ویرایش کاربران و پروفایل‌ها"
+msgstr ""
+
+#: accounts/strings.py:33
+msgid "تغییر رمز کاربران"
+msgstr ""
+
+#: accounts/strings.py:34
+msgid "حذف کاربران و پروفایل‌ها"
+msgstr ""
+
+#: accounts/strings.py:35
+msgid "مشاهده گروه‌ها و اعضا"
+msgstr ""
+
+#: accounts/strings.py:36
+msgid "ایجاد گروه‌ها"
+msgstr ""
+
+#: accounts/strings.py:37
+msgid "ویرایش گروه‌ها"
+msgstr ""
+
+#: accounts/strings.py:38
+msgid "ویرایش اعضای گروه"
+msgstr ""
+
+#: accounts/strings.py:39
+msgid "حذف گروه‌ها"
+msgstr ""
+
+#: accounts/strings.py:41
+msgid "آدرس کاربر"
+msgstr ""
+
+#: accounts/strings.py:42
+msgid "آدرس‌های کاربر"
+msgstr ""
+
+#: accounts/strings.py:43
+msgid "تنظیمات حساب"
+msgstr ""
+
+#: accounts/templates/gentellela/email_sent.html:37
+#: accounts/templates/gentellela/reset_password_done.html:37
+msgid "توجه!"
+msgstr ""
+
+#: accounts/templates/gentellela/email_sent.html:38
+msgid "درخواست شما با موفقیت ثبت شد"
+msgstr ""
+
+#: accounts/templates/gentellela/email_sent.html:39
+msgid ""
+"در صورتی که با این آدرس ایمیل در سایت ما ثبت نام کرده باشید، ایمیلی حاوی "
+"لینک تغییر رمز برای شما ارسال خواهد شد"
+msgstr ""
+
+#: accounts/templates/gentellela/forgot_password.html:36
+msgid "بازیابی رمز ورود"
+msgstr ""
+
+#: accounts/templates/gentellela/forgot_password.html:74
+#: accounts/templates/gentellela/register.html:74
+#: accounts/templates/gentellela/reset_password.html:75
+msgid "ارسال"
+msgstr ""
+
+#: accounts/templates/gentellela/forgot_password.html:80
+#: accounts/templates/gentellela/reset_password.html:81
+msgid "ورود به سایت"
+msgstr ""
+
+#: accounts/templates/gentellela/login.html:36
+msgid "فرم ورود"
+msgstr ""
+
+#: accounts/templates/gentellela/login.html:60
+msgid "رمز ورود را از دست دادید؟"
+msgstr ""
+
+#: accounts/templates/gentellela/login.html:61
+msgid "نیاز به حساب کاربری دارید؟"
+msgstr ""
+
+#: accounts/templates/gentellela/profile.html:21
+msgid "پروفایل کاربری"
+msgstr ""
+
+#: accounts/templates/gentellela/profile.html:50
+msgid "آدرس ایمیل ثبت نشده است"
+msgstr ""
+
+#: accounts/templates/gentellela/profile.html:55
+msgid "آخرین ورود"
+msgstr ""
+
+#: accounts/templates/gentellela/profile.html:55
+msgid "نامشخص"
+msgstr ""
+
+#: accounts/templates/gentellela/register.html:36
+msgid "ایجاد حساب"
+msgstr ""
+
+#: accounts/templates/gentellela/register.html:80
+msgid "عضو سایت هستید؟"
+msgstr ""
+
+#: accounts/templates/gentellela/register_succeed.html:37
+msgid "تبریک!"
+msgstr ""
+
+#: accounts/templates/gentellela/register_succeed.html:38
+msgid "حساب کاربری شما با موفقیت ایجاد شد"
+msgstr ""
+
+#: accounts/templates/gentellela/register_succeed.html:39
+#: accounts/templates/gentellela/reset_password_done.html:39
+msgid "برای ورود به حساب کاربری روی این لینک کلیک کنید."
+msgstr ""
+
+#: accounts/templates/gentellela/reset_password.html:37
+msgid "رمز عبور جدید"
+msgstr ""
+
+#: accounts/templates/gentellela/reset_password.html:90
+msgid "آدرس بازیابی رمز شما معتبر نمی‌باشد. لطفا مجدد تلاش کنید."
+msgstr ""
+
+#: accounts/templates/gentellela/reset_password_done.html:38
+msgid "رمز عبور شما با موفقیت تغییر کرد"
+msgstr ""

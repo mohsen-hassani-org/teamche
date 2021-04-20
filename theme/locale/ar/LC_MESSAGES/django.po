@@ -1,0 +1,483 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-20 11:54+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: apps.py:7 models.py:12 models.py:40
+msgid "پوسته"
+msgstr ""
+
+#: manage/menu/views.py:22
+msgid "لیست منو‌های سایت"
+msgstr ""
+
+#: manage/menu/views.py:24 models.py:55
+msgid "نام منو"
+msgstr ""
+
+#: manage/menu/views.py:24
+msgid "تعداد آیتم‌های منو"
+msgstr ""
+
+#: manage/menu/views.py:29 manage/menu/views.py:59
+msgid "افزودن منوی جدید"
+msgstr ""
+
+#: manage/menu/views.py:35 manage/menu/views.py:132
+msgid "ویرایش"
+msgstr ""
+
+#: manage/menu/views.py:40 manage/menu/views.py:117 models.py:61
+msgid "آیتم‌های منو"
+msgstr ""
+
+#: manage/menu/views.py:77
+msgid "ویرایش منو"
+msgstr ""
+
+#: manage/menu/views.py:111
+msgid "آدرس آیتم"
+msgstr ""
+
+#: manage/menu/views.py:111
+msgid "والد"
+msgstr ""
+
+#: manage/menu/views.py:125
+msgid "افزودن آیتم جدید"
+msgstr ""
+
+#: manage/menu/views.py:137 manage/menu/views.py:209
+msgid "ویرایش محتوای زبان‌ها"
+msgstr ""
+
+#: manage/menu/views.py:144 manage/page/views.py:55 manage/page/views.py:101
+#: manage/page/views.py:144 manage/page/views.py:187 manage/page/views.py:230
+#: manage/page/views.py:273
+msgid "بازگشت"
+msgstr ""
+
+#: manage/menu/views.py:163
+msgid "افزودن آیتم جدید به منو"
+msgstr ""
+
+#: manage/menu/views.py:183
+msgid "ویرایش آیتم منو"
+msgstr ""
+
+#: manage/page/forms.py:19 manage/page/forms.py:36 manage/page/forms.py:54
+#: manage/page/forms.py:71 manage/page/forms.py:89
+msgid ""
+"توجه: این مقدار برای تمامی زبان‌ها اعمال خواهد شد و تمامی محتواهای قبلی این "
+"متغیر پاک خواهند شد."
+msgstr ""
+
+#: manage/page/views.py:21 models.py:33
+msgid "صفحات پوسته"
+msgstr ""
+
+#: manage/page/views.py:25
+msgid "اسلاگ"
+msgstr ""
+
+#: manage/page/views.py:25
+msgid "قالب صفحه"
+msgstr ""
+
+#: manage/page/views.py:25 models.py:45 models.py:113
+msgid "نوع صفحه"
+msgstr ""
+
+#: manage/page/views.py:25
+msgid "صفحه پایه"
+msgstr ""
+
+#: manage/page/views.py:28
+msgid "متن‌ها"
+msgstr ""
+
+#: manage/page/views.py:33
+msgid "تصاویر"
+msgstr ""
+
+#: manage/page/views.py:38
+msgid "لینک‌ها"
+msgstr ""
+
+#: manage/page/views.py:43 models.py:51
+msgid "منوها"
+msgstr ""
+
+#: manage/page/views.py:48
+msgid "دسته‌بندی‌ها"
+msgstr ""
+
+#: manage/page/views.py:79 manage/page/views.py:122 manage/page/views.py:165
+#: manage/page/views.py:208 manage/page/views.py:251 models.py:127
+#: models.py:155 models.py:183
+msgid "نام متغیر"
+msgstr ""
+
+#: manage/page/views.py:85 models.py:121
+msgid "متغیرهای متن صفحه"
+msgstr ""
+
+#: manage/page/views.py:89 manage/page/views.py:132 manage/page/views.py:175
+#: manage/page/views.py:218 manage/page/views.py:261 manage/page/views.py:300
+#: manage/page/views.py:323 manage/page/views.py:346 manage/page/views.py:369
+#: manage/page/views.py:392
+msgid "ویرایش محتوای هر زبان"
+msgstr ""
+
+#: manage/page/views.py:94 manage/page/views.py:137 manage/page/views.py:180
+#: manage/page/views.py:223 manage/page/views.py:266 manage/page/views.py:419
+#: manage/page/views.py:441 manage/page/views.py:463 manage/page/views.py:485
+#: manage/page/views.py:507
+msgid "ویرایش محتوای همه زبان‌ها"
+msgstr ""
+
+#: manage/page/views.py:128
+msgid "متغیرهای تصویر صفحه"
+msgstr ""
+
+#: manage/page/views.py:171 models.py:148
+msgid "متغیرهای لینک صفحه"
+msgstr ""
+
+#: manage/page/views.py:214
+msgid "متغیرهای منوی صفحه"
+msgstr ""
+
+#: manage/page/views.py:257 models.py:232
+msgid "متغیرهای دسته‌بندی صفحه"
+msgstr ""
+
+#: manage/theme/forms.py:16
+msgid "فایل فشرده"
+msgstr ""
+
+#: manage/theme/theme_installer.py:21
+msgid "حجم فایل مورد نظر باید کمتر از 10 مگابایت باشد"
+msgstr ""
+
+#: manage/theme/theme_installer.py:23
+msgid "فایل مورد نظر باید با فرمت zip باشد"
+msgstr ""
+
+#: manage/theme/theme_installer.py:32
+msgid "پوسته‌ای با این نام وجود دارد"
+msgstr ""
+
+#: models.py:13 templates/system/gentellela/themes.html:5
+#: templates/system/gentellela/themes.html:22
+msgid "پوسته‌ها"
+msgstr ""
+
+#: models.py:17
+msgid "نام"
+msgstr ""
+
+#: models.py:18
+msgid "سایت"
+msgstr ""
+
+#: models.py:20
+msgid "توسعه دهنده"
+msgstr ""
+
+#: models.py:22
+msgid "ایمیل توسعه دهنده"
+msgstr ""
+
+#: models.py:24 models.py:87
+msgid "توضیحات"
+msgstr ""
+
+#: models.py:26 models.py:196
+msgid "تصویر"
+msgstr ""
+
+#: models.py:27 templates/system/gentellela/themes.html:55
+msgid "فعال"
+msgstr ""
+
+#: models.py:32 models.py:109
+msgid "صفحه پوسته"
+msgstr ""
+
+#: models.py:37
+msgid "پایه"
+msgstr ""
+
+#: models.py:37
+msgid "بلاگ"
+msgstr ""
+
+#: models.py:38 models.py:224
+msgid "پست"
+msgstr ""
+
+#: models.py:38
+msgid "جستجو"
+msgstr ""
+
+#: models.py:38 models.py:254
+msgid "دسته‌بندی"
+msgstr ""
+
+#: models.py:38
+msgid "سفارشی"
+msgstr ""
+
+#: models.py:41
+msgid "نام صفحه"
+msgstr ""
+
+#: models.py:43
+msgid "نام فایل صفحه"
+msgstr ""
+
+#: models.py:50 models.py:66 models.py:282
+msgid "منو"
+msgstr ""
+
+#: models.py:60 models.py:81
+msgid "آیتم منو"
+msgstr ""
+
+#: models.py:68
+msgid "آیتم والد"
+msgstr ""
+
+#: models.py:69
+msgid "آدرس"
+msgstr ""
+
+#: models.py:74
+msgid "محتوای آیتم"
+msgstr ""
+
+#: models.py:75
+msgid "محتواهای آیتم"
+msgstr ""
+
+#: models.py:83 models.py:142 models.py:170 models.py:198 models.py:226
+#: models.py:256 models.py:284
+msgid "زبان"
+msgstr ""
+
+#: models.py:84
+msgid "عنوان"
+msgstr ""
+
+#: models.py:103 models.py:126 models.py:153 models.py:181 models.py:209
+#: models.py:237 models.py:267
+msgid "صفحه"
+msgstr ""
+
+#: models.py:104 templates/system/gentellela/themes.html:75
+msgid "صفحات"
+msgstr ""
+
+#: models.py:111
+msgid "نشانی (slug)"
+msgstr ""
+
+#: models.py:113
+msgid "سیستمی"
+msgstr ""
+
+#: models.py:113
+msgid "شخصی"
+msgstr ""
+
+#: models.py:120
+msgid "متغیر متن صفحه"
+msgstr ""
+
+#: models.py:132
+msgid "محتوای متغیر متن"
+msgstr ""
+
+#: models.py:133
+msgid "محتوای متغیرهای متن"
+msgstr ""
+
+#: models.py:138
+msgid "متغیر متنی"
+msgstr ""
+
+#: models.py:140
+msgid "محتوای متنی"
+msgstr ""
+
+#: models.py:147
+msgid "متغیر لینک صفحه"
+msgstr ""
+
+#: models.py:160
+msgid "محتوای متغیر لینک"
+msgstr ""
+
+#: models.py:161
+msgid "محتوای متغیرهای لینک"
+msgstr ""
+
+#: models.py:166
+msgid "متغیر لینک"
+msgstr ""
+
+#: models.py:168
+msgid "محتوای لینک"
+msgstr ""
+
+#: models.py:175
+msgid "متغیر تصویر صفحه"
+msgstr ""
+
+#: models.py:176
+msgid "متغیر‌های تصویر صفحه"
+msgstr ""
+
+#: models.py:188
+msgid "محتوای متغیر تصویر"
+msgstr ""
+
+#: models.py:189
+msgid "محتوا‌های متغیر تصویر"
+msgstr ""
+
+#: models.py:194
+msgid "متغیر تصویر"
+msgstr ""
+
+#: models.py:203
+msgid "متغیر پست صفحه"
+msgstr ""
+
+#: models.py:204
+msgid "متغیرهای پست صفحه"
+msgstr ""
+
+#: models.py:211
+msgid "نام متغیر پست"
+msgstr ""
+
+#: models.py:216
+msgid "محتوای متغیر پست"
+msgstr ""
+
+#: models.py:217
+msgid "محتوای متغیرهای پست"
+msgstr ""
+
+#: models.py:222
+msgid "متغیر پست"
+msgstr ""
+
+#: models.py:231
+msgid "متغیر دسته‌بندی صفحه"
+msgstr ""
+
+#: models.py:239
+msgid "نام متغیر دسته‌بندی"
+msgstr ""
+
+#: models.py:241
+msgid "تعداد پست"
+msgstr ""
+
+#: models.py:246
+msgid "محتوای متغیر دسته‌بندی"
+msgstr ""
+
+#: models.py:247
+msgid "محتوای متغیرهای دسته‌بندی"
+msgstr ""
+
+#: models.py:252
+msgid "متغیر دسته‌بندی"
+msgstr ""
+
+#: models.py:261
+msgid "متغیر منو صفحه"
+msgstr ""
+
+#: models.py:262
+msgid "متغیرهای منو صفحه"
+msgstr ""
+
+#: models.py:269 models.py:280
+msgid "متغیر منو"
+msgstr ""
+
+#: models.py:274
+msgid "محتوای متغیر منو"
+msgstr ""
+
+#: models.py:275
+msgid "محتوای متغیرهای منو"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:23
+msgid "نصب‌شده"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:45
+msgid "توسعه‌دهنده"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:46
+#: templates/system/gentellela/themes.html:48
+#: templates/system/gentellela/themes.html:51
+msgid "نامشخص"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:47
+msgid "ایمیل"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:50
+msgid "وبسایت"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:54
+#: templates/system/gentellela/themes.html:56
+msgid "وضعیت"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:57
+msgid "غیرفعال"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:66
+msgid "غیرفعال‌سازی"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:70
+msgid "فعال‌سازی"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:73
+msgid "تنظیمات"
+msgstr ""
+
+#: templates/system/gentellela/themes.html:77
+msgid "حذف"
+msgstr ""

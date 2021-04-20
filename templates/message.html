@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="message-container">
+            <div class="alert alert-{{message_type}} {% if message_dismissible %}alert-dismissible fade in{% endif %}" role="alert">
+                {% if message_dismissible %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                {% endif %}
+                <strong>{{message_header}} </strong>{{message}}
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-default" onclick="window.history.back()">{% trans 'بازگشت' %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock page_content%}

@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static i18n jalali_tags %}
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+{% block extra_head %}
+    <style>
+        .title {
+            color: {{dmo.color}};
+        }
+    </style>
+<link href="{% static "dmo/css/style.css" %}" rel="stylesheet">
+{% endblock %}
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <div class="">
+                    <a tabindex="0" class="btn btn-success buttons-html5" href="{% url 'dmo_profile_dmo_add' %}">
+                        <i class="fa fa-plus"></i><span>{% trans 'افزودن DMO جدید' %}</span>
+                    </a>
+                    <a tabindex="0" class="btn btn-default buttons-html5" href="{% url 'dmo_profile_dmo_view_all' %}">
+                        <span>{% trans 'مشاهده همه DMOهای من' %}</span>
+                    </a>
+                    {% if user.is_superuser %}
+                    <a tabindex="2" class="btn buttons-html5 btn-warning" href="{% url 'dmo_manage_dmo_view_all' %}">
+                        <span>{% trans 'مدیریت DMOها' %}</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'نمودارهای جاری من' %}
+                    <small>{{month}} {{year}}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+            <div class="row">
+                {% for dmo in my_dmo_set %}
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="dmo-card">
+                        <div class="dmo-mini-info">
+                            <h5>{{dmo.goal}}</h5>
+                            <span class="dmo-{{dmo.type}}">{{dmo.type_display}}</span>
+                        </div>
+                        <div class="dmo-mini-table">
+                            <table>
+                                {% for row in dmo.data %}
+                                <tr>
+                                    {% for cell in row.values %}
+                                    <td class="cell cell-mini {{cell.class}}"></td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="dmo-action">
+                            <div class="row">
+                                <div class="col-md-12 px-0">
+                                    <a class="btn btn-primary btn-block"
+                                        href="{% url 'dmo_profile_dmo_fill' dmo.id %}"><i class="fa fa-check"></i> {% trans 'پر کردن' %}
+                                        </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-6 px-0">
+                                    <a class="btn btn-sm btn-default btn-block"
+                                        href="{% url 'dmo_profile_dmo_view_table' dmo.id %}" target="_blank"><i class="fa fa-table"></i>
+                                        {% trans 'مشاهده جدول' %}</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-6 px-0">
+                                    <a class=" btn btn-sm btn-default btn-block"
+                                        href="{% url 'dmo_profile_dmodays_view' dmo.id %}"><i
+                                            class="fa fa-bar-chart"></i> {% trans 'ریزعملکرد' %}</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-6 px-0">
+                                    <a class=" btn btn-sm btn-default btn-block"
+                                        href="{% url 'dmo_profile_dmo_view_microactions' dmo.id %}"><i
+                                            class="fa fa-sitemap"></i> {% trans 'میکرواکشن‌ها' %}</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-6 px-0">
+                                    <a class=" btn btn-sm btn-default btn-block"
+                                        href="{% url 'dmo_profile_dmo_image' dmo.id %}" target="_blank"><i
+                                            class="fa fa-photo"></i> {% trans 'تصویر' %}</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-6 px-0">
+                                    <a class=" btn btn-sm btn-default btn-block"
+                                        href="{% url 'dmo_profile_dmo_edit' dmo.id %}"><i class="fa fa-pencil"></i>
+                                        {% trans 'ویرایش' %}</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-6 px-0">
+                                    <button data-toggle="modal" data-target="#modal_{{dmo.id}}" type="button"
+                                        class=" btn btn-sm btn-default btn-block btn-delete"><i class="fa fa-trash"></i>
+                                        {% trans 'حذف' %}</button>
+                                </div>
+                            </div>
+                            <div class="modal fade bs-example-modal-lg in" id="modal_{{dmo.id}}" tabindex="-1"
+                                role="dialog" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel2">{% trans 'اخطار!' %}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>
+                                                {% trans 'آیا از حذف کامل این آیتم مطمئن هستید؟' %}
+                                                <b>'{{ dmo.goal }}'</b>
+                                            </h4>
+                                            <p>
+                                                {% trans 'پس از حذف، امکان بازگشت آن وجود نخواهد داشت.' %}
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'بستن' %}</button>
+                                            <a href="{% url 'dmo_profile_dmo_delete' dmo.id %}"
+                                                class="btn btn-danger">{% trans 'حذف کامل' %}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'نمودارهای سایر کاربران' %}
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {% for user_dmos in users %}
+                <div class="row">
+                    {% for dmo in user_dmos.1 %}
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="dmo-card">
+                            <div class="dmo-info">
+                                <div>{{dmo.goal}}</div>
+                                {%if user_dmos.0.get_full_name%}{{user_dmos.0.get_full_name}}{%else%}{{user_dmos.0.username}}{%endif%}
+                            </div>
+                            <div class="dmo-table">
+                                <table>
+                                    {% for row in dmo.data %}
+                                    <tr>
+                                        {% for cell in row.values %}
+                                        <td class="cell {{cell.class}}"></td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div class="dmo-action">
+                                <a class="btn btn-default btn-block"
+                                    href="{% url 'dmo_profile_dmo_view_table' dmo.id %}" target="_blank">
+                                    {% trans 'مشاهده کامل جدول' %}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <hr />
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

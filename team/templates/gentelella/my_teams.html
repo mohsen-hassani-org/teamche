@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static i18n jalali_tags %}
+{% load model_list_tags %}
+
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+
+{% block extra_head %}{{extra_head|safe}}
+    {% if search_form %}
+        {{ search_form.media }}
+    {% endif %}
+{% endblock extra_head %}
+    
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+{% for invitation in my_invitations %}
+    <div class="alert alert-info fade in" role="alert">
+        <div class="row">
+            <div class="col-md-12"><strong>{% trans 'توجه!' %} </strong> {% trans 'یک دعوت‌نامه جدید برای عضویت در تیم دارید' %}</div>
+            <div class="col-md-3"><strong>{% trans 'دعوت‌کننده:' %}</strong> {{invitation.team.leader}}</div>
+            <div class="col-md-3"><strong>{% trans 'تیم:' %}</strong>{{invitation.team.name}}</div>
+            <div class="col-md-3">
+                <a class="btn btn-success" href="{% url 'team_profile_invitation_accept' invitation.id %}">{% trans 'پذیرفتن' %}</a>
+                <a class="btn btn-danger" href="{% url 'team_profile_invitation_reject' invitation.id %}">{% trans 'رد کردن' %}</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<!-- My Teams -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 id="page_title">
+                    {% trans 'تیم‌های من' %}
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    {% if search_form %}<li><a class="filter-link"><i class="fa fa-filter"></i></a></li>{% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cloud-download"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="csv-link">.CSV</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <!-- SEARCH BOX END -->
+                {% if search_form %}
+                <div id="search_box" class="hide">
+                    <form class="search-form" method="GET">
+                        {% for hidden_field in search_form.hidden_fields %}
+                        {{ hidden_field }}
+                        {% endfor %}
+
+                        {% if search_form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in search_form.non_field_errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            {% for field in search_form.visible_fields %}
+                            <div class="form-group col-md-2">
+                                <label for="{{field.id_for_label}}">{{field.label}}</label>
+                                <div class="">
+                                    {% if field.widget_type == 'checkbox' %}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="{{field.name}}" id="id_{{field.name}}" {% if field.value %}checked{% endif %}>
+                                        </label>
+                                    </div>
+                                    {% else %}
+                                    {{ field }}
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% if search_form.is_bound %}
+                                    {% if field.errors %}
+                                    {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <!-- {{ field } -->
+                                    <!-- {% else } -->
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="form-group col-md-4">
+                                <div class="actions">
+                                    <button type="submit" class="btn btn-success">
+                                        {% if form_submit_btn_text %}
+                                        {{form_submit_btn_text}}
+                                        {% else %}
+                                        {% trans 'اعمال' %}
+                                        {% endif %}
+                                    </button>
+                                    <a class="btn btn-default" href="{{request.path}}">{% trans 'پاک کردن' %}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if form.errors %}
+                        <div class="ln_solid"></div>
+                            <div class="">
+                                {% for error in search_form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+                {% endif %}
+                <!-- SEARCH BOX END -->
+
+
+                <!-- HEADER BUTTONS BEGIN -->
+                <div class="">
+                    <a tabindex="0" class="btn btn-success buttons-html5" href="{% url 'team_profile_teams_new' %}"
+                        <i class="fa fa-plus"></i> <span>{% trans 'ایجاد تیم جدید' %}</span>
+                    </a>
+                </div>
+                <!-- HEADER BUTTONS END-->
+
+                <!-- DATA TABLE BEGIN -->
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action" id="data_table">
+                        <thead>
+                            <tr class="headings">
+                                <th class="column-title">#</th>
+                                <th class="column-title">{% trans 'تیم' %}</th>
+                                <th class="column-title">{% trans 'رهبر' %}</th>
+                                <th class="column-title">{% trans 'اعضا' %}</th>
+                                <th class="column-title">{% trans 'دعوت‌شده' %}</th>
+                                <th class="column-title">{% trans 'عملیات' %}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% if items %}
+                            {% for item in items %}
+                            <tr class="even pointer">
+                                <td class=" ">{{forloop.counter}}</td>
+                                <td class="column-title"><span>{{ item|get_object_item:'name' }}</span></td>
+                                <td class="column-title"><span>{{ item|get_object_item:'leader' }}</span></td>
+                                <td class="column-title"><span>{{ item|get_object_item:'users' }}</span></td>
+                                <td class="column-title"><span>{{ item|get_object_item:'invitations' }}</span></td>
+                                <td class=" last">
+                                    {% for action_button in action_buttons %}
+                                    <a 
+                                        {% if action_button.arg3_field %}
+                                        href="{% url action_button.url_name item|get_object_item:action_button.arg1_field item|get_object_item:action_button.arg2_field item|get_object_item:action_button.arg1_field %}"
+                                        {% elif action_button.arg2_field %}
+                                        href="{% url action_button.url_name item|get_object_item:action_button.arg1_field item|get_object_item:action_button.arg2_field %}"
+                                        {% elif action_button.arg1_field %}
+                                        href="{% url action_button.url_name item|get_object_item:action_button.arg1_field %}"
+                                        {% else %}
+                                        href="{% url action_button.url_name %}"
+                                        {% endif %}
+
+                                        {% if action_button.new_tab %}
+                                        target="_blank"
+                                        {% endif %}
+
+                                        class="btn btn-default btn-xs 
+                                        {% if action_button.class %}{{action_button.class}}{% endif %}
+                                        {% if action_button.class_from_field %}{{item|get_object_item:action_button.class_from_field}}{% endif %}
+                                        ">
+                                        {% if action_button.fa_icon_name %}<i class="fa fa-{{ action_button.fa_icon_name }}"></i> {% endif %}
+                                        {{ action_button.title }}</a>
+                                    {% endfor %}
+                                    {% if delete_button_url_name %}
+                                    <button data-toggle="modal" data-target="#modal_{{item.id}}" type="button"
+                                        class="btn btn-danger btn-xs">
+                                        {% trans 'حذف' %}
+                                    </button>
+                                    <div class="modal fade bs-example-modal-lg in" id="modal_{{item.id}}"
+                                        tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">×</span>
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel2">{% trans 'اخطار!' %}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>
+                                                        {% trans 'آیا از حذف کامل این آیتم مطمئن هستید؟' %}
+                                                        {% if delete_item_title_field %}
+                                                        <b>'{{ item|get_object_item:delete_item_title_field }}'</b>
+                                                        {% else %}
+                                                        <b>'{{ item }}'</b>
+                                                        {% endif %}
+                                                    </h4>
+                                                    <p>
+                                                        {% trans 'پس از حذف، امکان بازگشت آن وجود نخواهد داشت.' %}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">{% trans 'بستن' %}</button>
+                                                    <a href="{% url delete_button_url_name item.id %}"
+                                                        class="btn btn-danger">{% trans 'حذف کامل' %}</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6">
+                                    <p class="text-center">{% trans 'هیچ اطلاعاتی وجود ندارد!' %}</p>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    {% if footer_buttons %}
+                        {% for btn in footer_buttons %}
+                            <a tabindex="999{{forloop.counter0}}"
+                                class="btn btn-default buttons-html5 {{btn.class}}"
+                                {% if btn.url_arg3 %}
+                                href="{% url btn.url_name btn.url_arg3 btn.url_arg2 btn.url_arg1 %}"
+                                {% elif btn.url_arg2 %}
+                                href="{% url btn.url_name btn.url_arg2 btn.url_arg1 %}"
+                                {% elif btn.url_arg1 %}
+                                href="{% url btn.url_name btn.url_arg1 %}"
+                                {% else %}
+                                href="{% url btn.url_name %}"
+                                {% endif %}>
+                                {% if btn.fa_icon_name %}
+                                <i class="fa fa-{{btn.fa_icon_name}}"></i>
+                                {% endif %}
+                                <span>{{btn.title}}</span>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <!-- DATA TABLE END -->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock page_content%}

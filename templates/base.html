@@ -1,0 +1,249 @@
+{% load static i18n %}
+{% get_current_language as LANG %}
+{% get_current_language_bidi as BIDI %}
+{% get_available_languages as LANGUAGES %}
+<!DOCTYPE html>
+<html lang="{{LANG}}" {% if BIDI %}dir="rtl" {% endif %}>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="fontiran.com:license" content="Y68A9">
+    <link rel="icon" href="{% static "build/images/favicon.ico" %}" type="image/ico" />
+    <title> {% block title %} {% trans 'پنل مدیریت' %} | {{settings.site_settings}} {% endblock title %}  </title>
+
+    <!-- Bootstrap -->
+    <link href="{% static "vendors/bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+    {% if BIDI %}
+    <link href="{% static "vendors/bootstrap-rtl/dist/css/bootstrap-rtl.min.css" %}" rel="stylesheet">
+    {% endif %}
+    <!-- Font Awesome -->
+    <link href="{% static "vendors/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="{% static "vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" %}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{% static "vendors/iCheck/skins/flat/green.css" %}" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="{% static "vendors/bootstrap-daterangepicker/daterangepicker.css" %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static "build/css/custom.min.css" %}" rel="stylesheet">
+    {% if BIDI %}
+    <link href="{% static "build/css/custom-rtl.min.css" %}" rel="stylesheet">
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+
+
+    {% block extra_head %}{% endblock %}
+    
+</head>
+<!-- /header content -->
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col hidden-print">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="index.html" class="site_title">
+                            <i class="fa fa-institution"></i>
+                            <small>
+                                {% trans 'پنل مدیریت' %}
+                            </small>
+                            <div style="clear: both"></div>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <ul class="nav side-menu">
+
+                                <!-- PROFILE BEGIN -->
+                                {% if user.is_authenticated %}
+                                <div class="profile clearfix">
+                                    <div class="profile_pic">
+                                        <img alt="{{user.username}}" class="img-circle profile_img"
+                                            src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'account/profile.png' %}{% endif %}">
+                                    </div>
+                                    <div class="profile_info">
+                                        <div class="sidebar-profile-footer">
+                                            <p>{{ user.first_name }} {{ user.last_name }}</p>
+                                        </div>
+                                        <div class="sidebar-profile-footer hidden-small">
+                                            <a data-toggle="tooltip" data-placement="top" title=""
+                                                href="{% url 'account_profile' %}"
+                                                data-original-title="{% trans 'پروفایل کاربری' %}">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </a>
+                                            <a data-toggle="tooltip" data-placement="top" title=""
+                                                href="{% url 'account_logout' %}"
+                                                data-original-title="{% trans 'خروج' %}">
+                                                <i class="fa fa-power-off" aria-hidden="true"></i>
+                                            </a>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {% endif %}
+                                <!-- PROFILE END -->
+
+                                <!-- WEBSITE HOME PAGE BEGIN-->
+                                <li>
+                                    <a href="{% url 'account_profile' %}"><i class="fa fa-dashboard"></i>{% trans 'داشبورد' %}</a>
+                                </li>
+                                <!-- WEBSITE HOME PAGE END -->
+
+                                <!-- ACCOUNT APP BEGIN -->
+                                {% if perms.accounts %}
+                                <li>
+                                    <a><i class="fa fa-users"></i>{% trans 'مدیریت کاربران' %}<span
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{% url 'account_manage_user_list' %}">{% trans 'کاربران' %}</a>
+                                        </li>
+                                        <li><a href="{% url 'account_manage_group_list' %}">{% trans 'گروه‌ها' %}</a>
+                                        </li>
+                                        <li><a href="{% url 'account_manage_settings' %}">{% trans 'تنظیمات' %}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                <!-- ACCOUNT APP END -->
+                                
+                                <!-- TEAM BEGIN -->
+                                <li>
+                                    <a href="{% url 'team_profile_teams_mine' %}"><i class="fa fa-users"></i>{% trans 'تیم‌ها' %}</a>
+                                </li>
+                                <!-- TEAM END -->
+
+                                <!-- DMO BEGIN -->
+                                <li>
+                                    <a><i class="fa fa-line-chart"></i>{% trans 'DMO' %}<span
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{% url 'dmo_profile_dmo_view_this_month' %}">{% trans 'DMOهای این ماه' %}</a>
+                                        </li>
+                                        <li><a href="{% url 'dmo_profile_dmo_view_all' %}">{% trans 'تمام DMOها' %}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- DMO END -->
+
+                                <!-- CFD BEGIN -->
+                                <li>
+                                    <a><i class="fa fa-dollar"></i>{% trans 'CFD' %}<span
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{% url 'cfd_profile_signals_month_view' %}">{% trans 'سیگنال‌ها' %}</a>
+                                        </li>
+                                        <li><a href="{% url 'cfd_profile_analysis_classic_view' %}">{% trans 'تحلیل‌ها' %}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- CFD END -->
+
+                                <!-- FILE APP BEGIN -->
+                                {% if perms.file %}
+                                <li>
+                                    <a><i class="fa fa-archive"></i>{% trans 'فایل‌ها' %}<span
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{% url 'file_manage_file_list' %}">{% trans 'لیست فایل‌ها' %}</a>
+                                        <li><a href="{% url 'file_manage_file_upload' %}">{% trans 'بارگذاری فایل' %}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                <!-- FILE APP END -->
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- /sidebar menu -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav hidden-print">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <form action="{% url 'set_language' %}" method="post" class="language-form">{% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                                    <select name="language" onchange="this.form.submit()" class="mobile-input">
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                        <option value="{{ language.code }}"
+                                            {% if language.code == LANG %} selected {% endif %}>
+                                            {{language.name_local}}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </li>
+                       </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                {%block page_content%}
+                {%endblock page_content%}
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer class="hidden-print">
+                <div class="pull-left">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+   <!-- jQuery -->
+    <script src="{% static "vendors/jquery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "admin/js/django_jalali.min.js" %}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static "vendors/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+
+    <!-- FastClick -->
+    <script src="{% static "vendors/fastclick/lib/fastclick.js" %}"></script>
+
+    <!-- bootstrap-progressbar -->
+    <script src="{% static "vendors/bootstrap-progressbar/bootstrap-progressbar.min.js" %}"></script>
+    <!-- iCheck -->
+    <script src="{% static "vendors/iCheck/icheck.min.js" %}"></script>
+
+    <!-- bootstrap-daterangepicker -->
+    <script src="{% static "vendors/moment/min/moment.min.js" %}"></script>
+    <script src="{% static "vendors/bootstrap-daterangepicker/daterangepicker.js" %}"></script>
+
+    <!-- DateJS -->
+    <script src="{% static "vendors/DateJS/build/production/date.min.js" %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{% static "build/js/custom.min.js" %}"></script>
+
+
+</body>
+
+</html>

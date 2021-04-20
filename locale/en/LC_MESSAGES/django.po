@@ -1,0 +1,1643 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-20 16:02+0430\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: cfd/manage/forms.py:16
+msgid "دارایی باید حتما شامل کاراکتر / باشد"
+msgstr "Asset should contain / character"
+
+#: cfd/manage/views.py:15 cfd/templates/gentelella/signals.html:39
+msgid "مدیریت دارایی‌ها"
+msgstr "Assets Management"
+
+#: cfd/manage/views.py:17 cfd/models.py:17
+msgid "نام دارایی"
+msgstr "Asset Name"
+
+#: cfd/manage/views.py:20
+msgid "افزودن"
+msgstr "Add"
+
+#: cfd/manage/views.py:26 dmo/profile/views.py:51 dmo/profile/views.py:110
+#: dmo/profile/views.py:209 dmo/templates/gentellela/all_dmos.html:109
+#: team/profile/views.py:40 team/profile/views.py:288 team/profile/views.py:495
+#: team/profile/views.py:622 team/profile/views.py:831
+msgid "ویرایش"
+msgstr "Edit"
+
+#: cfd/manage/views.py:34 cfd/profile/views.py:120 cfd/profile/views.py:162
+#: cfd/templates/gentelella/signal_info.html:98 dmo/manage/views.py:33
+#: dmo/manage/views.py:61 dmo/profile/views.py:58 dmo/profile/views.py:216
+#: dmo/profile/views.py:298 team/profile/views.py:144 team/profile/views.py:285
+#: team/profile/views.py:474 team/profile/views.py:492
+#: team/profile/views.py:619 team/profile/views.py:836
+#: team/profile/views.py:875 team/templates/gentelella/participate.html:59
+#: team/templates/gentelella/proceedings.html:70 templates/message.html:27
+msgid "بازگشت"
+msgstr "Back"
+
+#: cfd/manage/views.py:54
+msgid "افزودن دارایی جدید"
+msgstr "Add New Asset"
+
+#: cfd/manage/views.py:73
+msgid "ویرایش دارایی"
+msgstr "Edit Asset"
+
+#: cfd/models.py:13 cfd/models.py:209
+#: cfd/templates/gentelella/signal_info.html:38
+msgid "دارایی"
+msgstr "Asset"
+
+#: cfd/models.py:14
+msgid "دارایی‌ها"
+msgstr "Assets"
+
+#: cfd/models.py:21
+msgid "آنالیز PTA"
+msgstr "PTA Analysis"
+
+#: cfd/models.py:22
+msgid "آنالیز‌های PTA"
+msgstr "PTA Analysis"
+
+#: cfd/models.py:27 cfd/models.py:57
+msgid "صعودی"
+msgstr "Bullish"
+
+#: cfd/models.py:28 cfd/models.py:58
+msgid "نزولی"
+msgstr "Bearish"
+
+#: cfd/models.py:34
+msgid "سناریو شماره 1"
+msgstr "Scenario No. 1"
+
+#: cfd/models.py:35
+msgid "سناریو شماره 2"
+msgstr "Scenario No. 2"
+
+#: cfd/models.py:36
+msgid "سناریو شماره 3"
+msgstr "Scenario No. 3"
+
+#: cfd/models.py:37
+msgid "سناریو شماره 4"
+msgstr "Scenario No. 4"
+
+#: cfd/models.py:38
+msgid "سناریو شماره 5"
+msgstr "Scenario No. 5"
+
+#: cfd/models.py:41 cfd/models.py:120 cfd/models.py:208
+#: cfd/templates/gentelella/signal_info.html:56 dmo/manage/views.py:16
+#: dmo/models.py:26 team/models.py:34 team/models.py:59 team/models.py:74
+#: team/models.py:112 team/profile/views.py:810 team/profile/views.py:872
+msgid "کاربر"
+msgstr "User"
+
+#: cfd/models.py:42 cfd/templates/gentelella/signal_info.html:306
+msgid "خبر؟"
+msgstr "News?"
+
+#: cfd/models.py:42
+msgid ""
+"در صورتی که در مدت معامله، خبری مرتبط با دارایی وجود دارد این گزینه را تیک "
+"بزنید"
+msgstr "Check this option if there is any news related to the asset during the trade."
+
+#: cfd/models.py:43 cfd/templates/gentelella/signal_info.html:309
+msgid "جزئیات خبر"
+msgstr "News details"
+
+#: cfd/models.py:43 cfd/models.py:121
+msgid ""
+"توجه: سی دقیقه قبل و بعد از خبر نباید وارد معامله شوید، اما در صورتی که برای "
+"انجام معامله مصر هستید، اطلاعات خبر را اینجا وارد کنید."
+msgstr "Note: You should not trade thirty minutes before and after the news, but if you insist, enter the news information here."
+
+#: cfd/models.py:44 cfd/templates/gentelella/signal_info.html:310
+msgid "Chart Type"
+msgstr "Market Sentiment"
+
+#: cfd/models.py:45
+msgid "جهت روند"
+msgstr "Market Sentiment"
+
+#: cfd/models.py:46
+msgid "مقاومت ناحیه"
+msgstr "Zone Resistance"
+
+#: cfd/models.py:46
+msgid "تعداد برخورد و بازگشت قیمت از ناحیه را مشخص کنید "
+msgstr "Specify the number of collisions and price returns from the area"
+
+#: cfd/models.py:47
+msgid "الگوی نمودار"
+msgstr "Market Patterns"
+
+#: cfd/models.py:48 cfd/templates/gentelella/signal_info.html:314
+msgid "سناریو"
+msgstr "Scenario"
+
+#: cfd/models.py:54
+msgid "آنالیز Classic"
+msgstr "Classic Analysis"
+
+#: cfd/models.py:55
+msgid "آنالیزهای Classic"
+msgstr "Classic Analysis"
+
+#: cfd/models.py:59
+msgid "رنج"
+msgstr "Corrective"
+
+#: cfd/models.py:61 cfd/models.py:194
+msgid "خرید"
+msgstr "Buy"
+
+#: cfd/models.py:62 cfd/models.py:195
+msgid "فروش"
+msgstr "Sell"
+
+#: cfd/models.py:63
+msgid "خنثی"
+msgstr "Nature"
+
+#: cfd/models.py:73
+msgid "مثلث متقارن"
+msgstr "Symmetrical Triangle"
+
+#: cfd/models.py:74
+msgid "مثلث نزولی"
+msgstr "Descending Triangle"
+
+#: cfd/models.py:75
+msgid "مثلث صعودی"
+msgstr "Ascending Triangle"
+
+#: cfd/models.py:76
+msgid "کنج نزولی"
+msgstr "Descending Wedge"
+
+#: cfd/models.py:77
+msgid "کنج صعودی"
+msgstr "Ascending Wedge"
+
+#: cfd/models.py:78
+msgid "سر و شانه"
+msgstr "Head and Shoulder"
+
+#: cfd/models.py:79
+msgid "دو سقف"
+msgstr "Double Top"
+
+#: cfd/models.py:80
+msgid "دو کف"
+msgstr "Double Bottom"
+
+#: cfd/models.py:81
+msgid "سه سقف"
+msgstr "Triple Top"
+
+#: cfd/models.py:82
+msgid "سه کف"
+msgstr "Triple Bottom"
+
+#: cfd/models.py:83
+msgid "کانال"
+msgstr "Channel"
+
+#: cfd/models.py:84
+msgid "پرچم"
+msgstr "Flag"
+
+#: cfd/models.py:85
+msgid "بدون الگو"
+msgstr "No Pattern"
+
+#: cfd/models.py:87
+msgid "بدون Pivot"
+msgstr "No Pivot"
+
+#: cfd/models.py:88
+msgid "روزانه"
+msgstr "Daily"
+
+#: cfd/models.py:89
+msgid "هفتگی"
+msgstr "Weekly"
+
+#: cfd/models.py:90
+msgid "ماهیانه"
+msgstr "Monthly"
+
+#: cfd/models.py:92
+msgid "بدون اصلاح"
+msgstr "No Correction"
+
+#: cfd/models.py:99
+msgid "بدون هدف"
+msgstr "No Target"
+
+#: cfd/models.py:107
+msgid "بدون موج"
+msgstr "No Wave"
+
+#: cfd/models.py:108
+msgid "موج اول"
+msgstr "Wave 1"
+
+#: cfd/models.py:109
+msgid "موج دوم"
+msgstr "Wave 2"
+
+#: cfd/models.py:110
+msgid "موج سوم"
+msgstr "Wave 3"
+
+#: cfd/models.py:111
+msgid "موج چهارم"
+msgstr "Wave 4"
+
+#: cfd/models.py:112
+msgid "موج پنجم"
+msgstr "Wave 5"
+
+#: cfd/models.py:113
+msgid "موج A"
+msgstr "Wave A"
+
+#: cfd/models.py:114
+msgid "موج B"
+msgstr "Wave B"
+
+#: cfd/models.py:115
+msgid "موج C"
+msgstr "Wave C"
+
+#: cfd/models.py:118 cfd/profile/views.py:146
+#: cfd/templates/gentelella/classic_analysis.html:133
+#: cfd/templates/gentelella/signal_info.html:124 dmo/models.py:44
+#: dmo/profile/views.py:199 team/profile/views.py:282 team/profile/views.py:473
+#: team/profile/views.py:617 templates/generic_model_info.html:64
+msgid "عنوان"
+msgstr "Title"
+
+#: cfd/models.py:119 dmo/manage/views.py:58 dmo/models.py:65
+#: dmo/profile/views.py:295
+msgid "توضیحات"
+msgstr "Description"
+
+#: cfd/models.py:121 cfd/templates/gentelella/signal_info.html:144
+msgid "اخبار"
+msgstr "News"
+
+#: cfd/models.py:122 cfd/templates/gentelella/signal_info.html:148
+msgid "روند اصلی"
+msgstr "Major Trend"
+
+#: cfd/models.py:123 cfd/models.py:126 cfd/models.py:129 cfd/models.py:139
+#: cfd/models.py:141 cfd/models.py:144 cfd/models.py:147 cfd/models.py:151
+#: cfd/models.py:153 cfd/models.py:156 cfd/models.py:163 cfd/models.py:170
+#: cfd/models.py:174 cfd/models.py:180 cfd/models.py:183 cfd/models.py:186
+msgid "سیگنال دریافتی"
+msgstr "Received Signal"
+
+#: cfd/models.py:124 cfd/models.py:127 cfd/models.py:136 cfd/models.py:137
+#: cfd/models.py:138 cfd/models.py:142 cfd/models.py:145 cfd/models.py:148
+#: cfd/models.py:154 cfd/models.py:157 cfd/models.py:164 cfd/models.py:171
+#: cfd/models.py:175 cfd/models.py:181 cfd/models.py:184 cfd/models.py:187
+msgid "تایم‌فریم"
+msgstr "Timeframe"
+
+#: cfd/models.py:125
+msgid "روند میان‌مدت"
+msgstr "Intermediate Trend"
+
+#: cfd/models.py:128
+msgid "موج‌های الیوت"
+msgstr "Eliot Waves"
+
+#: cfd/models.py:130
+msgid "شروع حمایت و مقاومت اول"
+msgstr "Start of first Support and Resistance"
+
+#: cfd/models.py:131
+msgid "پایان حمایت و مقاومت اول"
+msgstr "End of first Support and Resistance"
+
+#: cfd/models.py:132
+msgid "شروع حمایت و مقاومت دوم"
+msgstr "Start of second Support and Resistance"
+
+#: cfd/models.py:133
+msgid "پایان حمایت و مقاومت دوم"
+msgstr "End of second Support and Resistance"
+
+#: cfd/models.py:134
+msgid "شروع حمایت و مقاومت سوم"
+msgstr "Start of third Support and Resistance"
+
+#: cfd/models.py:135
+msgid "پایان حمایت و مقاومت سوم"
+msgstr "End of third Support and Resistance"
+
+#: cfd/models.py:140 cfd/templates/gentelella/signal_info.html:174
+#: cfd/templates/gentelella/signal_info.html:313
+msgid "الگو"
+msgstr "Pattern"
+
+#: cfd/models.py:143 cfd/templates/gentelella/signal_info.html:180
+msgid "میانگین متحرک"
+msgstr "Moving Average"
+
+#: cfd/models.py:146
+msgid "خطوط Pivot"
+msgstr "Pivot Lines"
+
+#: cfd/models.py:149 cfd/templates/gentelella/signal_info.html:190
+msgid "اصلاح فیبوناچی"
+msgstr "Fibo Correction"
+
+#: cfd/models.py:150 cfd/templates/gentelella/signal_info.html:195
+msgid "هدف فیبوناچی"
+msgstr "Fibo Target"
+
+#: cfd/models.py:152 cfd/templates/gentelella/signal_info.html:200
+msgid "واگرایی زمانی"
+msgstr "Time Divergence"
+
+#: cfd/models.py:155
+msgid "کندل‌شناسی"
+msgstr "Candlesticks"
+
+#: cfd/models.py:158 cfd/models.py:165 cfd/models.py:176
+#: cfd/templates/gentelella/signal_info.html:214
+#: cfd/templates/gentelella/signal_info.html:224
+#: cfd/templates/gentelella/signal_info.html:243
+msgid "اشباع فروش"
+msgstr "Oversold"
+
+#: cfd/models.py:159 cfd/models.py:166 cfd/models.py:177
+#: cfd/templates/gentelella/signal_info.html:214
+#: cfd/templates/gentelella/signal_info.html:224
+#: cfd/templates/gentelella/signal_info.html:243
+msgid "اشباع خرید"
+msgstr "Overbought"
+
+#: cfd/models.py:160 cfd/models.py:167 cfd/models.py:172
+#: cfd/templates/gentelella/signal_info.html:215
+#: cfd/templates/gentelella/signal_info.html:225
+#: cfd/templates/gentelella/signal_info.html:234
+msgid "واگرایی"
+msgstr "Divergence"
+
+#: cfd/models.py:161 cfd/models.py:168 cfd/models.py:173
+#: cfd/templates/gentelella/signal_info.html:216
+#: cfd/templates/gentelella/signal_info.html:226
+#: cfd/templates/gentelella/signal_info.html:235
+msgid "واگرایی مخفی"
+msgstr "Hidden Divergence"
+
+#: cfd/models.py:162 cfd/models.py:169
+#: cfd/templates/gentelella/signal_info.html:217
+#: cfd/templates/gentelella/signal_info.html:227
+#: cfd/templates/gentelella/signal_info.html:236
+msgid "شکست خط روند"
+msgstr "Breaking the trend"
+
+#: cfd/models.py:178
+msgid "شکست صعودی "
+msgstr "Breaking the uptrend"
+
+#: cfd/models.py:179
+msgid "شکست نزولی "
+msgstr "Breaking the downtrend"
+
+#: cfd/models.py:182 cfd/templates/gentelella/signal_info.html:250
+msgid "ATR"
+msgstr ""
+
+#: cfd/models.py:185 cfd/templates/gentelella/signal_info.html:257
+msgid "ATX"
+msgstr ""
+
+#: cfd/models.py:189
+msgid "URL تصویر"
+msgstr "Image URL"
+
+#: cfd/models.py:190
+msgid "آدرس تحلیل در TradingView"
+msgstr "Analysis URL in TradingView"
+
+#: cfd/models.py:197
+msgid "در حال اجرا"
+msgstr "In Progress"
+
+#: cfd/models.py:198 dmo/manage/views.py:50 dmo/models.py:63
+#: dmo/profile/views.py:287
+msgid "انجام شده"
+msgstr "Done"
+
+#: cfd/models.py:199
+msgid "لغو شده"
+msgstr "Canceled"
+
+#: cfd/models.py:201 cfd/profile/views.py:104 cfd/profile/views.py:146
+#: cfd/templates/gentelella/classic_analysis.html:136
+msgid "سیگنال"
+msgstr "Signal"
+
+#: cfd/models.py:202 templates/base.html:144
+msgid "سیگنال‌ها"
+msgstr "Signals"
+
+#: cfd/models.py:205
+msgid "تاریخ و زمان"
+msgstr "Date and Time"
+
+#: cfd/models.py:206
+msgid "تاریخ و زمان پایان معامله"
+msgstr "Close Date and Time"
+
+#: cfd/models.py:207
+msgid "تاریخ و زمان لغو معامله"
+msgstr "Cancel Date and Time"
+
+#: cfd/models.py:210 cfd/templates/gentelella/signal_info.html:59
+msgid "شناسه Trade"
+msgstr "TradeID"
+
+#: cfd/models.py:210
+msgid "مشخصه‌ای که با آن بتوان معامله را در پلتفرم‌های معاملاتی پیدا کرد"
+msgstr "An identifier that can be used to find trades on trading platforms"
+
+#: cfd/models.py:211 cfd/templates/gentelella/signal_info.html:39
+msgid "نوع معامله"
+msgstr "Trade Type"
+
+#: cfd/models.py:212
+msgid "نقطه ورود اول"
+msgstr "First Entry Point"
+
+#: cfd/models.py:213
+msgid "نقطه ورود دوم"
+msgstr "Second Entry Point"
+
+#: cfd/models.py:214 cfd/templates/gentelella/signal_info.html:68
+msgid "حد ضرر اول"
+msgstr "First Stop Loss"
+
+#: cfd/models.py:215 cfd/templates/gentelella/signal_info.html:69
+msgid "حد ضرر دوم"
+msgstr "Second Stop Loss"
+
+#: cfd/models.py:216 cfd/templates/gentelella/signal_info.html:70
+msgid "حد سود اول"
+msgstr "First Take Profit"
+
+#: cfd/models.py:217 cfd/templates/gentelella/signal_info.html:71
+msgid "حد سود دوم"
+msgstr "Second Take Profit"
+
+#: cfd/models.py:218 cfd/templates/gentelella/signal_info.html:72
+msgid "حد سود سوم"
+msgstr "Third Take Profit"
+
+#: cfd/models.py:219
+msgid "نسبت سود به ضرر"
+msgstr "RR"
+
+#: cfd/models.py:220
+msgid "سود/ضرر نهایی (پیپ)"
+msgstr "Final Profit/Loss (pip)"
+
+#: cfd/models.py:221
+msgid "سود/ضرر نهایی (دلار)"
+msgstr "Final Profit/Loss ($)"
+
+#: cfd/models.py:222
+msgid "حجم ورود"
+msgstr "Entry Lot"
+
+#: cfd/models.py:223
+msgid "اشتباهات معامله"
+msgstr "Trade Mistakes"
+
+#: cfd/models.py:224 cfd/templates/gentelella/signal_info.html:291
+msgid "تحلیل PTA"
+msgstr "PTA Analysis"
+
+#: cfd/models.py:225 cfd/templates/gentelella/signal_info.html:108
+msgid "تحلیل Classic"
+msgstr "Classic Analysis"
+
+#: cfd/models.py:226 cfd/templates/gentelella/signal_info.html:48
+#: cfd/templates/gentelella/signals.html:139 dmo/manage/views.py:58
+#: dmo/profile/views.py:295
+msgid "وضعیت"
+msgstr "Status"
+
+#: cfd/models.py:227
+msgid "تصویر نهایی"
+msgstr "Final Image"
+
+#: cfd/profile/forms.py:39
+msgid "برای ایجاد سیگنال باید یک تحلیل انتخاب کنید"
+msgstr "To create a signal, you should choose an analysis"
+
+#: cfd/profile/forms.py:55
+msgid "برای سیگنال‌های ضرر، اشتباهات باید حتما پر شود"
+msgstr "For lost trades, mistakes should bw filled"
+
+#: cfd/profile/forms.py:64
+msgid "تحلیل"
+msgstr "Analysis"
+
+#: cfd/profile/views.py:98 cfd/profile/views.py:140
+#: cfd/templates/gentelella/signal_info.html:139 team/profile/views.py:610
+msgid "ندارد"
+msgstr "Not set"
+
+#: cfd/profile/views.py:102 cfd/templates/gentelella/signals.html:33
+msgid "تحلیل‌های PTA"
+msgstr "PTA Analysis"
+
+#: cfd/profile/views.py:104 cfd/profile/views.py:146
+msgid "شماره تحلیل"
+msgstr "Analysis No."
+
+#: cfd/profile/views.py:104 cfd/profile/views.py:146
+#: cfd/templates/gentelella/signal_info.html:128
+#: cfd/templates/gentelella/signal_info.html:305
+msgid "تحلیل‌گر"
+msgstr "Trader"
+
+#: cfd/profile/views.py:104 cfd/profile/views.py:146
+#: cfd/templates/gentelella/signal_info.html:57 team/models.py:75
+#: team/profile/views.py:617 team/profile/views.py:872
+msgid "تاریخ"
+msgstr "Date"
+
+#: cfd/profile/views.py:104 cfd/profile/views.py:146
+msgid "ساعت"
+msgstr "Time"
+
+#: cfd/profile/views.py:107 cfd/profile/views.py:149
+msgid "افزودن تحلیل جدید"
+msgstr "Add new analysis"
+
+#: cfd/profile/views.py:113 cfd/profile/views.py:155
+msgid "مشاهده و ویرایش"
+msgstr "View and Edit"
+
+#: cfd/profile/views.py:144 cfd/templates/gentelella/signals.html:35
+msgid "تحلیل‌های Classic"
+msgstr "Classic Analysis"
+
+#: cfd/profile/views.py:186 cfd/profile/views.py:218 cfd/profile/views.py:247
+#: cfd/profile/views.py:263
+msgid "امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد"
+msgstr "Analysis that assigned to signals cannot be edited"
+
+#: cfd/profile/views.py:187 cfd/profile/views.py:219 cfd/profile/views.py:248
+#: cfd/profile/views.py:264 team/profile/views.py:218 team/profile/views.py:235
+#: team/profile/views.py:346 team/profile/views.py:383
+#: team/profile/views.py:409 team/profile/views.py:428
+#: team/profile/views.py:440 team/profile/views.py:515
+#: team/profile/views.py:550 team/profile/views.py:585
+#: team/profile/views.py:892 team/templates/gentelella/my_teams.html:29
+msgid "توجه!"
+msgstr "Attention!"
+
+#: cfd/profile/views.py:201 cfd/profile/views.py:286
+msgid "افزودن تحلیل PTA"
+msgstr "Add PTA Analysis"
+
+#: cfd/profile/views.py:323 cfd/profile/views.py:347
+msgid "این فیلد باید پر شود"
+msgstr "This field cannot be empty"
+
+#: cfd/profile/views.py:327
+msgid "انتخاب تحلیل PTA"
+msgstr "Choose PTA Analysis"
+
+#: cfd/profile/views.py:351
+msgid "انتخاب تحلیل Classic"
+msgstr "Choose Classic Analysis"
+
+#: cfd/profile/views.py:391
+msgid "فرم پایان معامله"
+msgstr "Trade finish form"
+
+#: cfd/profile/views.py:392
+msgid "سیگنال شماره "
+msgstr "Signal No "
+
+#: cfd/templates/gentelella/classic_analysis.html:46
+msgid "تحلیل جدید Classic"
+msgstr "New Classic Analysis"
+
+#: cfd/templates/gentelella/classic_analysis.html:134
+#: templates/generic_model_info.html:65
+msgid "مقدار"
+msgstr "Amount"
+
+#: cfd/templates/gentelella/classic_analysis.html:135
+msgid "تایم فریم"
+msgstr "Timeframe"
+
+#: cfd/templates/gentelella/classic_analysis.html:314
+#: cfd/templates/gentelella/signal_info.html:165
+msgid "حمایت و مقاومت"
+msgstr "Support and Resistance"
+
+#: cfd/templates/gentelella/classic_analysis.html:326
+#: cfd/templates/gentelella/classic_analysis.html:362
+#: cfd/templates/gentelella/classic_analysis.html:398
+msgid "از "
+msgstr "From "
+
+#: cfd/templates/gentelella/classic_analysis.html:342
+#: cfd/templates/gentelella/classic_analysis.html:378
+#: cfd/templates/gentelella/classic_analysis.html:414
+msgid "تا "
+msgstr "Until "
+
+#: cfd/templates/gentelella/classic_analysis.html:437
+msgid "ناحیه اول"
+msgstr "First Zone"
+
+#: cfd/templates/gentelella/classic_analysis.html:454
+msgid "ناحیه دوم"
+msgstr "Second Zone"
+
+#: cfd/templates/gentelella/classic_analysis.html:471
+msgid "ناحیه سوم"
+msgstr "Third Zone"
+
+#: cfd/templates/gentelella/classic_analysis.html:1526
+#: cfd/templates/gentelella/signal_info.html:265
+msgid "خرید:"
+msgstr "Buy:"
+
+#: cfd/templates/gentelella/classic_analysis.html:1527
+#: cfd/templates/gentelella/signal_info.html:266
+msgid "فروش:"
+msgstr "Sell:"
+
+#: cfd/templates/gentelella/classic_analysis.html:1528
+#: cfd/templates/gentelella/signal_info.html:267
+msgid "خنثی:"
+msgstr "Nature:"
+
+#: cfd/templates/gentelella/classic_analysis.html:1546
+#: cfd/templates/gentelella/signal_form.html:345
+msgid "ثبت"
+msgstr "Save"
+
+#: cfd/templates/gentelella/classic_analysis.html:1547
+msgid "ثبت و افزودن سیگنال"
+msgstr "Save and Add new signal"
+
+#: cfd/templates/gentelella/classic_analysis.html:1549
+#: cfd/templates/gentelella/signal_form.html:347
+#: templates/generic_model_form.html:106
+#: templates/generic_model_multiform.html:208
+msgid "انصراف"
+msgstr "Cancel"
+
+#: cfd/templates/gentelella/signal_form.html:39
+msgid "اشتباهات شما در معاملات قبل"
+msgstr "Your mistakes in previous trades"
+
+#: cfd/templates/gentelella/signal_form.html:60
+msgid "متوجه شدم"
+msgstr "I understood"
+
+#: cfd/templates/gentelella/signal_form.html:68
+msgid "سیگنال جدید"
+msgstr "New Signal"
+
+#: cfd/templates/gentelella/signal_form.html:149
+#: cfd/templates/gentelella/signals.html:71
+msgid "نقطه ورود"
+msgstr "Entry Point"
+
+#: cfd/templates/gentelella/signal_info.html:27
+msgid "مشخصات سیگنال"
+msgstr "Signal Info"
+
+#: cfd/templates/gentelella/signal_info.html:36
+msgid "اطلاعات سیگنال"
+msgstr "Signal Info"
+
+#: cfd/templates/gentelella/signal_info.html:54
+#: cfd/templates/gentelella/signal_info.html:96
+#: cfd/templates/gentelella/signals.html:90
+msgid "لغو سیگنال"
+msgstr "Cancel Signal"
+
+#: cfd/templates/gentelella/signal_info.html:58
+#: cfd/templates/gentelella/signals.html:74
+msgid "سود به ضرر"
+msgstr "Risk to Riward"
+
+#: cfd/templates/gentelella/signal_info.html:64
+msgid "قیمت‌های مهم"
+msgstr "Important prices"
+
+#: cfd/templates/gentelella/signal_info.html:66
+msgid "ورود اول"
+msgstr "First Entry"
+
+#: cfd/templates/gentelella/signal_info.html:67
+msgid "ورود دوم"
+msgstr "Second Entry"
+
+#: cfd/templates/gentelella/signal_info.html:77
+msgid "نتیجه سیگنال"
+msgstr "Signal Result"
+
+#: cfd/templates/gentelella/signal_info.html:79
+#: cfd/templates/gentelella/signals.html:80
+#: cfd/templates/gentelella/signals.html:137
+msgid "پایان معامله"
+msgstr "Finish Trade"
+
+#: cfd/templates/gentelella/signal_info.html:80
+#: cfd/templates/gentelella/signals.html:132
+msgid "پیپ نهایی"
+msgstr "Final pip"
+
+#: cfd/templates/gentelella/signal_info.html:82
+msgid "سود/ضرر"
+msgstr "Risk/Reward"
+
+#: cfd/templates/gentelella/signal_info.html:84
+msgid "حجم"
+msgstr "Lot"
+
+#: cfd/templates/gentelella/signal_info.html:86
+msgid "اشتباهات"
+msgstr "Mistakes"
+
+#: cfd/templates/gentelella/signal_info.html:95
+msgid "اتمام سیگنال"
+msgstr "Finish Trade"
+
+#: cfd/templates/gentelella/signal_info.html:118
+#: cfd/templates/gentelella/signal_info.html:301
+msgid "تحلیلی وجود ندارد"
+msgstr "Analysis not available"
+
+#: cfd/templates/gentelella/signal_info.html:132
+msgid "تحلیل در TradingView"
+msgstr "Analysis in TradingView"
+
+#: cfd/templates/gentelella/signal_info.html:136 team/profile/views.py:35
+msgid "مشاهده"
+msgstr "View"
+
+#: cfd/templates/gentelella/signal_info.html:154
+msgid "روند میانی"
+msgstr "Intermediate Trend"
+
+#: cfd/templates/gentelella/signal_info.html:160
+msgid "الیوت"
+msgstr "Eliot"
+
+#: cfd/templates/gentelella/signal_info.html:167
+#: cfd/templates/gentelella/signal_info.html:168
+#: cfd/templates/gentelella/signal_info.html:169
+msgid "تا"
+msgstr "Until"
+
+#: cfd/templates/gentelella/signal_info.html:185
+msgid "خطوط پیوت"
+msgstr "Pivot Line"
+
+#: cfd/templates/gentelella/signal_info.html:206
+msgid "کندل‌استیک"
+msgstr "Candlestick"
+
+#: cfd/templates/gentelella/signal_info.html:213
+msgid "RSI"
+msgstr ""
+
+#: cfd/templates/gentelella/signal_info.html:223
+msgid "Mumentum"
+msgstr ""
+
+#: cfd/templates/gentelella/signal_info.html:233
+msgid "MACD"
+msgstr ""
+
+#: cfd/templates/gentelella/signal_info.html:242
+msgid "Stochastic"
+msgstr ""
+
+#: cfd/templates/gentelella/signal_info.html:244
+msgid "شکست صعودی"
+msgstr "Bullish Break"
+
+#: cfd/templates/gentelella/signal_info.html:244
+msgid "شکست نزولی"
+msgstr "Bearish Break"
+
+#: cfd/templates/gentelella/signal_info.html:307
+msgid "بله"
+msgstr "Yes"
+
+#: cfd/templates/gentelella/signal_info.html:307
+msgid "خیر"
+msgstr "No"
+
+#: cfd/templates/gentelella/signal_info.html:311
+msgid "روند"
+msgstr "Trend"
+
+#: cfd/templates/gentelella/signal_info.html:312
+msgid "تعداد بازگشت از ناحیه"
+msgstr "Number of rejects from zone"
+
+#: cfd/templates/gentelella/signals.html:28
+msgid "افزودن سیگنال جدید"
+msgstr "Add New Signal"
+
+#: cfd/templates/gentelella/signals.html:31
+msgid "مشاهده تمام سیگنال‌ها"
+msgstr "View All Signals"
+
+#: cfd/templates/gentelella/signals.html:50
+msgid "سیگنال‌های جاری"
+msgstr "In Progress Signals"
+
+#: cfd/templates/gentelella/signals.html:70
+#: cfd/templates/gentelella/signals.html:131
+msgid "شماره سیگنال"
+msgstr "Signal No"
+
+#: cfd/templates/gentelella/signals.html:72
+msgid "حد ضرر"
+msgstr "Stop Loss"
+
+#: cfd/templates/gentelella/signals.html:73
+msgid "حد سود"
+msgstr "Take Profit"
+
+#: cfd/templates/gentelella/signals.html:85
+msgid "مشاهده جزئیات"
+msgstr "View Details"
+
+#: cfd/templates/gentelella/signals.html:96
+#: cfd/templates/gentelella/signals.html:147
+msgid "توسط"
+msgstr "By"
+
+#: cfd/templates/gentelella/signals.html:133
+msgid "شروع معامله"
+msgstr "Trade Start Datetime"
+
+#: cfd/templates/gentelella/signals.html:135
+msgid "زمان لغو"
+msgstr "Trade Cancel Datetime"
+
+#: dmo/manage/views.py:16 dmo/models.py:27 dmo/profile/views.py:43
+#: dmo/profile/views.py:84 dmo/templates/dmo_image.html:47
+#: dmo/templates/dmo_table.html:10
+msgid "هدف"
+msgstr "Target"
+
+#: dmo/manage/views.py:16
+msgid "نوع"
+msgstr "Type"
+
+#: dmo/manage/views.py:16 dmo/models.py:32 dmo/profile/views.py:43
+#: dmo/profile/views.py:84
+msgid "سال"
+msgstr "Year"
+
+#: dmo/manage/views.py:16 dmo/models.py:30 dmo/profile/views.py:43
+#: dmo/profile/views.py:84
+msgid "ماه"
+msgstr "Month"
+
+#: dmo/manage/views.py:17
+msgid "همه DMOها"
+msgstr "All DMOs"
+
+#: dmo/manage/views.py:20 dmo/templates/gentellela/all_dmos.html:94
+msgid "ریزعملکرد"
+msgstr "Days"
+
+#: dmo/manage/views.py:25 dmo/profile/views.py:46 dmo/profile/views.py:104
+msgid "مشاهده حالت جدولی"
+msgstr "Table view"
+
+#: dmo/manage/views.py:49 dmo/profile/views.py:286
+#, python-brace-format
+msgid "روز {day}"
+msgstr "day {day}"
+
+#: dmo/manage/views.py:50 dmo/profile/views.py:287
+msgid "انجام نشده"
+msgstr "Not Done"
+
+#: dmo/manage/views.py:54 dmo/profile/views.py:291
+msgid "ریز عملکرد DMO"
+msgstr "DMO Days"
+
+#: dmo/manage/views.py:58 dmo/models.py:62 dmo/profile/views.py:295
+msgid "روز"
+msgstr "Day"
+
+#: dmo/models.py:28 team/models.py:86
+msgid "عمومی"
+msgstr "Public"
+
+#: dmo/models.py:28
+msgid "خصوصی"
+msgstr "Private"
+
+#: dmo/models.py:28
+msgid "نوع DMO"
+msgstr "DMO Type"
+
+#: dmo/models.py:29
+msgid "رنگ"
+msgstr "Color"
+
+#: dmo/models.py:37
+msgid "میکرواکشن"
+msgstr "Microaction"
+
+#: dmo/models.py:38 dmo/templates/dmo_image.html:51
+#: dmo/templates/dmo_table.html:14 dmo/templates/gentellela/all_dmos.html:99
+msgid "میکرواکشن‌ها"
+msgstr "Microactions"
+
+#: dmo/models.py:48
+msgid "روز Dmo"
+msgstr "DMO Day"
+
+#: dmo/models.py:49
+msgid "روزهای Dmo"
+msgstr "DMO Days"
+
+#: dmo/profile/views.py:39
+msgid "لیست DMOهای من"
+msgstr "My DMO List"
+
+#: dmo/profile/views.py:80
+msgid "لیست DMOهای من در ماه جاری "
+msgstr "My DMO list of current month"
+
+#: dmo/profile/views.py:87 dmo/profile/views.py:150
+#: dmo/templates/gentellela/all_dmos.html:30
+msgid "افزودن DMO جدید"
+msgstr "Add New DMO"
+
+#: dmo/profile/views.py:93 dmo/profile/views.py:335
+msgid "پرکردن DMO"
+msgstr "Fill DMO"
+
+#: dmo/profile/views.py:99
+msgid "ریزعملکرد روزانه DMO"
+msgstr "DMO days progress"
+
+#: dmo/profile/views.py:115
+msgid "ویرایش میکرواکشن‌ها"
+msgstr "Edit Microactions"
+
+#: dmo/profile/views.py:171
+msgid "ویرایش DMO"
+msgstr "Edit DMO"
+
+#: dmo/profile/views.py:195
+msgid "لیست میکرواکشن‌های DMO "
+msgstr "View DMO Mikroactions"
+
+#: dmo/profile/views.py:202
+msgid "افزودن میکرواکشن جدید"
+msgstr "Add new mikroactions"
+
+#: dmo/profile/views.py:239
+msgid "افزودن میکرواکشن DMO"
+msgstr "Add DMO Microaction"
+
+#: dmo/profile/views.py:261
+msgid "ویرایش میکرواکشن DMO"
+msgstr "Edit DMO Microaction"
+
+#: dmo/profile/views.py:337
+msgid "خلاصه ده دوز اخیر نمودار شما:"
+msgstr "Your 10-day summary of DMO"
+
+#: dmo/profile/views.py:345
+msgid "انجام شد"
+msgstr "Done"
+
+#: dmo/profile/views.py:350
+msgid "انجام نشد"
+msgstr "Not Done"
+
+#: dmo/templates/dmo_base.html:27
+msgid "چاپ"
+msgstr "Print"
+
+#: dmo/templates/dmo_base.html:28
+msgid "ایجاد تصویر"
+msgstr "Create Image"
+
+#: dmo/templates/dmo_image.html:43 dmo/templates/dmo_table.html:6
+msgid "نمودار DMO در"
+msgstr "DMO Chart in"
+
+#: dmo/templates/dmo_image.html:44
+msgid "برای"
+msgstr "By"
+
+#: dmo/templates/gentellela/all_dmos.html:33
+msgid "مشاهده همه DMOهای من"
+msgstr "View all my DMOs"
+
+#: dmo/templates/gentellela/all_dmos.html:37
+msgid "مدیریت DMOها"
+msgstr "Manage DMOS"
+
+#: dmo/templates/gentellela/all_dmos.html:48
+msgid "نمودارهای جاری من"
+msgstr "My in-progress DMOs"
+
+#: dmo/templates/gentellela/all_dmos.html:81
+msgid "پر کردن"
+msgstr "Fill"
+
+#: dmo/templates/gentellela/all_dmos.html:89
+msgid "مشاهده جدول"
+msgstr "View Table"
+
+#: dmo/templates/gentellela/all_dmos.html:104
+msgid "تصویر"
+msgstr "Image"
+
+#: dmo/templates/gentellela/all_dmos.html:114
+#: team/templates/gentelella/my_teams.html:198
+#: templates/generic_model_list.html:105
+msgid "حذف"
+msgstr "Delete"
+
+#: dmo/templates/gentellela/all_dmos.html:126
+#: team/templates/gentelella/my_teams.html:209
+#: templates/generic_model_list.html:116
+msgid "اخطار!"
+msgstr "Warning!"
+
+#: dmo/templates/gentellela/all_dmos.html:130
+#: team/templates/gentelella/my_teams.html:213
+#: templates/generic_model_list.html:120
+msgid "آیا از حذف کامل این آیتم مطمئن هستید؟"
+msgstr "Are you sure to delete this item?"
+
+#: dmo/templates/gentellela/all_dmos.html:134
+#: team/templates/gentelella/my_teams.html:221
+#: templates/generic_model_list.html:128
+msgid "پس از حذف، امکان بازگشت آن وجود نخواهد داشت."
+msgstr "This could not be undone"
+
+#: dmo/templates/gentellela/all_dmos.html:138
+#: team/templates/gentelella/my_teams.html:226
+#: templates/generic_model_list.html:133
+msgid "بستن"
+msgstr "Close"
+
+#: dmo/templates/gentellela/all_dmos.html:140
+#: team/templates/gentelella/my_teams.html:228
+#: templates/generic_model_list.html:135
+msgid "حذف کامل"
+msgstr "Delete Completely"
+
+#: dmo/templates/gentellela/all_dmos.html:157
+msgid "نمودارهای سایر کاربران"
+msgstr "Other users DMO"
+
+#: dmo/templates/gentellela/all_dmos.html:189
+msgid "مشاهده کامل جدول"
+msgstr "View Table"
+
+#: team/models.py:12 team/models.py:33 team/models.py:45 team/models.py:73
+#: team/models.py:90 team/templates/gentelella/my_teams.html:154
+msgid "تیم"
+msgstr "Team"
+
+#: team/models.py:13 templates/base.html:122
+msgid "تیم‌ها"
+msgstr "Teams"
+
+#: team/models.py:15
+msgid "مدیریت تیم"
+msgstr "Manage Team"
+
+#: team/models.py:19
+msgid "نام تیم"
+msgstr "Team Name"
+
+#: team/models.py:20 team/profile/views.py:114
+#: team/templates/gentelella/my_teams.html:155
+msgid "رهبر"
+msgstr "Leader"
+
+#: team/models.py:25
+msgid "دعوتنامه تیم"
+msgstr "Team Invitation"
+
+#: team/models.py:26
+msgid "دعوتنامه‌های تیم"
+msgstr "Team Invitations"
+
+#: team/models.py:28 team/templates/gentelella/my_teams.html:33
+msgid "پذیرفتن"
+msgstr "Accept"
+
+#: team/models.py:29 team/templates/gentelella/my_teams.html:34
+msgid "رد کردن"
+msgstr "Reject"
+
+#: team/models.py:30
+msgid "بدون عمل"
+msgstr "No Action"
+
+#: team/models.py:37
+msgid "تاریخ عملیات"
+msgstr "Action datetime"
+
+#: team/models.py:41 team/models.py:58
+msgid "جلسه"
+msgstr "Meeting"
+
+#: team/models.py:42 team/profile/views.py:57
+msgid "جلسات"
+msgstr "Meetings"
+
+#: team/models.py:46
+msgid "تاریخ جلسه"
+msgstr "Meeting Date"
+
+#: team/models.py:47
+msgid "عنوان جلسه"
+msgstr "Meeting Title"
+
+#: team/models.py:48
+msgid "صورتجلسه"
+msgstr "Proceedings"
+
+#: team/models.py:53
+msgid "امضا جلسه"
+msgstr "Meeting Signature"
+
+#: team/models.py:54
+msgid "امضا جلسات"
+msgstr "Meeting Signatures"
+
+#: team/models.py:60
+msgid "تاریخ امضا"
+msgstr "Signature Date"
+
+#: team/models.py:65 team/profile/views.py:52
+msgid "حضور و غیاب"
+msgstr "Attendance"
+
+#: team/models.py:66
+msgid "حضور و غیاب‌ها"
+msgstr "Attendances"
+
+#: team/models.py:69
+msgid "حاضر"
+msgstr "Present"
+
+#: team/models.py:70
+msgid "عدم حضور"
+msgstr "Absent"
+
+#: team/models.py:71
+msgid "مرخصی کامل"
+msgstr "Full Leave"
+
+#: team/models.py:72
+msgid "مرخصی ساعتی"
+msgstr "Hourly Leave"
+
+#: team/models.py:76 team/profile/views.py:810 team/profile/views.py:872
+msgid "نوع حضور"
+msgstr "Attendance Type"
+
+#: team/models.py:77
+msgid "مدت مرخصی ساعتی"
+msgstr "Leave Hours"
+
+#: team/models.py:83 team/models.py:102
+msgid "نظرسنجی"
+msgstr "Poll"
+
+#: team/models.py:84 team/profile/views.py:62
+msgid "نظرسنجی‌ها"
+msgstr "Polls"
+
+#: team/models.py:87
+msgid "مخفی"
+msgstr "Hidden"
+
+#: team/models.py:91
+msgid "عنوان نظرسنجی"
+msgstr "Poll Title"
+
+#: team/models.py:93 team/profile/views.py:282
+msgid "مهلت"
+msgstr "Deadline"
+
+#: team/models.py:94 team/profile/views.py:282
+msgid "نوع نظرسنجی"
+msgstr "Poll Type"
+
+#: team/models.py:98 team/models.py:103 team/profile/views.py:488
+msgid "گزینه"
+msgstr "Choice"
+
+#: team/models.py:99 team/profile/views.py:293
+msgid "گزینه‌ها"
+msgstr "Choices"
+
+#: team/models.py:107
+msgid "نظر کاربر"
+msgstr "User comment"
+
+#: team/models.py:108
+msgid "نظرات کاربران"
+msgstr "User comments"
+
+#: team/models.py:113
+msgid "انتخاب کاربر"
+msgstr "Choose user"
+
+#: team/profile/forms.py:25 templates/base.html:109
+msgid "کاربران"
+msgstr "Users"
+
+#: team/profile/forms.py:59 team/profile/forms.py:79
+msgid "این کاربر در این تیم عضو نیست"
+msgstr "This user not registered in team"
+
+#: team/profile/views.py:23
+msgid "شما"
+msgstr "YOU"
+
+#: team/profile/views.py:46
+msgid "ارسال دعوت‌نامه"
+msgstr "Send invitation"
+
+#: team/profile/views.py:67
+msgid "ترک تیم"
+msgstr "Leave Team"
+
+#: team/profile/views.py:95 team/templates/gentelella/my_teams.html:143
+msgid "ایجاد تیم جدید"
+msgstr "Create new Team"
+
+#: team/profile/views.py:114
+msgid "عضو"
+msgstr "Member"
+
+#: team/profile/views.py:119
+msgid "مشاهده گروه"
+msgstr "View Group"
+
+#: team/profile/views.py:123
+msgid "نام کاربری"
+msgstr "Username"
+
+#: team/profile/views.py:123 templates/generic_model_info.html:63
+msgid "نام"
+msgstr "Firstname"
+
+#: team/profile/views.py:123
+msgid "نام خانوادگی"
+msgstr "Lastname"
+
+#: team/profile/views.py:123
+msgid "نقش"
+msgstr "Role"
+
+#: team/profile/views.py:126
+msgid "ارتقا به رهبر"
+msgstr "Promote to Leader"
+
+#: team/profile/views.py:134
+msgid "بیرون انداختن از گروه"
+msgstr "Kick out from Team"
+
+#: team/profile/views.py:165
+msgid "ویرایش تیم"
+msgstr "Edit Team"
+
+#: team/profile/views.py:187
+msgid "دعوت به تیم"
+msgstr "Invite to Team"
+
+#: team/profile/views.py:217 team/profile/views.py:234
+msgid "امکان ترک تیم توسط رهبر گروه وجود ندارد"
+msgstr "Leader cannot leave team"
+
+#: team/profile/views.py:278
+msgid "نظرسنجی‌های تیم"
+msgstr "Team Polls"
+
+#: team/profile/views.py:283 team/profile/views.py:326
+msgid "ایجاد نظرسنجی"
+msgstr "Create Poll"
+
+#: team/profile/views.py:298
+msgid "نتایج"
+msgstr "Results"
+
+#: team/profile/views.py:303 team/templates/gentelella/participate.html:38
+msgid "شرکت در نظرسنجی"
+msgstr "Participate in poll"
+
+#: team/profile/views.py:345 team/profile/views.py:382
+msgid "در این نظرسنجی افرادی شرکت کرده‌اند و امکان حذف آن وجود ندارد"
+msgstr "This poll has already users participated in and cannot be deleted"
+
+#: team/profile/views.py:362
+msgid "ویرایش نظرسنجی"
+msgstr "Edit poll"
+
+#: team/profile/views.py:408 team/profile/views.py:439
+msgid "مهلت شرکت در این نظرسنجی تمام شده است"
+msgstr "The deadline for participating in this poll has expired"
+
+#: team/profile/views.py:427
+msgid "شما قبلا در این نظرسنجی شرکت کرده‌اید"
+msgstr "You have already participated in this poll"
+
+#: team/profile/views.py:466
+msgid "نامشخص"
+msgstr "Unknown"
+
+#: team/profile/views.py:469
+msgid "مشاهده نتایج"
+msgstr "View results"
+
+#: team/profile/views.py:473
+msgid "آرا"
+msgstr "Vots"
+
+#: team/profile/views.py:473
+msgid "رای دهندگان"
+msgstr "Voters"
+
+#: team/profile/views.py:489
+msgid "گزینه‌های نظرسنجی"
+msgstr "Poll Choices"
+
+#: team/profile/views.py:491
+msgid "افزودن گزینه جدید"
+msgstr "Add new choice"
+
+#: team/profile/views.py:514 team/profile/views.py:549
+#: team/profile/views.py:584
+msgid "در این نظرسنجی افرادی شرکت کرده‌اند و امکان تغییر در آن وجود ندارد"
+msgstr "This poll has already users participated in and cannot be edited"
+
+#: team/profile/views.py:531
+msgid "ایجاد گزینه جدید"
+msgstr "Add new choice"
+
+#: team/profile/views.py:566
+msgid "ویرایش گزینه"
+msgstr "Edit Choice"
+
+#: team/profile/views.py:610
+msgid "تنظیم شده"
+msgstr "Adjusted"
+
+#: team/profile/views.py:613
+msgid "جلسات گروه"
+msgstr "Team Meetings"
+
+#: team/profile/views.py:617
+msgid "تعداد امضا"
+msgstr "Signatures"
+
+#: team/profile/views.py:617
+msgid "خلاصه صورت‌جلسه"
+msgstr "Proceedigns"
+
+#: team/profile/views.py:618
+msgid "ایجاد جلسه جدید"
+msgstr "Create new meeting"
+
+#: team/profile/views.py:627
+msgid "صورت‌جلسه"
+msgstr "Proceedings"
+
+#: team/profile/views.py:650
+msgid "افزودن جلسه"
+msgstr "Add Meeting"
+
+#: team/profile/views.py:676 team/profile/views.py:715
+#: team/profile/views.py:740
+msgid "اخطار"
+msgstr "Warning"
+
+#: team/profile/views.py:688
+msgid "ویرایش جلسه"
+msgstr "Edit Meeting"
+
+#: team/profile/views.py:752
+msgid "صورت‌جلسه "
+msgstr "Proceedings"
+
+#: team/profile/views.py:806 team/profile/views.py:868
+msgid "لیست حضور و غیاب"
+msgstr "Attendance List"
+
+#: team/profile/views.py:810 team/profile/views.py:872
+msgid "ساعت مرخصی"
+msgstr "Hours of leave"
+
+#: team/profile/views.py:813 team/profile/views.py:914
+msgid "ایجاد لیست امروز"
+msgstr "Create today list"
+
+#: team/profile/views.py:819
+msgid "افزودن تکی"
+msgstr "Add single one"
+
+#: team/profile/views.py:824
+msgid "مشاهده همه"
+msgstr "View all"
+
+#: team/profile/views.py:891
+msgid "برای امروز قبلا لیست را ایجاد کرده‌اید"
+msgstr "You have already created todays list"
+
+#: team/profile/views.py:944
+msgid "فرم افزودن حضور و غیاب"
+msgstr "Attendace Create form"
+
+#: team/profile/views.py:971
+msgid "فرم ویرایش حضور و غیاب"
+msgstr "Attendance Edit form"
+
+#: team/templates/gentelella/my_teams.html:29
+msgid "یک دعوت‌نامه جدید برای عضویت در تیم دارید"
+msgstr "You have new invitation to a team"
+
+#: team/templates/gentelella/my_teams.html:30
+msgid "دعوت‌کننده:"
+msgstr "Invitor: "
+
+#: team/templates/gentelella/my_teams.html:31
+msgid "تیم:"
+msgstr "Team: "
+
+#: team/templates/gentelella/my_teams.html:46
+msgid "تیم‌های من"
+msgstr "My Teams"
+
+#: team/templates/gentelella/my_teams.html:115
+msgid "اعمال"
+msgstr "Apply"
+
+#: team/templates/gentelella/my_teams.html:118
+msgid "پاک کردن"
+msgstr "Delete"
+
+#: team/templates/gentelella/my_teams.html:156
+msgid "اعضا"
+msgstr "Users"
+
+#: team/templates/gentelella/my_teams.html:157
+msgid "دعوت‌شده"
+msgstr "Invited"
+
+#: team/templates/gentelella/my_teams.html:158
+#: templates/generic_model_list.html:66
+msgid "عملیات"
+msgstr "Action"
+
+#: team/templates/gentelella/my_teams.html:241
+#: templates/generic_model_info.html:84 templates/generic_model_list.html:148
+msgid "هیچ اطلاعاتی وجود ندارد!"
+msgstr "No information available"
+
+#: team/templates/gentelella/proceedings.html:28
+msgid "صورت‌جلسه تیم"
+msgstr "Team proceedings"
+
+#: team/templates/gentelella/proceedings.html:48
+msgid "این صورت جلسه هنوز توسط کسی امضا نشده است"
+msgstr "This proceedings has not signed yet"
+
+#: team/templates/gentelella/proceedings.html:53
+msgid "صورت‌جلسه هنوز تنظیم نشده است"
+msgstr "Proceedings has not adjusted yet"
+
+#: team/templates/gentelella/proceedings.html:61
+msgid "تنظیم صورت‌جلسه"
+msgstr "Adjust proceedings"
+
+#: team/templates/gentelella/proceedings.html:66
+msgid "امضا صورت‌جلسه"
+msgstr "Sign Proceedings"
+
+#: teamche/settings.py:120
+msgid "Persian"
+msgstr ""
+
+#: teamche/settings.py:121
+msgid "English"
+msgstr ""
+
+#: templates/base.html:16 templates/base.html:54
+msgid "پنل مدیریت"
+msgstr "Management Panel"
+
+#: templates/base.html:81
+msgid "پروفایل کاربری"
+msgstr "User Profile"
+
+#: templates/base.html:86
+msgid "خروج"
+msgstr "Logout"
+
+#: templates/base.html:99
+msgid "داشبورد"
+msgstr "Dashboard"
+
+#: templates/base.html:106
+msgid "مدیریت کاربران"
+msgstr "Manage Users"
+
+#: templates/base.html:111
+msgid "گروه‌ها"
+msgstr "Groups"
+
+#: templates/base.html:113
+msgid "تنظیمات"
+msgstr "Settings"
+
+#: templates/base.html:128
+msgid "DMO"
+msgstr ""
+
+#: templates/base.html:131
+msgid "DMOهای این ماه"
+msgstr "This month DMOs"
+
+#: templates/base.html:133
+msgid "تمام DMOها"
+msgstr "All DMOs"
+
+#: templates/base.html:141
+msgid "CFD"
+msgstr ""
+
+#: templates/base.html:146
+msgid "تحلیل‌ها"
+msgstr "Analysis"
+
+#: templates/base.html:155
+msgid "فایل‌ها"
+msgstr "Files"
+
+#: templates/base.html:158
+msgid "لیست فایل‌ها"
+msgstr "Files list"
+
+#: templates/base.html:159
+msgid "بارگذاری فایل"
+msgstr "Upload File"
+
+#: templates/generic_model_form.html:97
+#: templates/generic_model_multiform.html:197
+msgid "ارسال"
+msgstr "Send"

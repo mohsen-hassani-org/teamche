@@ -1,0 +1,134 @@
+.card {
+    border: 2px solid;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+.border-sell{
+    border-color: #cea4ab;
+}
+.border-buy{
+    border-color: #a8c292;
+}
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.card .header {
+    padding: 10px;
+    line-height: 20px;
+    text-align: center;
+}
+.card .header small {
+    font-weight: bold;
+}
+.card .body {
+    padding: 10px 10px 5px 10px;
+}
+.signal-table {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.signal-table tr {
+    border-bottom: 1px dotted darkgrey;
+    line-height: 25px;
+}
+.signal-table tr td:last-child {
+    text-align: right;
+}
+.signal-table tr td:first-child {
+    text-align: left;
+}
+.signal-table>tbody>tr>td {
+    border-top: none;
+}
+.card .body .action-buttons {
+    padding: 10px 30px;
+}
+.card .body a {
+    padding: 0px;
+    margin: 10px 0px;
+    text-decoration: underline dotted;
+}
+.card .bg-buy {
+    background-color: #39ad47;
+}
+.card .bg-sell {
+    background-color: #ad3939;
+}
+.card .header .sell {
+    color: wheat;
+}
+.card .header .buy {
+    color: wheat;
+}
+
+.card .footer{
+    background-color: lightgray;
+    padding: 12px;
+    line-height: 15px;
+    text-align: center;
+}
+.card .header h4 {
+    margin: 0px;
+}
+.no-bg {
+    background-color: transparent !important;
+}
+.success-card {
+    background-color: #39ad47;
+    color: wheat;
+}
+.failure-card {
+    background-color: #ad3939;
+    color: wheat;
+}
+.canceled-card {
+    background-color: #777;
+    color: wheat;
+}
+.success-card a, .failure-card a, .canceled-card a {
+    color: wheat;
+}
+.signal-mistakes {
+    color: goldenrod;
+}
+.signal-type-buy {
+    color:green;
+}
+.signal-type-sell {
+    color: darkred;
+}
+.signal-status-running {
+    color:green;
+}
+.signal-status-canceled {
+    color: #73879c;
+}
+.signal-status-filled {
+    color:#73879c;
+}
+.loss {
+    color: darkred;
+}
+.profit {
+    color: limegreen;
+}
+.signal-image img {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+
+
+
+
+
+#blink {
+    animation: blink 1.5s linear infinite;
+}
+@keyframes blink{
+0%{opacity: 0;}
+25%{opacity: .5;}
+50%{opacity: 1;}
+75%{opacity: .5;}
+100%{opacity: 0;}
+}

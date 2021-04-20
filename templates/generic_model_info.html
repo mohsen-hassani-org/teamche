@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static i18n jalali_tags %}
+{% load model_list_tags %}
+
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {{ page_title }}
+                    <small>{{ page_subtitle }}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                {% if header_buttons %}
+                    <div class="">
+                        {% for btn in header_buttons %}
+                        <a tabindex="{{forloop.counter0}}"
+                            class="btn btn-default buttons-html5 {{btn.class}}"
+                            {% if btn.url_arg3 %}
+                            href="{% url btn.url_name btn.url_arg3 btn.url_arg2 btn.url_arg1 %}"
+                            {% elif btn.url_arg2 %}
+                            href="{% url btn.url_name btn.url_arg2 btn.url_arg1 %}"
+                            {% elif btn.url_arg1 %}
+                            href="{% url btn.url_name btn.url_arg1 %}"
+                            {% else %}
+                            href="{% url btn.url_name %}"
+                            {% endif %}>
+                            {% if btn.fa_icon_name %}
+                            <i class="fa fa-{{btn.fa_icon_name}}"></i>
+                            {% endif %}
+                            <span>{{btn.title}}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                            <tr class="headings">
+                                <th class="column-title">#</th>
+                                <th class="column-title">{% trans 'نام' %}</th>
+                                <th class="column-title">{% trans 'عنوان' %}</th>
+                                <th class="column-title">{% trans 'مقدار' %}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% if item %}
+                            {% for field in meta.fields %}
+                            {% if field.name in fields %}
+                            <tr class="even pointer">
+                                <td class=" ">{{forloop.counter}}</td>
+                                <td class=" ">{{field.name}}</td>
+                                <td class=" ">{{field.verbose_name}}</td>
+                                <td class=" ">{{item|get_object_item:field.name}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="{{headers|length|add:2}}">
+                                    <p class="text-center">{% trans 'هیچ اطلاعاتی وجود ندارد!' %}</p>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    {% if footer_buttons %}
+                        {% for btn in footer_buttons %}
+                            <a tabindex="999{{forloop.counter0}}"
+                                class="btn btn-default buttons-html5 {{btn.class}}"
+                                {% if btn.url_arg3 %}
+                                href="{% url btn.url_name btn.url_arg3 btn.url_arg2 btn.url_arg1 %}"
+                                {% elif btn.url_arg2 %}
+                                href="{% url btn.url_name btn.url_arg2 btn.url_arg1 %}"
+                                {% elif btn.url_arg1 %}
+                                href="{% url btn.url_name btn.url_arg1 %}"
+                                {% else %}
+                                href="{% url btn.url_name %}"
+                                {% endif %}>
+                                {% if btn.fa_icon_name %}
+                                <i class="fa fa-{{btn.fa_icon_name}}"></i>
+                                {% endif %}
+                                <span>{{btn.title}}</span>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock page_content%}

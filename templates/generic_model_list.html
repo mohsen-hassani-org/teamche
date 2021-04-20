@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static i18n jalali_tags %}
+{% load model_list_tags %}
+
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {{ page_title }}
+                    <small>{{ page_subtitle }}</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                {% if header_buttons %}
+                    <div class="">
+                        {% for btn in header_buttons %}
+                        <a tabindex="{{forloop.counter0}}"
+                            class="btn btn-default buttons-html5 {{btn.class}}"
+                            {% if btn.url_arg3 %}
+                            href="{% url btn.url_name btn.url_arg3 btn.url_arg2 btn.url_arg1 %}"
+                            {% elif btn.url_arg2 %}
+                            href="{% url btn.url_name btn.url_arg2 btn.url_arg1 %}"
+                            {% elif btn.url_arg1 %}
+                            href="{% url btn.url_name btn.url_arg1 %}"
+                            {% else %}
+                            href="{% url btn.url_name %}"
+                            {% endif %}>
+                            {% if btn.fa_icon_name %}
+                            <i class="fa fa-{{btn.fa_icon_name}}"></i>
+                            {% endif %}
+                            <span>{{btn.title}}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                            <tr class="headings">
+                                <th class="column-title">#</th>
+                                {% for header in headers %}
+                                <th class="column-title">{{ header }}</th>
+                                {% endfor %}
+                                <th class="column-title">{% trans 'عملیات' %}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% if items %}
+                            {% for item in items %}
+                            <tr class="even pointer">
+                                <td class=" ">{{forloop.counter}}</td>
+                                {% for field in fields %}
+                                    <td class="column-title"><span>{{ item|get_object_item:field }}</span></td>
+                                {% endfor %}
+                                <td class=" last">
+                                    {% for action_button in action_buttons %}
+                                    <a 
+                                        {% if action_button.arg3_field %}
+                                        href="{% url action_button.url_name item|get_object_item:action_button.arg1_field item|get_object_item:action_button.arg2_field item|get_object_item:action_button.arg1_field %}"
+                                        {% elif action_button.arg2_field %}
+                                        href="{% url action_button.url_name item|get_object_item:action_button.arg1_field item|get_object_item:action_button.arg2_field %}"
+                                        {% elif action_button.arg1_field %}
+                                        href="{% url action_button.url_name item|get_object_item:action_button.arg1_field %}"
+                                        {% else %}
+                                        href="{% url action_button.url_name %}"
+                                        {% endif %}
+
+                                        {% if action_button.new_tab %}
+                                        target="_blank"
+                                        {% endif %}
+
+                                        class="btn btn-default btn-xs 
+                                        {% if action_button.class %}{{action_button.class}}{% endif %}
+                                        {% if action_button.class_from_field %}{{item|get_object_item:action_button.class_from_field}}{% endif %}
+                                        ">
+                                        {% if action_button.fa_icon_name %}<i class="fa fa-{{ action_button.fa_icon_name }}"></i> {% endif %}
+                                        {{ action_button.title }}</a>
+                                    {% endfor %}
+                                    {% if delete_button_url_name %}
+                                    <button data-toggle="modal" data-target="#modal_{{item.id}}" type="button"
+                                        class="btn btn-danger btn-xs">
+                                        {% trans 'حذف' %}
+                                    </button>
+                                    <div class="modal fade bs-example-modal-lg in" id="modal_{{item.id}}"
+                                        tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">×</span>
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel2">{% trans 'اخطار!' %}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>
+                                                        {% trans 'آیا از حذف کامل این آیتم مطمئن هستید؟' %}
+                                                        {% if delete_item_title_field %}
+                                                        <b>'{{ item|get_object_item:delete_item_title_field }}'</b>
+                                                        {% else %}
+                                                        <b>'{{ item }}'</b>
+                                                        {% endif %}
+                                                    </h4>
+                                                    <p>
+                                                        {% trans 'پس از حذف، امکان بازگشت آن وجود نخواهد داشت.' %}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">{% trans 'بستن' %}</button>
+                                                    <a href="{% url delete_button_url_name item.id %}"
+                                                        class="btn btn-danger">{% trans 'حذف کامل' %}</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="{{headers|length|add:2}}">
+                                    <p class="text-center">{% trans 'هیچ اطلاعاتی وجود ندارد!' %}</p>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    {% if footer_buttons %}
+                        {% for btn in footer_buttons %}
+                            <a tabindex="999{{forloop.counter0}}"
+                                class="btn btn-default buttons-html5 {{btn.class}}"
+                                {% if btn.url_arg3 %}
+                                href="{% url btn.url_name btn.url_arg3 btn.url_arg2 btn.url_arg1 %}"
+                                {% elif btn.url_arg2 %}
+                                href="{% url btn.url_name btn.url_arg2 btn.url_arg1 %}"
+                                {% elif btn.url_arg1 %}
+                                href="{% url btn.url_name btn.url_arg1 %}"
+                                {% else %}
+                                href="{% url btn.url_name %}"
+                                {% endif %}>
+                                {% if btn.fa_icon_name %}
+                                <i class="fa fa-{{btn.fa_icon_name}}"></i>
+                                {% endif %}
+                                <span>{{btn.title}}</span>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock page_content%}

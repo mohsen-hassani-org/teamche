@@ -1,0 +1,1629 @@
+{% extends 'base.html' %}
+{% load static jalali_tags i18n %}
+{% block title %} {{block.super}}
+{{ page_title }}
+{% endblock title %}
+
+{% block extra_head %}{{extra_head|safe}}
+
+    <style>
+        @media (min-width: 768px){
+            .form-horizontal .control-label {
+                text-align: right;
+        }}
+        .form-table ul {
+            list-style: none;
+        }
+        .form-table li {
+            float: right;
+            padding: 0px 10px;
+        }
+        .borderless td, .borderless th {
+            border: none !important;
+        }
+        .field-buttons {
+            margin: 10px;
+        }
+        .field-buttons input {
+            font-weight: bold;
+            padding: 5px;
+            width: 30px;
+        }
+        #zone_row2, #zone_row3, #zonetime_row2, #zonetime_row3 {
+            display: none;
+        }
+    </style>
+{% endblock extra_head %}
+
+
+
+{%block page_content%}
+
+<div class="x_panel">
+
+    <div class="x_title">
+        <h2>
+            {% trans 'تحلیل جدید Classic' %}
+        </h2>
+        <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" kerman_case="button"
+                    aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    
+    <div class="x_content">
+        <form id="form" data-parsley-validate class="form-horizontal form-label-left" method="POST"
+        {% if action_arg %}action="{% url action action_arg %}"{% else %}action="{% url action %}"{% endif %}>
+        
+            {% csrf_token %}
+            {% if formset %}
+            {{ formset.management_form }}
+            {% endif %}
+            
+
+            {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Title -->
+            <div class="form-group">
+                <label class="control-label col-md-2" for="{{form.visible_fields.58.id_for_label}}">
+                    {{form.visible_fields.58.label}}
+                    {% if form.visible_fields.58.field.required %}<span class="required"> *</span>{% endif %}
+                </label>
+                <div class="col-md-8">
+                    {{form.visible_fields.58}}
+                    {% if form.visible_fields.58.help_text %}
+                        <small class="form-text text-muted">{{ form.visible_fields.58.help_text }}</small>
+                    {% endif %}
+                    {% if form.is_bound %}
+                        {% if form.visible_fields.58.errors %}
+                            {% for error in form.visible_fields.58.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Desc -->
+            <div class="form-group">
+                <label class="control-label col-md-2" for="{{form.visible_fields.59.id_for_label}}">
+                    {{form.visible_fields.59.label}}
+                    {% if form.visible_fields.59.field.required %}<span class="required"> *</span>{% endif %}
+                </label>
+                <div class="col-md-8">
+                    {{form.visible_fields.59}}
+                    {% if form.visible_fields.59.help_text %}
+                        <small class="form-text text-muted">{{ form.visible_fields.59.help_text }}</small>
+                    {% endif %}
+                    {% if form.is_bound %}
+                        {% if form.visible_fields.59.errors %}
+                            {% for error in form.visible_fields.59.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+
+
+            <table class="table table-hover table-bordered form-table">
+                <thead>
+                    <td>{% trans 'عنوان' %}</td>
+                    <td>{% trans 'مقدار' %}</td>
+                    <td>{% trans 'تایم فریم' %}</td>
+                    <td>{% trans 'سیگنال' %}</td>
+                </thead>
+                <tbody>
+                    <!-- News -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.0.id_for_label}}">
+                            {{form.visible_fields.0.label}}
+                            {% if form.visible_fields.0.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td colspan="3">
+                            {{form.visible_fields.0}}
+                            {% if form.visible_fields.0.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.0.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.0.errors %}
+                                    {% for error in form.visible_fields.0.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Major trend -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.1.id_for_label}}">
+                            {{form.visible_fields.1.label}}
+                            {% if form.visible_fields.1.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.1 }}
+                            {% if form.visible_fields.1.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.1.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.1.errors %}
+                                    {% for error in form.visible_fields.1.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.2 }}
+                            {% if form.visible_fields.2.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.2.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.2.errors %}
+                                    {% for error in form.visible_fields.2.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.3 }}
+                            {% if form.visible_fields.3.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.3.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.3.errors %}
+                                    {% for error in form.visible_fields.3.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Intermediate trend -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.4.id_for_label}}">
+                            {{form.visible_fields.4.label}}
+                            {% if form.visible_fields.4.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.4 }}
+                            {% if form.visible_fields.4.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.4.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.4.errors %}
+                                    {% for error in form.visible_fields.4.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.5 }}
+                            {% if form.visible_fields.5.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.5.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.5.errors %}
+                                    {% for error in form.visible_fields.5.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.6 }}
+                            {% if form.visible_fields.6.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.6.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.6.errors %}
+                                    {% for error in form.visible_fields.6.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Eliot -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.22.id_for_label}}">
+                            {{form.visible_fields.22.label}}
+                            {% if form.visible_fields.22.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td colspan="2">
+                            {{ form.visible_fields.22 }}
+                            {% if form.visible_fields.22.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.22.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.22.errors %}
+                                    {% for error in form.visible_fields.22.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.23 }}
+                            {% if form.visible_fields.23.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.23.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.23.errors %}
+                                    {% for error in form.visible_fields.23.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Support and Resistance -->
+                    <tr>
+                        <td>
+                            <label class="control-label">
+                            {% trans 'حمایت و مقاومت' %}
+                            </label>
+                            <div class="field-buttons">
+                                <input type="button" class="btn btn-success btn-xs" value="+" onclick="show_next_support()"/>
+                                <input type="button" class="btn btn-danger btn-xs" value="-"  onclick="hide_next_support()"/>
+                            </div>
+                        </td>
+                        <td>
+                            <table class="table borderless">
+                                <!-- Row 1 -->
+                                <tr id="zone_row1">
+                                    <td>
+                                        <label>{% trans 'از ' %}</label>
+                                        {{ form.visible_fields.61 }}
+                                        {% if form.visible_fields.61.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.61.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.61.errors %}
+                                                {% for error in form.visible_fields.61.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <label>{% trans 'تا ' %}</label>
+                                        {{ form.visible_fields.62 }}
+                                        {% if form.visible_fields.62.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.62.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.62.errors %}
+                                                {% for error in form.visible_fields.62.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr id="zone_row2">
+                                    <td>
+                                        <label>{% trans 'از ' %}</label>
+                                        {{ form.visible_fields.63 }}
+                                        {% if form.visible_fields.63.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.63.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.63.errors %}
+                                                {% for error in form.visible_fields.63.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <label>{% trans 'تا ' %}</label>
+                                        {{ form.visible_fields.64 }}
+                                        {% if form.visible_fields.64.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.64.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.64.errors %}
+                                                {% for error in form.visible_fields.64.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr id="zone_row3">
+                                    <td>
+                                        <label>{% trans 'از ' %}</label>
+                                        {{ form.visible_fields.65 }}
+                                        {% if form.visible_fields.65.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.65.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.65.errors %}
+                                                {% for error in form.visible_fields.65.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <label>{% trans 'تا ' %}</label>
+                                        {{ form.visible_fields.66 }}
+                                        {% if form.visible_fields.66.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.66.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.66.errors %}
+                                                {% for error in form.visible_fields.66.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table borderless">
+                                <!-- Row 1-->
+                                <tr id="zonetime_row1"><td>
+                                    <label>{% trans 'ناحیه اول' %}</label>
+                                    {{ form.visible_fields.67 }}
+                                    {% if form.visible_fields.67.help_text %}
+                                        <small class="form-text text-muted">{{ form.visible_fields.67.help_text }}</small>
+                                    {% endif %}
+                                    {% if form.is_bound %}
+                                        {% if form.visible_fields.67.errors %}
+                                            {% for error in form.visible_fields.67.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </td></tr>
+                                <!-- Row 2-->
+                                <tr id="zonetime_row2"><td>
+                                    <label>{% trans 'ناحیه دوم' %}</label>
+                                    {{ form.visible_fields.68 }}
+                                    {% if form.visible_fields.68.help_text %}
+                                        <small class="form-text text-muted">{{ form.visible_fields.68.help_text }}</small>
+                                    {% endif %}
+                                    {% if form.is_bound %}
+                                        {% if form.visible_fields.68.errors %}
+                                            {% for error in form.visible_fields.68.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </td></tr>
+                                <!-- Row 3-->
+                                <tr id="zonetime_row3"><td>
+                                    <label>{% trans 'ناحیه سوم' %}</label>
+                                    {{ form.visible_fields.69 }}
+                                    {% if form.visible_fields.69.help_text %}
+                                        <small class="form-text text-muted">{{ form.visible_fields.69.help_text }}</small>
+                                    {% endif %}
+                                    {% if form.is_bound %}
+                                        {% if form.visible_fields.69.errors %}
+                                            {% for error in form.visible_fields.69.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </td></tr>
+                            </table>
+                            
+                        </td>
+                        <td>
+                            {{ form.visible_fields.70 }}
+                            {% if form.visible_fields.70.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.70.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.70.errors %}
+                                    {% for error in form.visible_fields.70.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Pattern -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.7.id_for_label}}">
+                            {{form.visible_fields.7.label}}
+                            {% if form.visible_fields.7.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.7 }}
+                            {% if form.visible_fields.7.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.7.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.7.errors %}
+                                    {% for error in form.visible_fields.7.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.8 }}
+                            {% if form.visible_fields.8.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.8.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.8.errors %}
+                                    {% for error in form.visible_fields.8.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.9 }}
+                            {% if form.visible_fields.9.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.9.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.9.errors %}
+                                    {% for error in form.visible_fields.9.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Moving -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.10.id_for_label}}">
+                            {{form.visible_fields.10.label}}
+                            {% if form.visible_fields.10.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.10 }}
+                            {% if form.visible_fields.10.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.10.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.10.errors %}
+                                    {% for error in form.visible_fields.10.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.11 }}
+                            {% if form.visible_fields.11.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.11.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.11.errors %}
+                                    {% for error in form.visible_fields.11.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.12 }}
+                            {% if form.visible_fields.12.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.12.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.12.errors %}
+                                    {% for error in form.visible_fields.12.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Pivot -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.13.id_for_label}}">
+                            {{form.visible_fields.13.label}}
+                            {% if form.visible_fields.13.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.13 }}
+                            {% if form.visible_fields.13.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.13.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.13.errors %}
+                                    {% for error in form.visible_fields.13.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.14 }}
+                            {% if form.visible_fields.14.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.14.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.14.errors %}
+                                    {% for error in form.visible_fields.14.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.15 }}
+                            {% if form.visible_fields.15.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.15.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.15.errors %}
+                                    {% for error in form.visible_fields.15.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Fibo Correction -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.16.id_for_label}}">
+                            {{form.visible_fields.16.label}}
+                            {% if form.visible_fields.16.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td colspan="2">
+                            {{ form.visible_fields.16 }}
+                            {% if form.visible_fields.16.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.16.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.16.errors %}
+                                    {% for error in form.visible_fields.16.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td rowspan="2">
+                            {{ form.visible_fields.17 }}
+                            {% if form.visible_fields.17.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.17.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.17.errors %}
+                                    {% for error in form.visible_fields.17.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Fibo Target -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.18.id_for_label}}">
+                            {{form.visible_fields.18.label}}
+                            {% if form.visible_fields.18.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td colspan="2">
+                            {{ form.visible_fields.18 }}
+                            {% if form.visible_fields.18.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.18.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.18.errors %}
+                                    {% for error in form.visible_fields.18.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Time Divergence -->
+                    <tr>
+                        <td>
+                            <label class="control-label">
+                                {{form.visible_fields.19.label}}
+                            </label>
+                            {% if form.visible_fields.19.field.required %}<span class="required"> *</span>{% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.19 }}
+                            <label for="{{form.visible_fields.19.id_for_label}}">
+                                دارد
+                            </label>
+                            {% if form.visible_fields.19.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.19.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.19.errors %}
+                                    {% for error in form.visible_fields.19.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.20 }}
+                            {% if form.visible_fields.20.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.20.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.20.errors %}
+                                    {% for error in form.visible_fields.20.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.21 }}
+                            {% if form.visible_fields.21.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.21.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.21.errors %}
+                                    {% for error in form.visible_fields.21.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>                    
+                    <!-- Candle -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.24.id_for_label}}">
+                            {{form.visible_fields.24.label}}
+                            {% if form.visible_fields.24.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.24 }}
+                            {% if form.visible_fields.24.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.24.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.24.errors %}
+                                    {% for error in form.visible_fields.24.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.25 }}
+                            {% if form.visible_fields.25.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.25.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.25.errors %}
+                                    {% for error in form.visible_fields.25.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.26 }}
+                            {% if form.visible_fields.26.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.26.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.26.errors %}
+                                    {% for error in form.visible_fields.26.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- RSI -->
+                    <tr>
+                        <td>
+                            <label class="control-label">
+                                RSI
+                            </label>
+                        </td>
+
+                        <td>
+                            <table class="table borderless">
+                                <tr>
+                                    <!-- RSI Overbought -->
+                                    <td>
+                                        {{ form.visible_fields.27 }}
+                                        <label class="control-label" for="{{form.visible_fields.27.id_for_label}}">
+                                            {{form.visible_fields.27.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.27.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.27.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.27.errors %}
+                                                {% for error in form.visible_fields.27.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+        
+                                    <!-- RSI Oversold -->
+                                    <td>
+                                        {{ form.visible_fields.28 }}
+                                        <label class="control-label" for="{{form.visible_fields.28.id_for_label}}">
+                                            {{form.visible_fields.28.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.28.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.28.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.28.errors %}
+                                                {% for error in form.visible_fields.28.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- RSI Divergence -->
+                                    <td>
+                                        {{ form.visible_fields.29 }}
+                                        <label class="control-label" for="{{form.visible_fields.29.id_for_label}}">
+                                        {{form.visible_fields.29.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.29.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.29.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.29.errors %}
+                                                {% for error in form.visible_fields.29.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- RSI Hidden Divergence -->
+                                    <td>
+                                        {{ form.visible_fields.30 }}
+                                        <label class="control-label" for="{{form.visible_fields.30.id_for_label}}">
+                                        {{form.visible_fields.30.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.30.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.30.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.30.errors %}
+                                                {% for error in form.visible_fields.30.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- RSI Trend Breakout -->
+                                    <td colspan="2">
+                                        {{ form.visible_fields.31 }}
+                                        <label class="control-label" for="{{form.visible_fields.31.id_for_label}}">
+                                        {{form.visible_fields.31.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.31.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.31.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.31.errors %}
+                                                {% for error in form.visible_fields.31.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.32 }}
+                            {% if form.visible_fields.32.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.32.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.32.errors %}
+                                    {% for error in form.visible_fields.32.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.33 }}
+                            {% if form.visible_fields.33.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.33.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.33.errors %}
+                                    {% for error in form.visible_fields.33.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Momentum -->
+                    <tr>
+                        <td>
+                            <label class="control-label">
+                                Momentum
+                            </label>
+                        </td>
+
+                        <td>
+                            <table class="table borderless">
+                                <tr>
+                                    <!-- Momentum Overbought -->
+                                    <td>
+                                        {{ form.visible_fields.34 }}
+                                        <label class="control-label" for="{{form.visible_fields.34.id_for_label}}">
+                                            {{form.visible_fields.34.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.34.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.34.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.34.errors %}
+                                                {% for error in form.visible_fields.34.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+        
+                                    <!-- Momentum Oversold -->
+                                    <td>
+                                        {{ form.visible_fields.35 }}
+                                        <label class="control-label" for="{{form.visible_fields.35.id_for_label}}">
+                                            {{form.visible_fields.35.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.35.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.35.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.35.errors %}
+                                                {% for error in form.visible_fields.35.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- Momentum Divergence -->
+                                    <td>
+                                        {{ form.visible_fields.36 }}
+                                        <label class="control-label" for="{{form.visible_fields.36.id_for_label}}">
+                                        {{form.visible_fields.36.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.36.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.36.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.36.errors %}
+                                                {% for error in form.visible_fields.36.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- Momentum Hidden Divergence -->
+                                    <td>
+                                        {{ form.visible_fields.37 }}
+                                        <label class="control-label" for="{{form.visible_fields.37.id_for_label}}">
+                                        {{form.visible_fields.37.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.37.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.37.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.37.errors %}
+                                                {% for error in form.visible_fields.37.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- Momentum Trend Breakout -->
+                                    <td colspan="2">
+                                        {{ form.visible_fields.38 }}
+                                        <label class="control-label" for="{{form.visible_fields.38.id_for_label}}">
+                                        {{form.visible_fields.38.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.38.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.38.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.38.errors %}
+                                                {% for error in form.visible_fields.38.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.39 }}
+                            {% if form.visible_fields.39.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.39.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.39.errors %}
+                                    {% for error in form.visible_fields.39.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.40 }}
+                            {% if form.visible_fields.40.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.40.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.40.errors %}
+                                    {% for error in form.visible_fields.40.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- MACD -->
+                    <tr>
+                        <td>
+                            <label class="control-label">
+                                MACD
+                            </label>
+                        </td>
+
+                        <td>
+                            <table class="table borderless">
+                                <tr>
+                                    <!-- MACD Divergence -->
+                                    <td>
+                                        {{ form.visible_fields.41 }}
+                                        <label class="control-label" for="{{form.visible_fields.41.id_for_label}}">
+                                            {{form.visible_fields.41.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.41.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.41.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.41.errors %}
+                                                {% for error in form.visible_fields.41.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <!-- MACD Hidden Divergence -->
+                                    <td>
+                                        {{ form.visible_fields.42 }}
+                                        <label class="control-label" for="{{form.visible_fields.42.id_for_label}}">
+                                        {{form.visible_fields.42.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.42.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.42.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.42.errors %}
+                                                {% for error in form.visible_fields.42.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.43 }}
+                            {% if form.visible_fields.43.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.43.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.43.errors %}
+                                    {% for error in form.visible_fields.43.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.44 }}
+                            {% if form.visible_fields.44.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.44.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.44.errors %}
+                                    {% for error in form.visible_fields.44.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Stochastic -->
+                    <tr>
+                        <td>
+                            <label class="control-label">
+                                Stochastic
+                            </label>
+                        </td>
+
+                        <td>
+                            <table class="table borderless">
+                                <tr>
+                                    <!-- Stochastic Overbought -->
+                                    <td>
+                                        {{ form.visible_fields.45 }}
+                                        <label class="control-label" for="{{form.visible_fields.45.id_for_label}}">
+                                            {{form.visible_fields.45.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.45.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.45.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.45.errors %}
+                                                {% for error in form.visible_fields.45.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+        
+                                    <!-- Stochastic Oversold -->
+                                    <td>
+                                        {{ form.visible_fields.46 }}
+                                        <label class="control-label" for="{{form.visible_fields.46.id_for_label}}">
+                                            {{form.visible_fields.46.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.46.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.46.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.46.errors %}
+                                                {% for error in form.visible_fields.46.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- Stochastic Bullish Breakout -->
+                                    <td>
+                                        {{ form.visible_fields.47 }}
+                                        <label class="control-label" for="{{form.visible_fields.47.id_for_label}}">
+                                        {{form.visible_fields.47.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.47.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.47.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.47.errors %}
+                                                {% for error in form.visible_fields.47.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- Stochastic Bearish Breakout -->
+                                    <td>
+                                        {{ form.visible_fields.48 }}
+                                        <label class="control-label" for="{{form.visible_fields.48.id_for_label}}">
+                                        {{form.visible_fields.48.label}}
+                                        </label>
+
+                                        {% if form.visible_fields.48.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.48.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.48.errors %}
+                                                {% for error in form.visible_fields.48.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.49 }}
+                            {% if form.visible_fields.49.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.49.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.49.errors %}
+                                    {% for error in form.visible_fields.49.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ form.visible_fields.50 }}
+                            {% if form.visible_fields.50.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.50.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.50.errors %}
+                                    {% for error in form.visible_fields.50.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- ATR -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.51.id_for_label}}">
+                            {{form.visible_fields.51.label}}
+                            {% if form.visible_fields.51.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.51 }}
+                            {% if form.visible_fields.51.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.51.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.51.errors %}
+                                    {% for error in form.visible_fields.51.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.52 }}
+                            {% if form.visible_fields.52.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.52.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.52.errors %}
+                                    {% for error in form.visible_fields.52.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.53 }}
+                            {% if form.visible_fields.53.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.53.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.53.errors %}
+                                    {% for error in form.visible_fields.53.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- ATX -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.56.id_for_label}}">
+                            {{form.visible_fields.54.label}}
+                            {% if form.visible_fields.54.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.54 }}
+                            {% if form.visible_fields.54.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.54.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.54.errors %}
+                                    {% for error in form.visible_fields.54.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.55 }}
+                            {% if form.visible_fields.55.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.55.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.55.errors %}
+                                    {% for error in form.visible_fields.55.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.56 }}
+                            {% if form.visible_fields.56.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.56.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.56.errors %}
+                                    {% for error in form.visible_fields.56.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- Image URL -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.57.id_for_label}}">
+                            {{form.visible_fields.57.label}}
+                            {% if form.visible_fields.57.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td colspan="3">
+                            {{ form.visible_fields.57 }}
+                            {% if form.visible_fields.57.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.57.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.57.errors %}
+                                    {% for error in form.visible_fields.57.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <!-- TradingView URL -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.60.id_for_label}}">
+                            {{form.visible_fields.60.label}}
+                            {% if form.visible_fields.60.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td colspan="3">
+                            {{ form.visible_fields.60 }}
+                            {% if form.visible_fields.60.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.60.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.60.errors %}
+                                    {% for error in form.visible_fields.60.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-4" style="font-weight: bold; text-align: center; color: green">{% trans 'خرید:' %} <strong id="buy_signals"></strong></div>
+                <div class="col-md-4" style="font-weight: bold; text-align: center; color:red">{% trans 'فروش:' %} <strong id="sell_signals"></strong></div>
+                <div class="col-md-4" style="font-weight: bold; text-align: center; color:black">{% trans 'خنثی:' %} <strong id="nature_signals"></strong></div>
+            </div>
+
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    {% if form.errors %}
+                    {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button type="submit" name="submit" class="btn btn-success">{% trans 'ثبت' %}</button>
+                    <button type="submit" name="submit_and_signal" class="btn btn-success">{% trans 'ثبت و افزودن سیگنال' %}</button>
+                    <a href="{% url 'cfd_profile_analysis_classic_view' %}" class="btn btn-default">
+                        {% trans 'انصراف' %}
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function count_signals() {
+        let n = 0;
+        let s = 0;
+        let b = 0;
+        let fields = [];
+        fields.push($("input[name='major_trend_signal']:checked").val());
+        fields.push($("input[name='intermediate_trend_signal']:checked").val());
+        fields.push($("input[name='eliot_signal']:checked").val());
+        fields.push($("input[name='support_resistance_signal']:checked").val());
+        fields.push($("input[name='pattern_signal']:checked").val());
+        fields.push($("input[name='moving_signal']:checked").val());
+        fields.push($("input[name='pivot_signal']:checked").val());
+        fields.push($("input[name='fibo_signal']:checked").val());
+        fields.push($("input[name='time_divergent_signal']:checked").val());
+        fields.push($("input[name='candle_signal']:checked").val());
+        fields.push($("input[name='rsi_signal']:checked").val());
+        fields.push($("input[name='macd_signal']:checked").val());
+        fields.push($("input[name='momentum_signal']:checked").val());
+        fields.push($("input[name='stochastic_signal']:checked").val());
+
+        fields.forEach(f => {
+            switch (f) {
+                case 'by':
+                    b++; 
+                    break;
+                case 'sl':
+                    s++; 
+                    break;
+                case 'nt':
+                    n++; 
+                    break;
+                default:
+                    break;
+            }
+        });
+        $("#buy_signals").text(b);
+        $("#sell_signals").text(s);
+        $("#nature_signals").text(n);
+    }
+    window.onload = function () {
+        count_signals();
+        var radios = document.querySelectorAll('input[type=radio]');
+        function changeHandler(event) {count_signals();}
+        Array.prototype.forEach.call(radios, function(radio) {
+            radio.addEventListener('change', changeHandler);
+        });
+    };
+    function show_next_support() {
+        let zonerow2 = $("#zone_row2");
+        let zonerow3 = $("#zone_row3");
+        let zonetimerow2 = $("#zonetime_row2");
+        let zonetimerow3 = $("#zonetime_row3");
+        let zonerow2_vis = zonerow2.css("display") === "table-row";
+        let zonerow3_vis = zonerow3.css("display") === "table-row";
+        let zonetimerow2_vis = zonetimerow2.css("display") === "table-row";
+        let zonetimerow3_vis = zonetimerow3.css("display") === "table-row";
+        if (!zonerow2_vis) { zonerow2.show(); zonetimerow2.show(); }
+        else if (zonerow2_vis & !zonerow3_vis) { zonerow3.show(); zonetimerow3.show(); }
+    }
+    function hide_next_support() {
+        let zonerow2 = $("#zone_row2");
+        let zonerow3 = $("#zone_row3");
+        let zonetimerow2 = $("#zonetime_row2");
+        let zonetimerow3 = $("#zonetime_row3");
+        let zonerow2_vis = zonerow2.css("display") === "table-row";
+        let zonerow3_vis = zonerow3.css("display") === "table-row";
+        let zonetimerow2_vis = zonetimerow2.css("display") === "table-row";
+        let zonetimerow3_vis = zonetimerow3.css("display") === "table-row";
+        if (zonerow3_vis) { zonerow3.hide(); zonetimerow3.hide(); }
+        else if (zonerow2_vis && !zonerow3_vis) { zonerow2.hide(); zonetimerow2.hide(); }
+    }
+</script>
+{%endblock page_content%}

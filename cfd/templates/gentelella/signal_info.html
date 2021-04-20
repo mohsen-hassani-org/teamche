@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %} {{block.super}} {{page_title}} {% endblock title %}
+{% block extra_head %}
+    <link href="{% static "cfd/css/gentelella_style.css" %}" rel="stylesheet">
+    {% if BIDI %}
+    <link href="{% static "cfd/css/gentelella_style_rtl.css" %}" rel="stylesheet">
+    {% endif %}
+{% endblock %}
+{%block page_content%}
+
+
+<div class="page-title">
+    <div class="title_left">
+        <h5>
+            <!-- Placement for HERE_YOU_ARE  links -->
+        </h5>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'مشخصات سیگنال' %} #{{signal.id}}
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <section class="content">
+                    <!-- info row -->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <strong>{% trans 'اطلاعات سیگنال' %}</strong>
+                            <table class="signal-table">
+                                <tr><td>{% trans 'دارایی' %}</td><td>{{signal.asset}}</td></tr>
+                                <tr><td>{% trans 'نوع معامله' %}</td><td>
+                                    <div class="signal-type-{{signal.entry_type}}">
+                                        {% if signal.entry_type == signal.TradeType.BUY %}
+                                            <i class="fa fa-arrow-up"></i>
+                                        {% else %}
+                                            <i class="fa fa-arrow-down"></i>
+                                        {% endif %}
+                                        {{signal.get_entry_type_display}}</div>
+                                </td></tr>
+                                <tr><td>{% trans 'وضعیت' %}</td><td>
+                                    <div class="signal-status signal-status-{{signal.status}}">
+                                        {% if signal.status == signal.SignalStatus.RUNNING %}<i class="fa fa-circle" id="blink"></i> {% endif %}
+                                        {{signal.get_status_display}}</div>
+                                </td></tr>
+                                {% if signal.canceled_datetime %}
+                                <tr><td>{% trans 'لغو سیگنال' %}</td><td>{{signal.canceled_datetime|date:"Y/m/d H:i"}}</td></tr>
+                                {% endif %}
+                                <tr><td>{% trans 'کاربر' %}</td><td>{{signal.user}}</td></tr>
+                                <tr><td>{% trans 'تاریخ' %}</td><td>{{signal.signal_datetime|date:"Y/m/d H:i"}}</td></tr>
+                                <tr><td>{% trans 'سود به ضرر' %}</td><td>{{signal.risk_reward}}</td></tr>
+                                <tr><td>{% trans 'شناسه Trade' %}</td><td>{% if signal.trade_id %}{{signal.trade_id}}{% endif %}</td></tr>
+                            </table>
+                        </div>
+                    
+                        <div class="col-xs-12 col-sm-4">
+                            <strong>{% trans 'قیمت‌های مهم' %}</strong>
+                            <table class="signal-table">
+                                <tr><td>{% trans 'ورود اول' %}</td><td>{{signal.entry_point1}}</td></tr>
+                                <tr><td>{% trans 'ورود دوم' %}</td><td>{{signal.entry_point2}}</td></tr>
+                                <tr><td>{% trans 'حد ضرر اول' %}</td><td>{{signal.stop_loss1}}</td></tr>
+                                <tr><td>{% trans 'حد ضرر دوم' %}</td><td>{{signal.stop_loss2}}</td></tr>
+                                <tr><td>{% trans 'حد سود اول' %}</td><td>{{signal.take_profit1}}</td></tr>
+                                <tr><td>{% trans 'حد سود دوم' %}</td><td>{{signal.take_profit2}}</td></tr>
+                                <tr><td>{% trans 'حد سود سوم' %}</td><td>{{signal.take_profit3}}</td></tr>
+                            </table>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4">
+                            <strong>{% trans 'نتیجه سیگنال' %}</strong>
+                            <table class="signal-table">
+                                <tr><td>{% trans 'پایان معامله' %}</td><td>{{signal.result_datetime|date:"Y/m/d H:i"}}</td></tr>
+                                <tr><td>{% trans 'پیپ نهایی' %}</td>
+                                    <td class="{% if signal.result_pip > 0 %}profit{% elif signal.result_pip < 0 %}loss{% else %}{%endif%}">{{signal.result_pip}}</td></tr>
+                                <tr><td>{% trans 'سود/ضرر' %}</td>
+                                    <td class="{% if signal.result_dollar > 0 %}profit{% elif signal.result_dollar < 0 %}loss{% else %}{%endif%}">{{signal.result_dollar}} $</td></tr>
+                                <tr><td>{% trans 'حجم' %}</td><td>{{signal.lot}}</td></tr>
+                            </table>
+                            {% trans 'اشتباهات' %}:
+                            <div class="signal-mistakes">
+                                {{signal.mistakes}}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="action-buttons">
+                    {% if signal.status == signal.SignalStatus.RUNNING %}
+                        <a class="btn btn-success" href="{% url 'cfd_profile_signals_fill' signal.id %}">{% trans 'اتمام سیگنال' %}</a>
+                        <a class="btn btn-danger" href="{% url 'cfd_profile_signals_cancel' signal.id %}">{% trans 'لغو سیگنال' %}</a>
+                    {% endif %}
+                    <a class="btn btn-default" href="{% url 'cfd_profile_signals_month_view' %}">{% trans 'بازگشت' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'تحلیل Classic' %}
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {% if not signal.classic_analysis %}
+                    <p>{% trans 'تحلیلی وجود ندارد' %}</p>
+                {% else %}
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="signal-table table">
+                                <tr>
+                                    <td>{% trans 'عنوان' %}</td>
+                                    <td colspan="6">{{signal.classic_analysis.title}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'تحلیل‌گر' %}</td>
+                                    <td colspan="6">{{signal.classic_analysis.user}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'تحلیل در TradingView' %}</td>
+                                    <td colspan="6">
+                                        {% if signal.classic_analysis.tradingview_url %}
+                                        <a href="{{signal.classic_analysis.tradingview_url}}" target="_blank">
+                                            {% trans 'مشاهده' %}
+                                        </a>
+                                        {% else %}
+                                        {% trans 'ندارد' %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'اخبار' %}</td>
+                                    <td colspan="6">{{signal.classic_analysis.news}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'روند اصلی' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.get_major_trend_display}}</td>
+                                    <td>{{signal.classic_analysis.get_major_trend_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_major_trend_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'روند میانی' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.get_intermediate_trend_display}}</td>
+                                    <td>{{signal.classic_analysis.get_intermediate_trend_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_intermediate_trend_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'الیوت' %}</td>
+                                    <td colspan="5">{{signal.classic_analysis.get_eliot_display}}</td>
+                                    <td>{{signal.classic_analysis.get_eliot_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'حمایت و مقاومت' %}</td>
+                                    <td colspan="5">
+                                        {% if signal.classic_analysis.support_resistance1_from %}{{signal.classic_analysis.support_resistance1_from}} {% trans 'تا' %} {{signal.classic_analysis.support_resistance1_to}}<br />{% endif %}
+                                        {% if signal.classic_analysis.support_resistance2_from %}{{signal.classic_analysis.support_resistance2_from}} {% trans 'تا' %} {{signal.classic_analysis.support_resistance2_to}}<br />{% endif %}
+                                        {% if signal.classic_analysis.support_resistance3_from %}{{signal.classic_analysis.support_resistance3_from}} {% trans 'تا' %} {{signal.classic_analysis.support_resistance3_to}}{% endif %}
+                                    </td>
+                                    <td>{{signal.classic_analysis.get_support_resistance_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'الگو' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.get_pattern_display}}</td>
+                                    <td>{{signal.classic_analysis.get_pattern_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_pattern_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'میانگین متحرک' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.moving}}</td>
+                                    <td>{{signal.classic_analysis.get_moving_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_moving_signal_display}}</td></tr>
+                                <tr>
+                                    <td>{% trans 'خطوط پیوت' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.get_pivot_display}}</td>
+                                    <td>{{signal.classic_analysis.get_pivot_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_pivot_signal_display}}</td></tr>
+                                <tr>
+                                    <td>{% trans 'اصلاح فیبوناچی' %}</td>
+                                    <td colspan="5">{{signal.classic_analysis.get_fibo_correction_display}}</td>
+                                    <td>{{signal.classic_analysis.get_fibo_correction_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'هدف فیبوناچی' %}</td>
+                                    <td colspan="5">{{signal.classic_analysis.get_fibo_target_display}}</td>
+                                    <td>{{signal.classic_analysis.get_fibo_target_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'واگرایی زمانی' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.time_divergent}}</td>
+                                    <td>{{signal.classic_analysis.get_time_divergent_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_time_divergent_signal_display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'کندل‌استیک' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.candle}}</td>
+                                    <td>{{signal.classic_analysis.get_candle_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_candle_signal_display}}</td>
+                                </tr>
+                                <!-- RSI -->
+                                <tr>
+                                    <td>{% trans 'RSI' %}</td>
+                                    <td>{% if signal.classic_analysis.rsi_oversold %}{% trans 'اشباع فروش' %}{% elif signal.classic_analysis.rsi_overbought%}{% trans 'اشباع خرید' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.rsi_divergence  %}{% trans 'واگرایی' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.rsi_hidden_divergence  %}{% trans 'واگرایی مخفی' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.rsi_trend_breakout  %}{% trans 'شکست خط روند' %}{% endif %}</td>
+                                    <td>{{signal.classic_analysis.get_rsi_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_rsi_signal_display}}</td>
+                                </tr>
+                                <!-- Mumentum -->
+                                <tr>
+                                    <td>{% trans 'Mumentum' %}</td>
+                                    <td>{% if signal.classic_analysis.momentum_oversold %}{% trans 'اشباع فروش' %}{% elif signal.classic_analysis.momentum_overbought%}{% trans 'اشباع خرید' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.momentum_divergence  %}{% trans 'واگرایی' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.momentum_hidden_divergence  %}{% trans 'واگرایی مخفی' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.momentum_trend_breakout  %}{% trans 'شکست خط روند' %}{% endif %}</td>
+                                    <td>{{signal.classic_analysis.get_momentum_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_momentum_signal_display}}</td>
+                                </tr>
+                                <!-- MACD -->
+                                <tr>
+                                    <td>{% trans 'MACD' %}</td>
+                                    <td>{% if signal.classic_analysis.macd_divergence  %}{% trans 'واگرایی' %}{% endif %}</td>
+                                    <td>{% if signal.classic_analysis.macd_hidden_divergence  %}{% trans 'واگرایی مخفی' %}{% endif %}</td>
+                                    <td colspan="2">{% if signal.classic_analysis.macd_trend_breakout  %}{% trans 'شکست خط روند' %}{% endif %}</td>
+                                    <td>{{signal.classic_analysis.get_macd_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_macd_signal_display}}</td>
+                                </tr>
+                                <!-- Stochastic -->
+                                <tr>
+                                    <td>{% trans 'Stochastic' %}</td>
+                                    <td colspan="2">{% if signal.classic_analysis.stochastic_oversold %}{% trans 'اشباع فروش' %}{% elif signal.classic_analysis.stochastic_overbought%}{% trans 'اشباع خرید' %}{% endif %}</td>
+                                    <td colspan="2">{% if signal.classic_analysis.stochastic_bullish_breakout %}{% trans 'شکست صعودی' %}{% elif signal.classic_analysis.stochastic_bearish_breakout %}{% trans 'شکست نزولی' %}{% endif %}</td>
+                                    <td>{{signal.classic_analysis.get_stochastic_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_stochastic_signal_display}}</td>
+                                </tr>
+                                <!-- ATR -->
+                                <tr>
+                                    <td>{% trans 'ATR' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.atr}}</td>
+                                    <td>{{signal.classic_analysis.get_atr_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_atr_signal_display}}</td>
+                                </tr>
+                                <!-- ATX -->
+                                <tr>
+                                    <td>{% trans 'ATX' %}</td>
+                                    <td colspan="4">{{signal.classic_analysis.atx}}</td>
+                                    <td>{{signal.classic_analysis.get_atx_timeframe_display}}</td>
+                                    <td>{{signal.classic_analysis.get_atx_signal_display}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" style="text-align: center; color:green"><strong>{% trans 'خرید:' %} {{classic_signals.buy}}</strong></div>
+                            <div class="col-md-4" style="text-align: center; color: red"><strong>{% trans 'فروش:' %} {{classic_signals.sell}}</strong></div>
+                            <div class="col-md-4" style="text-align: center; color: black"><strong>{% trans 'خنثی:' %} {{classic_signals.nature}}</strong></div>
+                            
+                        </div>
+                        <div class="signal-image">
+                            {% if signal.classic_analysis.image_url %}
+                                <a href="{{signal.classic_analysis.image_url}}" target="_blank">
+                                    <img src="{{signal.classic_analysis.image_url}}" />
+                                </a>
+                            {% else %}
+                                <img src={% static "cfd/images/noimg.png" %}/>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-6">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'تحلیل PTA' %}
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {% if not signal.pta_analysis %}
+                    <p>{% trans 'تحلیلی وجود ندارد' %}</p>
+                {% else %}
+                    <div class="row">
+                        <table class="signal-table table table-responsive">
+                            <tr><td>{% trans 'تحلیل‌گر' %}</td><td>{{signal.pta_analysis.user}}</td></tr>
+                            <tr><td>{% trans 'خبر؟' %}</td><td>
+                                {% if signal.pta_analysis.any_news %}{% trans 'بله' %}{% else %}{% trans 'خیر' %}{% endif %}
+                            </td></tr>
+                            <tr><td>{% trans 'جزئیات خبر' %}</td><td>{{signal.pta_analysis.news}}</td></tr>
+                            <tr><td>{% trans 'حرکت نمودار' %}</td><td>{{signal.pta_analysis.get_chart_move_display}}</td></tr>
+                            <tr><td>{% trans 'روند' %}</td><td>{{signal.pta_analysis.get_impulsive_direction_display}}</td></tr>
+                            <tr><td>{% trans 'تعداد بازگشت از ناحیه' %}</td><td>{{signal.pta_analysis.zone_rejects}}</td></tr>
+                            <tr><td>{% trans 'الگو' %}</td><td>{{signal.pta_analysis.get_pattern_display}}</td></tr>
+                            <tr><td>{% trans 'سناریو' %}</td><td>{{signal.pta_analysis.get_scenario_display}}</td></tr>
+                        </table>
+                        <div class="signal-image">
+                            {% if signal.pta_analysis.image_url %}
+                                <a href="{{signal.pta_analysis.image_url}}" target="_blank">
+                                    <img src="{{signal.pta_analysis.image_url}}" />
+                                </a>
+                            {% else %}
+                                <img src={% static "cfd/images/noimg.png" %}/>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

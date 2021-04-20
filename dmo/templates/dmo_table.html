@@ -1,0 +1,35 @@
+{% extends 'dmo_base.html' %}
+{% load i18n %}
+{% block container %}
+<div class="dmo-info">
+    <div class="dmo-info-block">
+        <h2 class="title">{% trans 'نمودار DMO در' %} {{dmo.month|month_name}} {{dmo.year}}</h2>
+        <h3>برای {{dmo.user.get_full_name}}</h3>
+    </div>
+    <div class="dmo-info-block">
+        <h4>{% trans 'هدف' %}</h4>
+        <p>{{dmo.goal}}</p>
+    </div>
+    <div class="dmo-info-block">
+        <h4>{% trans 'میکرواکشن‌ها' %}</h4>
+        <div>
+            {% for microaction in dmo.microactions.all %}
+                <div>{{microaction.title}}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+<div class="dmo-table">
+    <table>
+        {% for row in table%}
+        <tr>
+            {% for cell in row.values %}
+            <td class="cell {{cell.class}}">{{cell.value}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="clear"></div>
+{% endblock %}

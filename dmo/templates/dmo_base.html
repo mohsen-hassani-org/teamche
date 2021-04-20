@@ -1,0 +1,61 @@
+{% load static i18n %}
+<html dir="rtl" lang="fa-IR">
+<head>
+    <meta charset="utf-8" />
+    <link href="{% static "dmo/css/font-awesome.min.css" %}" rel="stylesheet">
+    <link href="{% static "dmo/css/style.css" %}" rel="stylesheet">
+    <style>        
+        .green {
+            background-color: {{dmo.color}};
+            color: #eee;
+        }
+        .title {
+            color: {{dmo.color}};
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dmo-container">
+        <div class="card">
+            <div id="dmo">
+                {% block container %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="actions">
+            <button class="dmo-btn btn-green card" onclick="window.print()"><i class="fa fa-print"> </i> {% trans 'چاپ' %}</button>
+            <button class="dmo-btn btn-green card" onclick="save()"><i class="fa fa-image"> </i> {% trans 'ایجاد تصویر' %}</button>
+        </div>
+        <div id="image-container">
+            <div class="image-background">
+                <div class="close" onclick="close_image()">x</div>
+                <div id="image"><img id="img" /></div> 
+            </div>
+        </div>
+    </div>
+<script src="{% static "vendors/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "dmo/html2canvas.js" %}"></script>
+<script>
+    function save() {
+        html2canvas(document.querySelector("#dmo"), {
+            scrollX: 0,
+            scrollY: -window.scrollY,
+            
+        }).then(canvas => {
+            // document.getElementById("image").appendChild(canvas);
+            var image = canvas.toDataURL("image/png");
+            var img = document.getElementById("img");
+            img.setAttribute("src", image);
+            document.getElementById("image-container").setAttribute("style", "visibility: visible");
+
+        });
+    }
+    function close_image() {
+        document.getElementById("img").setAttribute("src", "");
+        document.getElementById("image-container").setAttribute("style", "visibility: hidden");
+    }
+</script>
+</body>
+
+</html>
