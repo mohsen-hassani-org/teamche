@@ -168,16 +168,16 @@
                     {% for dmo in user_dmos.1 %}
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                         <div class="dmo-card">
-                            <div class="dmo-info">
+                            <div class="dmo-mini-info">
                                 <div>{{dmo.goal}}</div>
                                 {%if user_dmos.0.get_full_name%}{{user_dmos.0.get_full_name}}{%else%}{{user_dmos.0.username}}{%endif%}
                             </div>
-                            <div class="dmo-table">
+                            <div class="dmo-mini-table">
                                 <table>
                                     {% for row in dmo.data %}
                                     <tr>
                                         {% for cell in row.values %}
-                                        <td class="cell {{cell.class}}"></td>
+                                        <td class="cell cell-mini {{cell.class}}"></td>
                                         {% endfor %}
                                     </tr>
                                     {% endfor %}
