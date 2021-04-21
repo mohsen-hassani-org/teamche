@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'jalali_date',
     'rest_framework',
+    'django_quill',
     'utils',
     'accounts',
     'file',
@@ -127,6 +128,32 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+QUILL_CONFIGS = {
+    'default':{
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [
+                    {'font': []},
+                    {'header': []},
+                    'bold', 'italic', 'underline', 'strike', 'blockquote',
+                    'link', 'image', 'video', 'formula','clean',
+                    {'align': []},
+                    {'color': []},
+                    {'background': []},
+                    {'script': 'super' }, 
+                    {'script': 'sub' },
+                    'blockquote', 'code-block',
+                    {'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' },
+                    {'direction': 'rtl'},
+                    'clean',
+                ],
+            ]
+        }
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

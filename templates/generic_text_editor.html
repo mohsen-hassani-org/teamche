@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static jalali_tags i18n %}
+{% block title %} {{block.super}}
+{{ page_title }}
+{% endblock title %}
+
+{% block extra_head %}{{extra_head|safe}}
+    {% if form %}
+        {{ form.media }}
+    {% endif %}
+    <style>
+        .ql-toolbar {
+            direction: ltr;
+            text-align: center;
+            border: none !important;
+        }
+        .django-quill-widget {
+            border: none !important;
+        }
+        .ql-editor {
+            min-height: 400px;
+        }
+        .ql-editor p, .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6,
+         .ql-editor div, .ql-editor span {
+            color: black !important;
+        }
+        .editor-title, .editor-footer {
+            text-align: center;
+        }
+    </style>
+{% endblock extra_head %}
+
+
+
+{%block page_content%}
+<div class="x_panel">
+
+    <div class="x_content">
+        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" {% if form_submit_url_arg2 %}
+            action="{% url form_submit_url_name form_submit_url_arg1 form_submit_url_arg2 %}" {% elif form_submit_url_arg1 %}
+            action="{% url form_submit_url_name form_submit_url_arg1 %}" {% elif form_submit_url_name %} action="{% url form_submit_url_name %}"
+            {% else %} action="" {% endif %} {% if is_file_form %}enctype="multipart/form-data" {% endif %} method="POST">
+            {% csrf_token %}
+            {% if formset %}
+            {{ formset.management_form }}
+            {% endif %}
+            
+            <div class="editor-title"><h4>{{page_title}}<br /><small>{{page_subtitle}}</small></h4></div>
+
+        {% if desc %}
+            <div class="form-desc">
+                <div class="alert alert-{% if desc_type %}{{desc_type}}{% else %}info{%endif%}">
+                    {{desc|safe}}
+                </div>
+            </div>    
+        {% endif %}
+
+
+            {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+            {% endfor %}
+            
+            {% for field in form.visible_fields %}
+            
+           
+            {% if field.widget_type == 'quill' %}
+                {{ field }}
+            {% else %}
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{field.id_for_label}}">
+                        {{ field.label }}
+                        {% if field.field.required %}
+                        <span class="required">*</span>
+                        {%endif %}
+                    </label>
+                    <div class="col-md-6 col-sm-10 col-xs-12">
+                        {% if field.widget_type == 'checkbox' %}
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="{{field.name}}" id="id_{{field.name}}" {% if field.value %}checked{% endif %}>
+                            </label>
+                        </div>
+                        {% else %}
+                        {{ field }}
+                        {% endif %}
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% if form.is_bound %}
+                        {% if field.errors %}
+                        {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        <!-- {{ field } -->
+                        <!-- {% else } -->
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            
+            
+            {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% if form.is_bound %}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <!-- {{ field } -->
+            <!-- {% else } -->
+            {% endif %}
+
+            {% endfor %}
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    {% if form.errors %}
+                    {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="editor-footer">
+                    
+                    {% if submit_buttons %}
+                        {% for submit in submit_buttons %}
+                            <button type="submit" name="{{submit.name}}" class="btn {{submit.class}}">
+                                {{submit.title}}
+                            </button>
+                        {% endfor %}
+                    {% else %}
+                        <button type="submit" class="btn btn-success">
+                            {% if form_submit_btn_text %}
+                            {{form_submit_btn_text}}
+                            {% else %}
+                            {% trans 'ارسال' %}
+                            {% endif %}
+                        </button>
+                    {% endif %}
+
+                    {% if form_cancel_url_name %}
+                    <a {% if form_cancel_url_arg1 %} href="{% url form_cancel_url_name form_cancel_url_arg1 %}" {% else %}
+                        href="{% url form_cancel_url_name %}" {% endif %} class="btn btn-default">
+                        {% if form_cancel_btn_text %}
+                        {{form_cancel_btn_text}}
+                        {% else %}
+                        {% trans 'انصراف' %}
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{%endblock page_content%}

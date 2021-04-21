@@ -153,7 +153,10 @@ def view_team(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def manage_team(request, team_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
         form = TeamForm(request.POST, instance=team)
         if form.is_valid():
@@ -173,7 +176,10 @@ def manage_team(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def invite_to_team(request, team_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
         form = TeamInvitationForm(request.user, request.POST)
         if form.is_valid():
@@ -195,7 +201,10 @@ def invite_to_team(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def promote_to_leader(request, team_id, user_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     new_leader = get_object_or_404(User, id=user_id, id__in=team.users.all())
     old_leader = request.user
     team.leader = new_leader
@@ -210,7 +219,10 @@ def promote_to_leader(request, team_id, user_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def kick_from_team(request, team_id, user_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     user = get_object_or_404(User, id=user_id, id__in=team.users.all())
     if user == team.leader:
         data = {
@@ -313,7 +325,10 @@ def team_votes(request, team_id):
 @login_required
 @permission_required('team.manage_vote', raise_exception=True)
 def add_vote(request, team_id):
-    team = get_object_or_404(Team, id=team_id, users__in=[request.user])
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
         form = VoteForm(request.POST)
         if form.is_valid():
@@ -336,7 +351,10 @@ def add_vote(request, team_id):
 @login_required
 @permission_required('team.manage_vote', raise_exception=True)
 def edit_vote(request, vote_id):
-    vote = get_object_or_404(Vote, id=vote_id, team__leader=request.user)
+    if request.user.is_superuser:
+        vote = get_object_or_404(Vote, id=vote_id)
+    else:
+        vote = get_object_or_404(Vote, id=vote_id, team_leader=request.user)
     team = vote.team
     # if anyone participated in the vote, it cannot be deleted
     votes = UserVote.objects.filter(user_choice__vote=vote)
@@ -373,7 +391,10 @@ def edit_vote(request, vote_id):
 @login_required
 @permission_required('team.manage_vote', raise_exception=True)
 def delete_vote(request, vote_id):
-    vote = get_object_or_404(Vote, id=vote_id, team__leader=request.user)
+    if request.user.is_superuser:
+        vote = get_object_or_404(Vote, id=vote_id)
+    else:
+        vote = get_object_or_404(Vote, id=vote_id, team_leader=request.user)
     team = vote.team
     # if anyone participated in the vote, it cannot be deleted
     votes = UserVote.objects.filter(user_choice__vote=vote)
@@ -479,7 +500,10 @@ def vote_result(request, vote_id):
 @login_required
 @permission_required('team.manage_meeting', raise_exception=True)
 def vote_choices(request, vote_id):
-    vote = get_object_or_404(Vote, id=vote_id, team__leader=request.user)
+    if request.user.is_superuser:
+        vote = get_object_or_404(Vote, id=vote_id)
+    else:
+        vote = get_object_or_404(Vote, id=vote_id, team_leader=request.user)
     team = vote.team
     choices = vote.choices.all()
     data = {
@@ -505,7 +529,10 @@ def vote_choices(request, vote_id):
 @login_required
 @permission_required('team.manage_meeting', raise_exception=True)
 def add_vote_choices(request, vote_id):
-    vote = get_object_or_404(Vote, id=vote_id, team__leader=request.user)
+    if request.user.is_superuser:
+        vote = get_object_or_404(Vote, id=vote_id)
+    else:
+        vote = get_object_or_404(Vote, id=vote_id, team_leader=request.user)
     team = vote.team
     # if anyone participated in the vote, it cannot be deleted
     votes = UserVote.objects.filter(user_choice__vote=vote)
@@ -540,7 +567,10 @@ def add_vote_choices(request, vote_id):
 @login_required
 @permission_required('team.manage_meeting', raise_exception=True)
 def edit_vote_choices(request, choice_id):
-    choice = get_object_or_404(VoteChoice, id=choice_id, vote__team__leader=request.user)
+    if request.user.is_superuser:
+        choice = get_object_or_404(VoteChoice, id=choice_id)
+    else:
+        choice = get_object_or_404(VoteChoice, id=choice_id, vote__team__leader=request.user)
     vote = choice.vote
     # if anyone participated in the vote, it cannot be deleted
     votes = UserVote.objects.filter(user_choice__vote=vote)
@@ -575,7 +605,10 @@ def edit_vote_choices(request, choice_id):
 @login_required
 @permission_required('team.manage_meeting', raise_exception=True)
 def delete_vote_choices(request, choice_id):
-    choice = get_object_or_404(VoteChoice, id=choice_id, vote__team__leader=request.user)
+    if request.user.is_superuser:
+        choice = get_object_or_404(VoteChoice, id=choice_id)
+    else:
+        choice = get_object_or_404(VoteChoice, id=choice_id, vote__team__leader=request.user)
     vote = choice.vote
     # if anyone participated in the vote, it cannot be deleted
     votes = UserVote.objects.filter(user_choice__vote=vote)
@@ -636,7 +669,10 @@ def team_meetings(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def add_meeting(request, team_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
         form = MeetingForm(request.POST)
         if form.is_valid():
@@ -667,7 +703,10 @@ def add_meeting(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def edit_meeting(request, meeting_id):
-    meeting = get_object_or_404(Meeting, id=meeting_id, team__leader=request.user)
+    if request.user.is_superuser:
+        meeting = get_object_or_404(Meeting, id=meeting_id)
+    else:
+        meeting = get_object_or_404(Meeting, id=meeting_id, team__leader=request.user)
     if meeting.signatures.count() > 0:
         data = {
             'message': 'صورت‌جلسه این جلسه توسط حداقل یک نفر امضا شده است و امکان ویرایش آن وجود ندارد',
@@ -706,7 +745,10 @@ def edit_meeting(request, meeting_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def delete_meeting(request, meeting_id):
-    meeting = get_object_or_404(Meeting, id=meeting_id, team__leader=request.user)
+    if request.user.is_superuser:
+        meeting = get_object_or_404(Meeting, id=meeting_id)
+    else:
+        meeting = get_object_or_404(Meeting, id=meeting_id, team__leader=request.user)
     if meeting.signatures.count() > 0:
         data = {
             'message': 'صورت‌جلسه این جلسه توسط حداقل یک نفر امضا شده است و امکان حذف آن وجود ندارد',
@@ -731,7 +773,10 @@ def view_proceedings(request, meeting_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def edit_proceedings(request, meeting_id):
-    meeting = get_object_or_404(Meeting, id=meeting_id, team__leader=request.user)
+    if request.user.is_superuser:
+        meeting = get_object_or_404(Meeting, id=meeting_id)
+    else:
+        meeting = get_object_or_404(Meeting, id=meeting_id, team__leader=request.user)
     if meeting.signatures.count() > 0:
         data = {
             'message': 'صورت‌جلسه این جلسه توسط حداقل یک نفر امضا شده است و امکان ویرایش آن وجود ندارد',
@@ -884,7 +929,10 @@ def view_attendance_all(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def manage_attendance_day(request, team_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     now = datetime.now()
     if Attendance.objects.filter(date=now, team=team).count() > 0:
         data = {
@@ -930,7 +978,10 @@ def manage_attendance_day(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def add_attendance(request, team_id):
-    team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
         form = AttendanceFormWithDate(team, request.POST)
         if form.is_valid():
@@ -959,7 +1010,10 @@ def add_attendance(request, team_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def attendance_edit(request, attendance_id):
-    attendance = get_object_or_404(Attendance, id=attendance_id, team__leader=request.user)
+    if request.user.is_superuser:
+        attendance = get_object_or_404(Attendance, id=attendance_id)
+    else:
+        attendance = get_object_or_404(Attendance, id=attendance_id, team__leader=request.user)
     if request.method == 'POST':
         form = AttendanceForm(attendance.team, request.POST, instance=attendance)
         if form.is_valid():
@@ -987,7 +1041,10 @@ def attendance_edit(request, attendance_id):
 @login_required
 @permission_required('team.manage_team', raise_exception=True)
 def delete_attendance(request, attendance_id, team_id):
-    team = get_object_or_404(Team, id=team_id, users__in=[request.user])
+    if request.user.is_superuser:
+        attendance = get_object_or_404(Attendance, id=attendance_id)
+    else:
+        attendance = get_object_or_404(Attendance, id=attendance_id, team_leader=request.user)
     attendance = get_object_or_404(Attendance, id=attendance_id, team=team)
     attendance.delete()
     return redirect('team_profile_attendance_view_today', attendance_id=attendance_id)
