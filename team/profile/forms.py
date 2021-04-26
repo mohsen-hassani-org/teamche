@@ -84,10 +84,14 @@ class AttendanceFormWithDate(forms.ModelForm):
 class AttendanceSearchForm(forms.Form):
     TYPES = [(None, '----------')]
     TYPES += Attendance.AttendanceType.choices
-    user = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='کاربر')
+    user = forms.ModelChoiceField(queryset=User.objects.none(), required=False, label='کاربر')
     att_type = forms.ChoiceField(choices=TYPES, required=False, label='نوع حضوری')
     sdate = forms.DateField(required=False, widget=DateInput(), label='از تاریخ')
     edate = forms.DateField(required=False, widget=DateInput(), label='تا تاریخ')
+    def __init__(self, team, *args, **kwargs):
+        super(AttendanceSearchForm, self).__init__(*args, **kwargs)
+        self.fields['user'].queryset = team.users.all()
+    
 
 
 class VoteForm(forms.ModelForm):
