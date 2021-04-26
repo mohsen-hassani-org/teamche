@@ -886,15 +886,15 @@ def view_attendance_today(request, team_id):
 @login_required
 def view_attendance_all(request, team_id):
     team = get_object_or_404(Team, id=team_id, users__in=[request.user])
-    search_form = AttendanceSearchForm()
+    filter_form = AttendanceSearchForm()
     attendances = Attendance.objects.filter(team=team)
     if request.method == 'GET':
-        search_form = AttendanceSearchForm(request.GET)
-        if search_form.is_valid():
-            user = search_form.cleaned_data.get('user')
-            att_type = search_form.cleaned_data.get('att_type')
-            sdate = search_form.cleaned_data.get('sdate')
-            edate = search_form.cleaned_data.get('edate')
+        filter_form = AttendanceSearchForm(request.GET)
+        if filter_form.is_valid():
+            user = filter_form.cleaned_data.get('user')
+            att_type = filter_form.cleaned_data.get('att_type')
+            sdate = filter_form.cleaned_data.get('sdate')
+            edate = filter_form.cleaned_data.get('edate')
             attendances = attendances.filter(user=user) if user else attendances
             attendances = attendances.filter(attendance_type=att_type) if att_type else attendances
             attendances = attendances.filter(date__gte=sdate) if sdate else attendances
@@ -922,7 +922,7 @@ def view_attendance_all(request, team_id):
                 'url_arg1': team_id,
             }
         ],
-        'search_form': search_form,
+        'filter_form': filter_form,
     }
     return render(request, GENERIC_MODEL_LIST, data)
 

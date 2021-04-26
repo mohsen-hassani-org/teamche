@@ -19,17 +19,97 @@
     <div class="col-md-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>
+                <h2 id="page_title">
                     {{ page_title }}
                     <small>{{ page_subtitle }}</small>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
+                    {% if filter_form %}<li><a class="filter-link"><i class="fa fa-filter"></i></a></li>{% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cloud-download"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="csv-link">.CSV</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                
+                <!-- FILTER BOX BEGIN -->
+                {% if filter_form %}
+                <div id="filter_box" class="hide">
+                    <form class="filter-form" method="GET">
+                        {% for hidden_field in filter_form.hidden_fields %}
+                        {{ hidden_field }}
+                        {% endfor %}
+
+                        {% if filter_form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in filter_form.non_field_errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            {% for field in filter_form.visible_fields %}
+                            <div class="form-group col-md-2">
+                                <label for="{{field.id_for_label}}">{{field.label}}</label>
+                                <div class="">
+                                    {% if field.widget_type == 'checkbox' %}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="{{field.name}}" id="id_{{field.name}}" {% if field.value %}checked{% endif %}>
+                                        </label>
+                                    </div>
+                                    {% else %}
+                                    {{ field }}
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% if filter_form.is_bound %}
+                                    {% if field.errors %}
+                                    {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <!-- {{ field } -->
+                                    <!-- {% else } -->
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="form-group col-md-4">
+                                <div class="actions">
+                                    <button type="submit" class="btn btn-success">
+                                        {% trans 'اعمال' %}
+                                    </button>
+                                    <a class="btn btn-default" href="{{request.path}}">{% trans 'پاک کردن' %}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if form.errors %}
+                        <div class="ln_solid"></div>
+                            <div class="">
+                                {% for error in filter_form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+                {% endif %}
+                <!-- FILTER BOX END -->
 
                 {% if header_buttons %}
                     <div class="">
@@ -56,7 +136,7 @@
 
 
                 <div class="table-responsive">
-                    <table class="table table-striped jambo_table bulk_action">
+                    <table class="table table-striped jambo_table bulk_action" id="data_table">
                         <thead>
                             <tr class="headings">
                                 <th class="column-title">#</th>
