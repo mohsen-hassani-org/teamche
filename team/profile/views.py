@@ -323,7 +323,7 @@ def team_votes(request, team_id):
     
 
 @login_required
-@permission_required('team.manage_vote', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def add_vote(request, team_id):
     if request.user.is_superuser:
         team = get_object_or_404(Team, id=team_id)
@@ -349,7 +349,7 @@ def add_vote(request, team_id):
 
 
 @login_required
-@permission_required('team.manage_vote', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def edit_vote(request, vote_id):
     if request.user.is_superuser:
         vote = get_object_or_404(Vote, id=vote_id)
@@ -389,7 +389,7 @@ def edit_vote(request, vote_id):
 
 
 @login_required
-@permission_required('team.manage_vote', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def delete_vote(request, vote_id):
     if request.user.is_superuser:
         vote = get_object_or_404(Vote, id=vote_id)
@@ -498,7 +498,7 @@ def vote_result(request, vote_id):
 
 
 @login_required
-@permission_required('team.manage_meeting', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def vote_choices(request, vote_id):
     if request.user.is_superuser:
         vote = get_object_or_404(Vote, id=vote_id)
@@ -527,7 +527,7 @@ def vote_choices(request, vote_id):
 
 
 @login_required
-@permission_required('team.manage_meeting', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def add_vote_choices(request, vote_id):
     if request.user.is_superuser:
         vote = get_object_or_404(Vote, id=vote_id)
@@ -565,7 +565,7 @@ def add_vote_choices(request, vote_id):
 
 
 @login_required
-@permission_required('team.manage_meeting', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def edit_vote_choices(request, choice_id):
     if request.user.is_superuser:
         choice = get_object_or_404(VoteChoice, id=choice_id)
@@ -603,7 +603,7 @@ def edit_vote_choices(request, choice_id):
 
 
 @login_required
-@permission_required('team.manage_meeting', raise_exception=True)
+@permission_required('team.manage_team', raise_exception=True)
 def delete_vote_choices(request, choice_id):
     if request.user.is_superuser:
         choice = get_object_or_404(VoteChoice, id=choice_id)
