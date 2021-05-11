@@ -126,6 +126,24 @@
 .comment img {width: 100px; border-radius: 50px;}
 .comment-datetime {margin-top: 30px;}
 .comment-datetime div {opacity: 0.5;}
+.new-comment {
+    border-radius: 15px;
+    box-shadow: 0px 0px 5px 5px #eee;
+    padding: 20px;
+    margin-top: 50px;
+}
+.new-comment form textarea {
+    height: 100px;
+    margin-bottom: 5px;
+}
+
+.new-comment h3 {
+    color: #d97c4f;
+}
+.new-comment h3 small {
+    font-size: 50%;
+    margin: 10px;
+}
 
 
 

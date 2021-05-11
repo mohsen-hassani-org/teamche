@@ -76,7 +76,7 @@
                         <div class="col-xs-12 col-sm-4">
                             <strong>{% trans 'نتیجه سیگنال' %}</strong>
                             <table class="signal-table">
-                                <tr><td>{% trans 'ورود تحلیل‌گر' %}</td><td>{% if signal.self_enterd %}{% trans 'بله' %}{% else %}{% trans 'خیر' %}{% endif %}</td></tr>
+                                <tr><td>{% trans 'ورود تحلیل‌گر' %}</td><td>{% if signal.self_entered %}{% trans 'بله' %}{% else %}{% trans 'خیر' %}{% endif %}</td></tr>
                                 <tr><td>{% trans 'پایان معامله' %}</td><td>{{signal.result_datetime|date:"Y/m/d H:i"}}</td></tr>
                                 <tr><td>{% trans 'پیپ نهایی' %}</td>
                                     <td class="{% if signal.result_pip > 0 %}profit{% elif signal.result_pip < 0 %}loss{% else %}{%endif%}">{{signal.result_pip}}</td></tr>
@@ -114,11 +114,11 @@
                             data-toggle="tab" aria-expanded="false">تحلیل PTA</a>
                     </li>
                     <li role="presentation" class=""><a href="#comments" role="tab" id="profile-tab"
-                            data-toggle="tab" aria-expanded="false">نظرات</a>
+                            data-toggle="tab" aria-expanded="false">نظرات <span class="label label-danger">{{signal.comments.count}}</span></a>
                     </li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade  in" id="classic" aria-labelledby="home-tab">
+                    <div role="tabpanel" class="tab-pane fade active in" id="classic" aria-labelledby="home-tab">
                         <div class="x_content">
                         {% if not signal.classic_analysis %}
                             <p>{% trans 'تحلیلی وجود ندارد' %}</p>
@@ -322,8 +322,8 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade active in" id="comments" aria-labelledby="home-tab">
-                        {% if not signal.comments %}
+                    <div role="tabpanel" class="tab-pane fade in" id="comments" aria-labelledby="home-tab">
+                        {% if not signal.comments.all %}
                             <p>{% trans 'هیچ نظریی برای این سیگنال ثبت نشده است' %}</p>
                         {% else %}
                             <ul class="comments">
@@ -346,6 +346,15 @@
                                 {% endfor %}
                             </ul>
                         {% endif %}
+                        <div class="new-comment">
+                            <form method="POST">
+                                {%csrf_token%}
+                                <h3>نظر شما<small>{% trans 'وارد شده به عنوان:' %} {{request.user}}</small></h3>
+                                <textarea name="body" cols="10" rows="10" placeholder="{% trans 'نظر خود را ثبت کنید' %}"></textarea>
+                                <button class="btn" type="submit">{% trans 'ارسال نظر' %}</button>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
             </div>

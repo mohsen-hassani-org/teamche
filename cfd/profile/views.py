@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm
-from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm
+from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm
 from cfd.models import Signal, PTAAnalysis, ClassicAnalysis
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
 from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
@@ -39,9 +39,20 @@ def signals_month(request):
 def signal_info(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
     classic_signal_count = classic_analysis_signal_count(signal.classic_analysis)
+    if request.method == 'POST':
+        comment_form = SignalCommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.post = signal
+            comment.save()
+            return redirect('cfd_profile_signals_info', signal_id=signal_id)
+    else:
+        comment_form = SignalCommentForm()
     now = datetime.now()
     data = {
         'signal': signal,
+        'comment_form': comment_form,
         'year': now.year,
         'month': now.strftime('%B'),
         'classic_signals': classic_signal_count,

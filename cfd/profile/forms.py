@@ -1,8 +1,9 @@
 from django import forms
+from django.forms import widgets
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from datetimewidget.widgets import DateTimeWidget
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment
 
 class SignalForm(forms.ModelForm):
     """Form definition for Signal."""
@@ -12,11 +13,12 @@ class SignalForm(forms.ModelForm):
 
         model = Signal
         fields = ('asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',)
-        fields += ( 'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis',)
+        fields += ( 'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis', 'self_entered', )
         widgets = {
             #Use localization and bootstrap 3
             'signal_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3),
             'entry_type': forms.widgets.RadioSelect(),
+            'self_enterd': forms.widgets.RadioSelect(),
         }
         
     def __init__(self, *args, **kwargs):
@@ -131,3 +133,11 @@ class PTAAnalysisForm(forms.ModelForm):
         model = PTAAnalysis
         fields = ('any_news', 'news_detail', 'chart_move', 'impulsive_direction', 'zone_rejects', 'pattern', 'scenario', 'image_url', )
 
+
+class SignalCommentForm(forms.ModelForm):
+    """Form definition for SignalComment."""
+    class Meta:
+        """Meta definition for SignalCommentform."""
+        model = Comment
+        fields = ('body',)
+        widgets = {'body': forms.Textarea()}
