@@ -123,6 +123,11 @@ class ClassicAnalysis(models.Model):
         C74 = '74', '74%'
     class FiboTarget(models.TextChoices):
         NO_TARGET = 'nt', _('بدون هدف')
+        T23 = '23', '23.6%'
+        T38 = '38', '38.2%'
+        T50 = '50', '50%'
+        T61 = '61', '61.8%'
+        T74 = '74', '74%'
         T127 = '127', '127%'
         T150 = '150', '150%'
         T161 = '161', '161.8%'
