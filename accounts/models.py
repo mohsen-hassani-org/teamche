@@ -29,8 +29,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(
         max_length=11, null=True, blank=True, verbose_name=_('شماره تماس'))
-    avatar = models.ImageField(max_length=300, upload_to='account/avatars', null=True,
-                               blank=True, validators=[file_size_validator], verbose_name=_('تصویر نمایه'))
+    avatar = models.ImageField(max_length=300, upload_to='account/avatars', default='account/profile.png',
+                               validators=[file_size_validator], verbose_name=_('تصویر نمایه'))
 
     class Meta:
         def __str__(self):
