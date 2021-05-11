@@ -84,9 +84,7 @@
                                 <tr><td>{% trans 'حجم' %}</td><td>{{signal.lot}}</td></tr>
                             </table>
                             {% trans 'اشتباهات' %}:
-                            <div class="signal-mistakes">
-                                {{signal.mistakes|safe}}
-                            </div>
+                            <div class="signal-mistakes">{{signal.mistakes}}</div>
                         </div>
                     </div>
                 </section>
