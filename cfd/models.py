@@ -1,13 +1,29 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import SET_NULL
 from django.utils.translation import ugettext_lazy  as _
-from django.contrib.contenttypes import fields
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 
 
 # Create your models here.
 
+class Comment(models.Model):
+    class Meta:
+        verbose_name = _('نظر')
+        verbose_name_plural = _('نظرات')
+    def __str__(self):
+        return f'{self.user} on {self.post}: {self.body}'
+    user = models.ForeignKey(User, on_delete=SET_NULL, null=True, verbose_name=_('کاربر'))
+    create_on = models.DateTimeField(auto_now=True, verbose_name=_('تاریخ'))
+    body = models.CharField(max_length=500, verbose_name=_('متن نظر'))
+    public = models.BooleanField(default=True, verbose_name=_('عمومی'))
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    post = GenericForeignKey('content_type', 'object_id')
+
+ 
 class Asset(models.Model):
     class Meta:
         verbose_name = _('دارایی')
@@ -48,6 +64,7 @@ class PTAAnalysis(models.Model):
     scenario = models.CharField(max_length=3, choices=ScenarioTypes.choices, verbose_name=_('سناریو'))
     datetime = models.DateTimeField(auto_now=True)
     image_url = models.URLField(max_length=300, null=True, blank=True)
+    comments = GenericRelation(Comment)
 
 class ClassicAnalysis(models.Model):
     class Meta:
@@ -188,6 +205,7 @@ class ClassicAnalysis(models.Model):
     datetime = models.DateTimeField(auto_now=True)
     image_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('URL تصویر'))
     tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
+    comments = GenericRelation(Comment)
 
 class Signal(models.Model):
     class TradeType(models.TextChoices):
@@ -225,4 +243,6 @@ class Signal(models.Model):
     classic_analysis = models.OneToOneField(ClassicAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل Classic'))
     status = models.CharField(max_length=8, choices=SignalStatus.choices, default=SignalStatus.RUNNING, verbose_name=_('وضعیت'))
     result_image_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('تصویر نهایی'))
+    comments = GenericRelation(Comment, verbose_name=_('نظرات'))
 
+   

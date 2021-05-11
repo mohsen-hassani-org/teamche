@@ -119,6 +119,14 @@
 }
 
 
+/* comments */
+.comments li {list-style: none; margin-bottom: 20px;}
+.comment .avatar {float: right; margin-left: 20px;}
+.comment .body { right; width: auto;}
+.comment img {width: 100px; border-radius: 50px;}
+.comment-datetime {margin-top: 30px;}
+.comment-datetime div {opacity: 0.5;}
+
 
 
 
