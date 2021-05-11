@@ -243,6 +243,7 @@ class Signal(models.Model):
     classic_analysis = models.OneToOneField(ClassicAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل Classic'))
     status = models.CharField(max_length=8, choices=SignalStatus.choices, default=SignalStatus.RUNNING, verbose_name=_('وضعیت'))
     result_image_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('تصویر نهایی'))
+    self_entered = models.BooleanField(default=True, verbose_name=_('وارد شده‌اید؟'))
     comments = GenericRelation(Comment, verbose_name=_('نظرات'))
 
    

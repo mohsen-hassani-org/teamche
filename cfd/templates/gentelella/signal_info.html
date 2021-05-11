@@ -76,6 +76,7 @@
                         <div class="col-xs-12 col-sm-4">
                             <strong>{% trans 'نتیجه سیگنال' %}</strong>
                             <table class="signal-table">
+                                <tr><td>{% trans 'ورود تحلیل‌گر' %}</td><td>{% if signal.self_enterd %}{% trans 'بله' %}{% else %}{% trans 'خیر' %}{% endif %}</td></tr>
                                 <tr><td>{% trans 'پایان معامله' %}</td><td>{{signal.result_datetime|date:"Y/m/d H:i"}}</td></tr>
                                 <tr><td>{% trans 'پیپ نهایی' %}</td>
                                     <td class="{% if signal.result_pip > 0 %}profit{% elif signal.result_pip < 0 %}loss{% else %}{%endif%}">{{signal.result_pip}}</td></tr>
