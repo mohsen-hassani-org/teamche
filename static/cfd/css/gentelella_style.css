@@ -88,6 +88,9 @@
 .success-card a, .failure-card a, .canceled-card a {
     color: wheat;
 }
+.signal-image img {
+    width: 100%;
+}
 .signal-mistakes {
     color: goldenrod;
     white-space: pre;

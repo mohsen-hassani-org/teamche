@@ -30,7 +30,7 @@
             </div>
             <div class="x_content">
                 <section class="content">
-                    <!-- info row -->
+                                       <!-- Begin info row -->
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <strong>{% trans 'اطلاعات سیگنال' %}</strong>
@@ -88,6 +88,22 @@
                             <div class="signal-mistakes">{{signal.mistakes}}</div>
                         </div>
                     </div>
+                    <!-- End info row-->
+                     {% if signal.result_image_url %}
+                    <!-- Begin image row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="signal-image">
+                                <a href="{{signal.result_image_url}}" target="_blank">
+                                    <img src="{{signal.result_image_url}}" alt={{signal.asset}} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End image row -->
+                    {% endif %}
+
+
                 </section>
                 <div class="action-buttons">
                     {% if signal.status == signal.SignalStatus.RUNNING %}
