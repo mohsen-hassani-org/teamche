@@ -1042,6 +1042,10 @@ def attendance_edit(request, attendance_id):
 @permission_required('team.manage_team', raise_exception=True)
 def delete_attendance(request, attendance_id, team_id):
     if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
+    if request.user.is_superuser:
         attendance = get_object_or_404(Attendance, id=attendance_id)
     else:
         attendance = get_object_or_404(Attendance, id=attendance_id, team_leader=request.user)
