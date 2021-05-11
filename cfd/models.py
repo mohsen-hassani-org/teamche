@@ -46,22 +46,31 @@ class PTAAnalysis(models.Model):
         UP_TRIANGLE = 'up_tri', 'مثلث صعودی'
         DW_TRIANGLE = 'dw_tri', 'مثلث نزولی'
         RECTANGLE = 'rct', 'مستطیل'
+        HEAD_AND_SHOULDER = 'h_sh', 'سر و شانه'
+        DOUBLE_TOP = 'd_top', 'دو سقف'
+        DOUBLE_BOTTOM = 'd_btm', 'دو کف'
+
     class ScenarioTypes(models.TextChoices):
         SCENARIO1 = 'sc1', _('سناریو شماره 1')
         SCENARIO2 = 'sc2', _('سناریو شماره 2')
         SCENARIO3 = 'sc3', _('سناریو شماره 3')
         SCENARIO4 = 'sc4', _('سناریو شماره 4')
         SCENARIO5 = 'sc5', _('سناریو شماره 5')
+    class EntranceTypes(models.TextChoices):
+        FAST = 'fast', 'FAST'
+        DISCOUNT = 'dcnt', 'DISCOUNT'
+    
     def __str__(self):
         return '{user} - date: {date} - time: {time}'.format(user=self.user, date=self.datetime.strftime('%Y/%m/%d'), time=self.datetime.strftime('%H:%M:%S'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='pta_analysis', verbose_name=_('کاربر'))
     any_news = models.BooleanField(default=False, verbose_name=_('خبر؟'), help_text=_('در صورتی که در مدت معامله، خبری مرتبط با دارایی وجود دارد این گزینه را تیک بزنید'))
     news_detail = models.TextField(verbose_name=_('جزئیات خبر'), null=True, blank=True, help_text=_('توجه: سی دقیقه قبل و بعد از خبر نباید وارد معامله شوید، اما در صورتی که برای انجام معامله مصر هستید، اطلاعات خبر را اینجا وارد کنید.'))
-    chart_move = models.CharField(max_length=3, choices=ChartMove.choices, verbose_name=_('حرکت نمودار'))
+    chart_move = models.CharField(max_length=3, choices=ChartMove.choices, verbose_name=_('حرکت نمودار'), default=ChartMove.IMPULSIVE)
     impulsive_direction = models.CharField(max_length=2, choices=ImpulsiveDirection.choices, verbose_name=_('جهت روند'), null=True, blank=True)
-    zone_rejects = models.PositiveSmallIntegerField(verbose_name=_('مقاومت ناحیه'), help_text=_('تعداد برخورد و بازگشت قیمت از ناحیه را مشخص کنید '))
+    zone_rejects = models.PositiveSmallIntegerField(verbose_name=_('مقاومت ناحیه'), help_text=_('تعداد برخورد و بازگشت قیمت از ناحیه را مشخص کنید '), default=3)
     pattern = models.CharField(max_length=8, choices=PTAPattern.choices, null=True, blank=True, verbose_name=_('الگوی نمودار'))
-    scenario = models.CharField(max_length=3, choices=ScenarioTypes.choices, verbose_name=_('سناریو'))
+    scenario = models.CharField(max_length=3, choices=ScenarioTypes.choices, verbose_name=_('سناریو'), default=ScenarioTypes.SCENARIO3)
+    entrance = models.CharField(max_length=4, choices=EntranceTypes.choices, verbose_name=_('روش ورود'), default=EntranceTypes.DISCOUNT)
     datetime = models.DateTimeField(auto_now=True)
     image_url = models.URLField(max_length=300, null=True, blank=True)
     comments = GenericRelation(Comment)
