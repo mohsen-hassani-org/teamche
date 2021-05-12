@@ -131,7 +131,7 @@ class PTAAnalysisForm(forms.ModelForm):
     class Meta:
         model = PTAAnalysis
         fields = ('any_news', 'news_detail', 'chart_move', 'impulsive_direction', 'zone_rejects', )
-        fields += ('pattern', 'scenario', 'entrance', 'image_url', )
+        fields += ('pattern', 'candle_pressure', 'scenario', 'entrance', 'image_url', )
 
 
 class SignalCommentForm(forms.ModelForm):

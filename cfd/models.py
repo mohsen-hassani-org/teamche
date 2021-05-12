@@ -69,6 +69,7 @@ class PTAAnalysis(models.Model):
     impulsive_direction = models.CharField(max_length=2, choices=ImpulsiveDirection.choices, verbose_name=_('جهت روند'), null=True, blank=True)
     zone_rejects = models.PositiveSmallIntegerField(verbose_name=_('مقاومت ناحیه'), help_text=_('تعداد برخورد و بازگشت قیمت از ناحیه را مشخص کنید '), default=3)
     pattern = models.CharField(max_length=8, choices=PTAPattern.choices, null=True, blank=True, verbose_name=_('الگوی نمودار'))
+    candle_pressure = models.BooleanField(default=False, verbose_name=_('فشارخوانی'))
     scenario = models.CharField(max_length=3, choices=ScenarioTypes.choices, verbose_name=_('سناریو'), default=ScenarioTypes.SCENARIO3)
     entrance = models.CharField(max_length=4, choices=EntranceTypes.choices, verbose_name=_('روش ورود'), default=EntranceTypes.DISCOUNT)
     datetime = models.DateTimeField(auto_now=True)
