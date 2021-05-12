@@ -120,9 +120,9 @@ def classic_analysis_signal_count(analysis):
         nature += 1
 
     # atx
-    if analysis.atx_signal == ClassicAnalysis.SignalTypes.BUY:
+    if analysis.adx_signal == ClassicAnalysis.SignalTypes.BUY:
         buy += 1
-    elif analysis.atx_signal == ClassicAnalysis.SignalTypes.SELL:
+    elif analysis.adx_signal == ClassicAnalysis.SignalTypes.SELL:
         sell += 1
     else:
         nature += 1

@@ -84,7 +84,7 @@ class ClassicAnalysisForm(forms.ModelForm):
         fields += ('macd_divergence', 'macd_hidden_divergence', 'macd_timeframe', 'macd_signal',) # 41, 42, 43, 44
         fields += ('stochastic_oversold', 'stochastic_overbought', 'stochastic_bullish_breakout','stochastic_bearish_breakout', 'stochastic_timeframe', 'stochastic_signal',) # 45, 46, 47, 48, 49, 50
         fields += ('atr', 'atr_timeframe', 'atr_signal',) # 51, 52, 53
-        fields += ('atx', 'atx_timeframe', 'atx_signal',) # 54, 55, 56
+        fields += ('adx', 'adx_timeframe', 'adx_signal',) # 54, 55, 56
         fields += ('image_url', 'title', 'desc', 'tradingview_url', ) # 57, 58, 59, 60
         fields += ('support_resistance1_from', 'support_resistance1_to', ) # 61, 62
         fields += ('support_resistance2_from', 'support_resistance2_to', ) # 63, 64
