@@ -126,6 +126,29 @@
                 </div>
             </div>
 
+            <!-- News -->
+            <div class="form-group">
+                <label class="control-label col-md-2" for="{{form.visible_fields.0.id_for_label}}">
+                    {{form.visible_fields.0.label}}
+                    {% if form.visible_fields.0.field.required %}<span class="required"> *</span>{% endif %}
+                </label>
+                <div class="col-md-8">
+                    {{form.visible_fields.0}}
+                    {% if form.visible_fields.0.help_text %}
+                        <small class="form-text text-muted">{{ form.visible_fields.0.help_text }}</small>
+                    {% endif %}
+                    {% if form.is_bound %}
+                        {% if form.visible_fields.0.errors %}
+                            {% for error in form.visible_fields.0.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
 
 
             <table class="table table-hover table-bordered form-table">
@@ -136,30 +159,6 @@
                     <td>{% trans 'سیگنال' %}</td>
                 </thead>
                 <tbody>
-                    <!-- News -->
-                    <tr>
-                        <td>
-                            <label class="control-label" for="{{form.visible_fields.0.id_for_label}}">
-                            {{form.visible_fields.0.label}}
-                            {% if form.visible_fields.0.field.required %}<span class="required"> *</span>{% endif %}
-                            </label>
-                        </td>
-                        <td colspan="3">
-                            {{form.visible_fields.0}}
-                            {% if form.visible_fields.0.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.0.help_text }}</small>
-                            {% endif %}
-                            {% if form.is_bound %}
-                                {% if form.visible_fields.0.errors %}
-                                    {% for error in form.visible_fields.0.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                    </tr>
                     <!-- Major trend -->
                     <tr>
                         <td>
@@ -1424,7 +1423,7 @@
                             {% endif %}
                         </td>
                     </tr>
-                    <!-- Image URL -->
+                    <!-- TradingView URL -->
                     <tr>
                         <td>
                             <label class="control-label" for="{{form.visible_fields.57.id_for_label}}">
@@ -1448,22 +1447,22 @@
                             {% endif %}
                         </td>
                     </tr>
-                    <!-- TradingView URL -->
+                    <!-- Image URL -->
                     <tr>
                         <td>
-                            <label class="control-label" for="{{form.visible_fields.60.id_for_label}}">
-                            {{form.visible_fields.60.label}}
-                            {% if form.visible_fields.60.field.required %}<span class="required"> *</span>{% endif %}
+                            <label class="control-label" for="{{form.visible_fields.54.id_for_label}}">
+                            {{form.visible_fields.54.label}}
+                            {% if form.visible_fields.54.field.required %}<span class="required"> *</span>{% endif %}
                             </label>
                         </td>
                         <td colspan="3">
-                            {{ form.visible_fields.60 }}
-                            {% if form.visible_fields.60.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.60.help_text }}</small>
+                            {{ form.visible_fields.54 }}
+                            {% if form.visible_fields.54.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.54.help_text }}</small>
                             {% endif %}
                             {% if form.is_bound %}
-                                {% if form.visible_fields.60.errors %}
-                                    {% for error in form.visible_fields.60.errors %}
+                                {% if form.visible_fields.54.errors %}
+                                    {% for error in form.visible_fields.54.errors %}
                                     <div class="invalid-feedback">
                                         {{ error }}
                                     </div>
