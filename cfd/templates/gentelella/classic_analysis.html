@@ -7,7 +7,7 @@
 {% block extra_head %}{{extra_head|safe}}
 
     <style>
-        @media (min-width: 768px){
+        @media (min-width: 765px){
             .form-horizontal .control-label {
                 text-align: right;
         }}
@@ -82,18 +82,18 @@
 
             <!-- Title -->
             <div class="form-group">
-                <label class="control-label col-md-2" for="{{form.visible_fields.58.id_for_label}}">
-                    {{form.visible_fields.58.label}}
-                    {% if form.visible_fields.58.field.required %}<span class="required"> *</span>{% endif %}
+                <label class="control-label col-md-2" for="{{form.visible_fields.55.id_for_label}}">
+                    {{form.visible_fields.55.label}}
+                    {% if form.visible_fields.55.field.required %}<span class="required"> *</span>{% endif %}
                 </label>
                 <div class="col-md-8">
-                    {{form.visible_fields.58}}
-                    {% if form.visible_fields.58.help_text %}
-                        <small class="form-text text-muted">{{ form.visible_fields.58.help_text }}</small>
+                    {{form.visible_fields.55}}
+                    {% if form.visible_fields.55.help_text %}
+                        <small class="form-text text-muted">{{ form.visible_fields.55.help_text }}</small>
                     {% endif %}
                     {% if form.is_bound %}
-                        {% if form.visible_fields.58.errors %}
-                            {% for error in form.visible_fields.58.errors %}
+                        {% if form.visible_fields.55.errors %}
+                            {% for error in form.visible_fields.55.errors %}
                                 <div class="invalid-feedback">
                                     {{ error }}
                                 </div>
@@ -105,18 +105,18 @@
 
             <!-- Desc -->
             <div class="form-group">
-                <label class="control-label col-md-2" for="{{form.visible_fields.59.id_for_label}}">
-                    {{form.visible_fields.59.label}}
-                    {% if form.visible_fields.59.field.required %}<span class="required"> *</span>{% endif %}
+                <label class="control-label col-md-2" for="{{form.visible_fields.56.id_for_label}}">
+                    {{form.visible_fields.56.label}}
+                    {% if form.visible_fields.56.field.required %}<span class="required"> *</span>{% endif %}
                 </label>
                 <div class="col-md-8">
-                    {{form.visible_fields.59}}
-                    {% if form.visible_fields.59.help_text %}
-                        <small class="form-text text-muted">{{ form.visible_fields.59.help_text }}</small>
+                    {{form.visible_fields.56}}
+                    {% if form.visible_fields.56.help_text %}
+                        <small class="form-text text-muted">{{ form.visible_fields.56.help_text }}</small>
                     {% endif %}
                     {% if form.is_bound %}
-                        {% if form.visible_fields.59.errors %}
-                            {% for error in form.visible_fields.59.errors %}
+                        {% if form.visible_fields.56.errors %}
+                            {% for error in form.visible_fields.56.errors %}
                                 <div class="invalid-feedback">
                                     {{ error }}
                                 </div>
@@ -324,13 +324,13 @@
                                 <tr id="zone_row1">
                                     <td>
                                         <label>{% trans 'از ' %}</label>
-                                        {{ form.visible_fields.61 }}
-                                        {% if form.visible_fields.61.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.61.help_text }}</small>
+                                        {{ form.visible_fields.58 }}
+                                        {% if form.visible_fields.58.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.58.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.61.errors %}
-                                                {% for error in form.visible_fields.61.errors %}
+                                            {% if form.visible_fields.58.errors %}
+                                                {% for error in form.visible_fields.58.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -340,13 +340,13 @@
                                     </td>
                                     <td>
                                         <label>{% trans 'تا ' %}</label>
-                                        {{ form.visible_fields.62 }}
-                                        {% if form.visible_fields.62.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.62.help_text }}</small>
+                                        {{ form.visible_fields.59 }}
+                                        {% if form.visible_fields.59.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.59.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.62.errors %}
-                                                {% for error in form.visible_fields.62.errors %}
+                                            {% if form.visible_fields.59.errors %}
+                                                {% for error in form.visible_fields.59.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -360,13 +360,13 @@
                                 <tr id="zone_row2">
                                     <td>
                                         <label>{% trans 'از ' %}</label>
-                                        {{ form.visible_fields.63 }}
-                                        {% if form.visible_fields.63.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.63.help_text }}</small>
+                                        {{ form.visible_fields.60 }}
+                                        {% if form.visible_fields.60.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.60.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.63.errors %}
-                                                {% for error in form.visible_fields.63.errors %}
+                                            {% if form.visible_fields.60.errors %}
+                                                {% for error in form.visible_fields.60.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -376,13 +376,13 @@
                                     </td>
                                     <td>
                                         <label>{% trans 'تا ' %}</label>
-                                        {{ form.visible_fields.64 }}
-                                        {% if form.visible_fields.64.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.64.help_text }}</small>
+                                        {{ form.visible_fields.61 }}
+                                        {% if form.visible_fields.61.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.61.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.64.errors %}
-                                                {% for error in form.visible_fields.64.errors %}
+                                            {% if form.visible_fields.61.errors %}
+                                                {% for error in form.visible_fields.61.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -396,13 +396,13 @@
                                 <tr id="zone_row3">
                                     <td>
                                         <label>{% trans 'از ' %}</label>
-                                        {{ form.visible_fields.65 }}
-                                        {% if form.visible_fields.65.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.65.help_text }}</small>
+                                        {{ form.visible_fields.62 }}
+                                        {% if form.visible_fields.62.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.62.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.65.errors %}
-                                                {% for error in form.visible_fields.65.errors %}
+                                            {% if form.visible_fields.62.errors %}
+                                                {% for error in form.visible_fields.62.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -412,13 +412,13 @@
                                     </td>
                                     <td>
                                         <label>{% trans 'تا ' %}</label>
-                                        {{ form.visible_fields.66 }}
-                                        {% if form.visible_fields.66.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.66.help_text }}</small>
+                                        {{ form.visible_fields.63 }}
+                                        {% if form.visible_fields.63.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.63.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.66.errors %}
-                                                {% for error in form.visible_fields.66.errors %}
+                                            {% if form.visible_fields.63.errors %}
+                                                {% for error in form.visible_fields.63.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -435,13 +435,13 @@
                                 <!-- Row 1-->
                                 <tr id="zonetime_row1"><td>
                                     <label>{% trans 'ناحیه اول' %}</label>
-                                    {{ form.visible_fields.67 }}
-                                    {% if form.visible_fields.67.help_text %}
-                                        <small class="form-text text-muted">{{ form.visible_fields.67.help_text }}</small>
+                                    {{ form.visible_fields.64 }}
+                                    {% if form.visible_fields.64.help_text %}
+                                        <small class="form-text text-muted">{{ form.visible_fields.64.help_text }}</small>
                                     {% endif %}
                                     {% if form.is_bound %}
-                                        {% if form.visible_fields.67.errors %}
-                                            {% for error in form.visible_fields.67.errors %}
+                                        {% if form.visible_fields.64.errors %}
+                                            {% for error in form.visible_fields.64.errors %}
                                             <div class="invalid-feedback">
                                                 {{ error }}
                                             </div>
@@ -452,13 +452,13 @@
                                 <!-- Row 2-->
                                 <tr id="zonetime_row2"><td>
                                     <label>{% trans 'ناحیه دوم' %}</label>
-                                    {{ form.visible_fields.68 }}
-                                    {% if form.visible_fields.68.help_text %}
-                                        <small class="form-text text-muted">{{ form.visible_fields.68.help_text }}</small>
+                                    {{ form.visible_fields.65 }}
+                                    {% if form.visible_fields.65.help_text %}
+                                        <small class="form-text text-muted">{{ form.visible_fields.65.help_text }}</small>
                                     {% endif %}
                                     {% if form.is_bound %}
-                                        {% if form.visible_fields.68.errors %}
-                                            {% for error in form.visible_fields.68.errors %}
+                                        {% if form.visible_fields.65.errors %}
+                                            {% for error in form.visible_fields.65.errors %}
                                             <div class="invalid-feedback">
                                                 {{ error }}
                                             </div>
@@ -469,13 +469,13 @@
                                 <!-- Row 3-->
                                 <tr id="zonetime_row3"><td>
                                     <label>{% trans 'ناحیه سوم' %}</label>
-                                    {{ form.visible_fields.69 }}
-                                    {% if form.visible_fields.69.help_text %}
-                                        <small class="form-text text-muted">{{ form.visible_fields.69.help_text }}</small>
+                                    {{ form.visible_fields.66 }}
+                                    {% if form.visible_fields.66.help_text %}
+                                        <small class="form-text text-muted">{{ form.visible_fields.66.help_text }}</small>
                                     {% endif %}
                                     {% if form.is_bound %}
-                                        {% if form.visible_fields.69.errors %}
-                                            {% for error in form.visible_fields.69.errors %}
+                                        {% if form.visible_fields.66.errors %}
+                                            {% for error in form.visible_fields.66.errors %}
                                             <div class="invalid-feedback">
                                                 {{ error }}
                                             </div>
@@ -487,13 +487,13 @@
                             
                         </td>
                         <td>
-                            {{ form.visible_fields.70 }}
-                            {% if form.visible_fields.70.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.70.help_text }}</small>
+                            {{ form.visible_fields.67 }}
+                            {% if form.visible_fields.67.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.67.help_text }}</small>
                             {% endif %}
                             {% if form.is_bound %}
-                                {% if form.visible_fields.70.errors %}
-                                    {% for error in form.visible_fields.70.errors %}
+                                {% if form.visible_fields.67.errors %}
+                                    {% for error in form.visible_fields.67.errors %}
                                     <div class="invalid-feedback">
                                         {{ error }}
                                     </div>
@@ -974,15 +974,15 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-
-                        <td>
-                            {{ form.visible_fields.33 }}
-                            {% if form.visible_fields.33.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.33.help_text }}</small>
+                        <!-- All Mumentum Family Signals -->
+                        <td rowspan="4">
+                            {{ form.visible_fields.47 }}
+                            {% if form.visible_fields.47.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.47.help_text }}</small>
                             {% endif %}
                             {% if form.is_bound %}
-                                {% if form.visible_fields.33.errors %}
-                                    {% for error in form.visible_fields.33.errors %}
+                                {% if form.visible_fields.47.errors %}
+                                    {% for error in form.visible_fields.47.errors %}
                                     <div class="invalid-feedback">
                                         {{ error }}
                                     </div>
@@ -1004,6 +1004,27 @@
                                 <tr>
                                     <!-- Momentum Overbought -->
                                     <td>
+                                        {{ form.visible_fields.33 }}
+                                        <label class="control-label" for="{{form.visible_fields.33.id_for_label}}">
+                                            {{form.visible_fields.33.label}}
+                                        </label>
+                                        
+                                        {% if form.visible_fields.33.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.33.help_text }}</small>
+                                        {% endif %}
+                                        {% if form.is_bound %}
+                                            {% if form.visible_fields.33.errors %}
+                                                {% for error in form.visible_fields.33.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+        
+                                    <!-- Momentum Oversold -->
+                                    <td>
                                         {{ form.visible_fields.34 }}
                                         <label class="control-label" for="{{form.visible_fields.34.id_for_label}}">
                                             {{form.visible_fields.34.label}}
@@ -1022,14 +1043,15 @@
                                             {% endif %}
                                         {% endif %}
                                     </td>
-        
-                                    <!-- Momentum Oversold -->
+                                </tr>
+                                <tr>
+                                    <!-- Momentum Divergence -->
                                     <td>
                                         {{ form.visible_fields.35 }}
                                         <label class="control-label" for="{{form.visible_fields.35.id_for_label}}">
-                                            {{form.visible_fields.35.label}}
+                                        {{form.visible_fields.35.label}}
                                         </label>
-                                        
+
                                         {% if form.visible_fields.35.help_text %}
                                             <small class="form-text text-muted">{{ form.visible_fields.35.help_text }}</small>
                                         {% endif %}
@@ -1043,9 +1065,8 @@
                                             {% endif %}
                                         {% endif %}
                                     </td>
-                                </tr>
-                                <tr>
-                                    <!-- Momentum Divergence -->
+
+                                    <!-- Momentum Hidden Divergence -->
                                     <td>
                                         {{ form.visible_fields.36 }}
                                         <label class="control-label" for="{{form.visible_fields.36.id_for_label}}">
@@ -1065,9 +1086,10 @@
                                             {% endif %}
                                         {% endif %}
                                     </td>
-
-                                    <!-- Momentum Hidden Divergence -->
-                                    <td>
+                                </tr>
+                                <tr>
+                                    <!-- Momentum Trend Breakout -->
+                                    <td colspan="2">
                                         {{ form.visible_fields.37 }}
                                         <label class="control-label" for="{{form.visible_fields.37.id_for_label}}">
                                         {{form.visible_fields.37.label}}
@@ -1087,55 +1109,17 @@
                                         {% endif %}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <!-- Momentum Trend Breakout -->
-                                    <td colspan="2">
-                                        {{ form.visible_fields.38 }}
-                                        <label class="control-label" for="{{form.visible_fields.38.id_for_label}}">
-                                        {{form.visible_fields.38.label}}
-                                        </label>
-
-                                        {% if form.visible_fields.38.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.38.help_text }}</small>
-                                        {% endif %}
-                                        {% if form.is_bound %}
-                                            {% if form.visible_fields.38.errors %}
-                                                {% for error in form.visible_fields.38.errors %}
-                                                <div class="invalid-feedback">
-                                                    {{ error }}
-                                                </div>
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endif %}
-                                    </td>
-                                </tr>
                             </table>
                         </td>
 
                         <td>
-                            {{ form.visible_fields.39 }}
-                            {% if form.visible_fields.39.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.39.help_text }}</small>
+                            {{ form.visible_fields.38 }}
+                            {% if form.visible_fields.38.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.38.help_text }}</small>
                             {% endif %}
                             {% if form.is_bound %}
-                                {% if form.visible_fields.39.errors %}
-                                    {% for error in form.visible_fields.39.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {{ form.visible_fields.40 }}
-                            {% if form.visible_fields.40.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.40.help_text }}</small>
-                            {% endif %}
-                            {% if form.is_bound %}
-                                {% if form.visible_fields.40.errors %}
-                                    {% for error in form.visible_fields.40.errors %}
+                                {% if form.visible_fields.38.errors %}
+                                    {% for error in form.visible_fields.38.errors %}
                                     <div class="invalid-feedback">
                                         {{ error }}
                                     </div>
@@ -1157,17 +1141,17 @@
                                 <tr>
                                     <!-- MACD Divergence -->
                                     <td>
-                                        {{ form.visible_fields.41 }}
-                                        <label class="control-label" for="{{form.visible_fields.41.id_for_label}}">
-                                            {{form.visible_fields.41.label}}
+                                        {{ form.visible_fields.39 }}
+                                        <label class="control-label" for="{{form.visible_fields.39.id_for_label}}">
+                                            {{form.visible_fields.39.label}}
                                         </label>
                                         
-                                        {% if form.visible_fields.41.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.41.help_text }}</small>
+                                        {% if form.visible_fields.39.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.39.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.41.errors %}
-                                                {% for error in form.visible_fields.41.errors %}
+                                            {% if form.visible_fields.39.errors %}
+                                                {% for error in form.visible_fields.39.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -1177,17 +1161,17 @@
                                     </td>
                                     <!-- MACD Hidden Divergence -->
                                     <td>
-                                        {{ form.visible_fields.42 }}
-                                        <label class="control-label" for="{{form.visible_fields.42.id_for_label}}">
-                                        {{form.visible_fields.42.label}}
+                                        {{ form.visible_fields.40 }}
+                                        <label class="control-label" for="{{form.visible_fields.40.id_for_label}}">
+                                        {{form.visible_fields.40.label}}
                                         </label>
 
-                                        {% if form.visible_fields.42.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.42.help_text }}</small>
+                                        {% if form.visible_fields.40.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.40.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.42.errors %}
-                                                {% for error in form.visible_fields.42.errors %}
+                                            {% if form.visible_fields.40.errors %}
+                                                {% for error in form.visible_fields.40.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -1201,29 +1185,13 @@
                         </td>
 
                         <td>
-                            {{ form.visible_fields.43 }}
-                            {% if form.visible_fields.43.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.43.help_text }}</small>
+                            {{ form.visible_fields.41 }}
+                            {% if form.visible_fields.41.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.41.help_text }}</small>
                             {% endif %}
                             {% if form.is_bound %}
-                                {% if form.visible_fields.43.errors %}
-                                    {% for error in form.visible_fields.43.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {{ form.visible_fields.44 }}
-                            {% if form.visible_fields.44.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.44.help_text }}</small>
-                            {% endif %}
-                            {% if form.is_bound %}
-                                {% if form.visible_fields.44.errors %}
-                                    {% for error in form.visible_fields.44.errors %}
+                                {% if form.visible_fields.41.errors %}
+                                    {% for error in form.visible_fields.41.errors %}
                                     <div class="invalid-feedback">
                                         {{ error }}
                                     </div>
@@ -1245,17 +1213,17 @@
                                 <tr>
                                     <!-- Stochastic Overbought -->
                                     <td>
-                                        {{ form.visible_fields.45 }}
-                                        <label class="control-label" for="{{form.visible_fields.45.id_for_label}}">
-                                            {{form.visible_fields.45.label}}
+                                        {{ form.visible_fields.42 }}
+                                        <label class="control-label" for="{{form.visible_fields.42.id_for_label}}">
+                                            {{form.visible_fields.42.label}}
                                         </label>
                                         
-                                        {% if form.visible_fields.45.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.45.help_text }}</small>
+                                        {% if form.visible_fields.42.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.42.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.45.errors %}
-                                                {% for error in form.visible_fields.45.errors %}
+                                            {% if form.visible_fields.42.errors %}
+                                                {% for error in form.visible_fields.42.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -1266,17 +1234,17 @@
         
                                     <!-- Stochastic Oversold -->
                                     <td>
-                                        {{ form.visible_fields.46 }}
-                                        <label class="control-label" for="{{form.visible_fields.46.id_for_label}}">
-                                            {{form.visible_fields.46.label}}
+                                        {{ form.visible_fields.43 }}
+                                        <label class="control-label" for="{{form.visible_fields.43.id_for_label}}">
+                                            {{form.visible_fields.43.label}}
                                         </label>
                                         
-                                        {% if form.visible_fields.46.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.46.help_text }}</small>
+                                        {% if form.visible_fields.43.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.43.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.46.errors %}
-                                                {% for error in form.visible_fields.46.errors %}
+                                            {% if form.visible_fields.43.errors %}
+                                                {% for error in form.visible_fields.43.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -1288,17 +1256,17 @@
                                 <tr>
                                     <!-- Stochastic Bullish Breakout -->
                                     <td>
-                                        {{ form.visible_fields.47 }}
-                                        <label class="control-label" for="{{form.visible_fields.47.id_for_label}}">
-                                        {{form.visible_fields.47.label}}
+                                        {{ form.visible_fields.44 }}
+                                        <label class="control-label" for="{{form.visible_fields.44.id_for_label}}">
+                                        {{form.visible_fields.44.label}}
                                         </label>
 
-                                        {% if form.visible_fields.47.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.47.help_text }}</small>
+                                        {% if form.visible_fields.44.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.44.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.47.errors %}
-                                                {% for error in form.visible_fields.47.errors %}
+                                            {% if form.visible_fields.44.errors %}
+                                                {% for error in form.visible_fields.44.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -1309,17 +1277,17 @@
 
                                     <!-- Stochastic Bearish Breakout -->
                                     <td>
-                                        {{ form.visible_fields.48 }}
-                                        <label class="control-label" for="{{form.visible_fields.48.id_for_label}}">
-                                        {{form.visible_fields.48.label}}
+                                        {{ form.visible_fields.45 }}
+                                        <label class="control-label" for="{{form.visible_fields.45.id_for_label}}">
+                                        {{form.visible_fields.45.label}}
                                         </label>
 
-                                        {% if form.visible_fields.48.help_text %}
-                                            <small class="form-text text-muted">{{ form.visible_fields.48.help_text }}</small>
+                                        {% if form.visible_fields.45.help_text %}
+                                            <small class="form-text text-muted">{{ form.visible_fields.45.help_text }}</small>
                                         {% endif %}
                                         {% if form.is_bound %}
-                                            {% if form.visible_fields.48.errors %}
-                                                {% for error in form.visible_fields.48.errors %}
+                                            {% if form.visible_fields.45.errors %}
+                                                {% for error in form.visible_fields.45.errors %}
                                                 <div class="invalid-feedback">
                                                     {{ error }}
                                                 </div>
@@ -1347,7 +1315,45 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-
+                    </tr>
+                    <!-- ATR -->
+                    <tr>
+                        <td>
+                            <label class="control-label" for="{{form.visible_fields.48.id_for_label}}">
+                            {{form.visible_fields.48.label}}
+                            {% if form.visible_fields.48.field.required %}<span class="required"> *</span>{% endif %}
+                            </label>
+                        </td>
+                        <td>
+                            {{ form.visible_fields.48 }}
+                            {% if form.visible_fields.48.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.48.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.48.errors %}
+                                    {% for error in form.visible_fields.48.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ form.visible_fields.49 }}
+                            {% if form.visible_fields.49.help_text %}
+                                <small class="form-text text-muted">{{ form.visible_fields.49.help_text }}</small>
+                            {% endif %}
+                            {% if form.is_bound %}
+                                {% if form.visible_fields.49.errors %}
+                                    {% for error in form.visible_fields.49.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
                         <td>
                             {{ form.visible_fields.50 }}
                             {% if form.visible_fields.50.help_text %}
@@ -1364,10 +1370,10 @@
                             {% endif %}
                         </td>
                     </tr>
-                    <!-- ATR -->
+                    <!-- ADX -->
                     <tr>
                         <td>
-                            <label class="control-label" for="{{form.visible_fields.51.id_for_label}}">
+                            <label class="control-label" for="{{form.visible_fields.56.id_for_label}}">
                             {{form.visible_fields.51.label}}
                             {% if form.visible_fields.51.field.required %}<span class="required"> *</span>{% endif %}
                             </label>
@@ -1410,60 +1416,6 @@
                             {% if form.is_bound %}
                                 {% if form.visible_fields.53.errors %}
                                     {% for error in form.visible_fields.53.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <!-- ADX -->
-                    <tr>
-                        <td>
-                            <label class="control-label" for="{{form.visible_fields.56.id_for_label}}">
-                            {{form.visible_fields.54.label}}
-                            {% if form.visible_fields.54.field.required %}<span class="required"> *</span>{% endif %}
-                            </label>
-                        </td>
-                        <td>
-                            {{ form.visible_fields.54 }}
-                            {% if form.visible_fields.54.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.54.help_text }}</small>
-                            {% endif %}
-                            {% if form.is_bound %}
-                                {% if form.visible_fields.54.errors %}
-                                    {% for error in form.visible_fields.54.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {{ form.visible_fields.55 }}
-                            {% if form.visible_fields.55.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.55.help_text }}</small>
-                            {% endif %}
-                            {% if form.is_bound %}
-                                {% if form.visible_fields.55.errors %}
-                                    {% for error in form.visible_fields.55.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {{ form.visible_fields.56 }}
-                            {% if form.visible_fields.56.help_text %}
-                                <small class="form-text text-muted">{{ form.visible_fields.56.help_text }}</small>
-                            {% endif %}
-                            {% if form.is_bound %}
-                                {% if form.visible_fields.56.errors %}
-                                    {% for error in form.visible_fields.56.errors %}
                                     <div class="invalid-feedback">
                                         {{ error }}
                                     </div>
@@ -1569,10 +1521,10 @@
         fields.push($("input[name='fibo_signal']:checked").val());
         fields.push($("input[name='time_divergent_signal']:checked").val());
         fields.push($("input[name='candle_signal']:checked").val());
-        fields.push($("input[name='rsi_signal']:checked").val());
-        fields.push($("input[name='macd_signal']:checked").val());
-        fields.push($("input[name='momentum_signal']:checked").val());
-        fields.push($("input[name='stochastic_signal']:checked").val());
+        fields.push($("input[name='momentum_family_signal']:checked").val());
+        fields.push($('select[name=atr_signal]').val());
+        fields.push($('select[name=adx_signal]').val());
+        fields.push($('select[name=stochastic_signal]').val());
 
         fields.forEach(f => {
             switch (f) {
@@ -1596,9 +1548,13 @@
     window.onload = function () {
         count_signals();
         var radios = document.querySelectorAll('input[type=radio]');
+        var combos = document.querySelectorAll('select');
         function changeHandler(event) {count_signals();}
         Array.prototype.forEach.call(radios, function(radio) {
             radio.addEventListener('change', changeHandler);
+        });
+        Array.prototype.forEach.call(combos, function(combo) {
+            combo.addEventListener('change', changeHandler);
         });
     };
     function show_next_support() {

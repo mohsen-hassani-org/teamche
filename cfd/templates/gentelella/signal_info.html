@@ -238,7 +238,6 @@
                                             <td>{% if signal.classic_analysis.rsi_hidden_divergence  %}{% trans 'واگرایی مخفی' %}{% endif %}</td>
                                             <td>{% if signal.classic_analysis.rsi_trend_breakout  %}{% trans 'شکست خط روند' %}{% endif %}</td>
                                             <td>{{signal.classic_analysis.get_rsi_timeframe_display}}</td>
-                                            <td>{{signal.classic_analysis.get_rsi_signal_display}}</td>
                                         </tr>
                                         <!-- Mumentum -->
                                         <tr>
@@ -248,7 +247,7 @@
                                             <td>{% if signal.classic_analysis.momentum_hidden_divergence  %}{% trans 'واگرایی مخفی' %}{% endif %}</td>
                                             <td>{% if signal.classic_analysis.momentum_trend_breakout  %}{% trans 'شکست خط روند' %}{% endif %}</td>
                                             <td>{{signal.classic_analysis.get_momentum_timeframe_display}}</td>
-                                            <td>{{signal.classic_analysis.get_momentum_signal_display}}</td>
+                                            <td>{{signal.classic_analysis.get_momentum_family_signal_display}}</td>
                                         </tr>
                                         <!-- MACD -->
                                         <tr>
@@ -257,7 +256,6 @@
                                             <td>{% if signal.classic_analysis.macd_hidden_divergence  %}{% trans 'واگرایی مخفی' %}{% endif %}</td>
                                             <td colspan="2">{% if signal.classic_analysis.macd_trend_breakout  %}{% trans 'شکست خط روند' %}{% endif %}</td>
                                             <td>{{signal.classic_analysis.get_macd_timeframe_display}}</td>
-                                            <td>{{signal.classic_analysis.get_macd_signal_display}}</td>
                                         </tr>
                                         <!-- Stochastic -->
                                         <tr>
@@ -265,7 +263,6 @@
                                             <td colspan="2">{% if signal.classic_analysis.stochastic_oversold %}{% trans 'اشباع فروش' %}{% elif signal.classic_analysis.stochastic_overbought%}{% trans 'اشباع خرید' %}{% endif %}</td>
                                             <td colspan="2">{% if signal.classic_analysis.stochastic_bullish_breakout %}{% trans 'شکست صعودی' %}{% elif signal.classic_analysis.stochastic_bearish_breakout %}{% trans 'شکست نزولی' %}{% endif %}</td>
                                             <td>{{signal.classic_analysis.get_stochastic_timeframe_display}}</td>
-                                            <td>{{signal.classic_analysis.get_stochastic_signal_display}}</td>
                                         </tr>
                                         <!-- ATR -->
                                         <tr>

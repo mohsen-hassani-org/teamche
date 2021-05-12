@@ -79,39 +79,14 @@ def classic_analysis_signal_count(analysis):
     else:
         nature += 1
 
-    # rsi
-    if analysis.rsi_signal == ClassicAnalysis.SignalTypes.BUY:
+    # momentum family
+    if analysis.momentum_family_signal == ClassicAnalysis.SignalTypes.BUY:
         buy += 1
-    elif analysis.rsi_signal == ClassicAnalysis.SignalTypes.SELL:
+    elif analysis.momentum_family_signal == ClassicAnalysis.SignalTypes.SELL:
         sell += 1
     else:
         nature += 1
 
-    # momentum
-    if analysis.momentum_signal == ClassicAnalysis.SignalTypes.BUY:
-        buy += 1
-    elif analysis.momentum_signal == ClassicAnalysis.SignalTypes.SELL:
-        sell += 1
-    else:
-        nature += 1
-
-    # macd
-    if analysis.macd_signal == ClassicAnalysis.SignalTypes.BUY:
-        buy += 1
-    elif analysis.macd_signal == ClassicAnalysis.SignalTypes.SELL:
-        sell += 1
-    else:
-        nature += 1
-
-    # stochastic
-    if analysis.stochastic_signal == ClassicAnalysis.SignalTypes.BUY:
-        buy += 1
-    elif analysis.stochastic_signal == ClassicAnalysis.SignalTypes.SELL:
-        sell += 1
-    else:
-        nature += 1
-
-    # atr
     if analysis.atr_signal == ClassicAnalysis.SignalTypes.BUY:
         buy += 1
     elif analysis.atr_signal == ClassicAnalysis.SignalTypes.SELL:

@@ -79,18 +79,19 @@ class ClassicAnalysisForm(forms.ModelForm):
         fields += ('time_divergent', 'time_divergent_timeframe', 'time_divergent_signal',) # 19, 20, 21
         fields += ('eliot', 'eliot_signal',) # 22, 23
         fields += ('candle', 'candle_timeframe', 'candle_signal',) # 24, 25, 26
-        fields += ('rsi_oversold', 'rsi_overbought', 'rsi_divergence', 'rsi_hidden_divergence', 'rsi_trend_breakout', 'rsi_timeframe', 'rsi_signal',) # 27, 28, 29, 30, 31, 32, 33
-        fields += ('momentum_oversold', 'momentum_overbought', 'momentum_divergence', 'momentum_hidden_divergence', 'momentum_trend_breakout', 'momentum_timeframe', 'momentum_signal',) # 34, 35, 36, 37, 38, 39, 40
-        fields += ('macd_divergence', 'macd_hidden_divergence', 'macd_timeframe', 'macd_signal',) # 41, 42, 43, 44
-        fields += ('stochastic_oversold', 'stochastic_overbought', 'stochastic_bullish_breakout','stochastic_bearish_breakout', 'stochastic_timeframe', 'stochastic_signal',) # 45, 46, 47, 48, 49, 50
-        fields += ('atr', 'atr_timeframe', 'atr_signal',) # 51, 52, 53
-        fields += ('adx', 'adx_timeframe', 'adx_signal',) # 54, 55, 56
-        fields += ('image_url', 'title', 'desc', 'tradingview_url', ) # 57, 58, 59, 60
-        fields += ('support_resistance1_from', 'support_resistance1_to', ) # 61, 62
-        fields += ('support_resistance2_from', 'support_resistance2_to', ) # 63, 64
-        fields += ('support_resistance3_from', 'support_resistance3_to', ) # 65, 66
-        fields += ('support_resistance1_timeframe', 'support_resistance2_timeframe', 'support_resistance3_timeframe') # 67, 68, 69
-        fields += ('support_resistance_signal', ) # 70
+        fields += ('rsi_oversold', 'rsi_overbought', 'rsi_divergence', 'rsi_hidden_divergence', 'rsi_trend_breakout', 'rsi_timeframe',) # 27, 28, 29, 30, 31, 32
+        fields += ('momentum_oversold', 'momentum_overbought', 'momentum_divergence', 'momentum_hidden_divergence', 'momentum_trend_breakout', 'momentum_timeframe',) # 33, 34, 35, 36, 37, 38
+        fields += ('macd_divergence', 'macd_hidden_divergence', 'macd_timeframe',) # 39, 40, 41
+        fields += ('stochastic_oversold', 'stochastic_overbought', 'stochastic_bullish_breakout','stochastic_bearish_breakout', 'stochastic_timeframe',) # 42, 43, 44, 45, 46
+        fields += ('momentum_family_signal', ) # 47
+        fields += ('atr', 'atr_timeframe', 'atr_signal',) # 48, 49, 50
+        fields += ('adx', 'adx_timeframe', 'adx_signal',) # 51, 52, 53
+        fields += ('image_url', 'title', 'desc', 'tradingview_url', ) # 54, 55, 56, 57
+        fields += ('support_resistance1_from', 'support_resistance1_to', ) # 58, 59
+        fields += ('support_resistance2_from', 'support_resistance2_to', ) # 60, 61
+        fields += ('support_resistance3_from', 'support_resistance3_to', ) # 62, 63
+        fields += ('support_resistance1_timeframe', 'support_resistance2_timeframe', 'support_resistance3_timeframe') # 64, 65, 66
+        fields += ('support_resistance_signal', ) # 67
         widgets = {
             'major_trend': forms.widgets.RadioSelect(),
             'major_trend_signal': forms.widgets.RadioSelect(),
@@ -116,11 +117,9 @@ class ClassicAnalysisForm(forms.ModelForm):
             'eliot_signal': forms.widgets.RadioSelect(),
             'candle_signal': forms.widgets.RadioSelect(),
             'candle_timeframe': forms.widgets.RadioSelect(),
-            'rsi_signal': forms.widgets.RadioSelect(),
             'rsi_timeframe': forms.widgets.RadioSelect(),
-            'momentum_signal': forms.widgets.RadioSelect(),
             'momentum_timeframe': forms.widgets.RadioSelect(),
-            'macd_signal': forms.widgets.RadioSelect(),
+            'momentum_family_signal': forms.widgets.RadioSelect(),
             'macd_timeframe': forms.widgets.RadioSelect(),
             'support_resistance_signal': forms.widgets.RadioSelect(),
             'support_resistance_timeframe': forms.widgets.RadioSelect(),
