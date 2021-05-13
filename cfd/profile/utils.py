@@ -23,6 +23,14 @@ def classic_analysis_signal_count(analysis):
     else:
         nature += 1
     
+    # Trend Line
+    if analysis.trend_line_signal == ClassicAnalysis.SignalTypes.BUY:
+        buy += 1
+    elif analysis.trend_line_signal == ClassicAnalysis.SignalTypes.SELL:
+        sell += 1
+    else:
+        nature += 1
+    
     # Pattern
     if analysis.pattern_signal == ClassicAnalysis.SignalTypes.BUY:
         buy += 1
@@ -94,7 +102,15 @@ def classic_analysis_signal_count(analysis):
     else:
         nature += 1
 
-    # atx
+    # atr
+    if analysis.atr_signal == ClassicAnalysis.SignalTypes.BUY:
+        buy += 1
+    elif analysis.atr_signal == ClassicAnalysis.SignalTypes.SELL:
+        sell += 1
+    else:
+        nature += 1
+
+    # adx
     if analysis.adx_signal == ClassicAnalysis.SignalTypes.BUY:
         buy += 1
     elif analysis.adx_signal == ClassicAnalysis.SignalTypes.SELL:

@@ -92,6 +92,7 @@ class ClassicAnalysisForm(forms.ModelForm):
         fields += ('support_resistance3_from', 'support_resistance3_to', ) # 62, 63
         fields += ('support_resistance1_timeframe', 'support_resistance2_timeframe', 'support_resistance3_timeframe') # 64, 65, 66
         fields += ('support_resistance_signal', ) # 67
+        fields += ('trend_line', 'trend_line_signal', ) # 68, 69
         widgets = {
             'major_trend': forms.widgets.RadioSelect(),
             'major_trend_signal': forms.widgets.RadioSelect(),
@@ -123,6 +124,8 @@ class ClassicAnalysisForm(forms.ModelForm):
             'macd_timeframe': forms.widgets.RadioSelect(),
             'support_resistance_signal': forms.widgets.RadioSelect(),
             'support_resistance_timeframe': forms.widgets.RadioSelect(),
+            'trend_line': forms.widgets.RadioSelect(),
+            'trend_line_signal': forms.widgets.RadioSelect(),
         }
     def __init__(self, *args, **kwargs):
         super(ClassicAnalysisForm, self).__init__(*args, **kwargs)

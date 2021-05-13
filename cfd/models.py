@@ -80,6 +80,10 @@ class ClassicAnalysis(models.Model):
     class Meta:
         verbose_name = _('آنالیز Classic')
         verbose_name_plural = _('آنالیزهای Classic')
+    class TrendLines(models.TextChoices):
+        BULLISH_TREND = 'bl', _('خط روند صعودی')
+        BEARISH_TREND = 'br', _('خط روند نزولی')
+        NO_TREND = 'nt', _('بدون خط روند')
     class TrendTypes(models.TextChoices):
         BULLISH = 'bl', _('صعودی')
         BEARISH = 'br', _('نزولی')
@@ -157,6 +161,8 @@ class ClassicAnalysis(models.Model):
     intermediate_trend = models.CharField(max_length=2, choices=TrendTypes.choices, default=TrendTypes.BULLISH, verbose_name=_('روند میان‌مدت'))
     intermediate_trend_signal = models.CharField(max_length=2, choices=SignalTypes.choices, default=SignalTypes.NATURE, verbose_name=_('سیگنال دریافتی')) 
     intermediate_trend_timeframe = models.CharField(max_length=3, choices=TimeFrames.choices, verbose_name=_('تایم‌فریم'), default=TimeFrames.H1)
+    trend_line = models.CharField(max_length=2, choices=TrendLines.choices, default=TrendLines.NO_TREND, verbose_name=_('خط روند'))
+    trend_line_signal = models.CharField(max_length=2, choices=SignalTypes.choices, default=SignalTypes.NATURE, verbose_name=_('سیگنال دریافتی')) 
     eliot = models.CharField(max_length=3, choices=EliotWaves.choices, verbose_name=_('موج‌های الیوت'), default=EliotWaves.NO_WAVE)
     eliot_signal = models.CharField(max_length=2, choices=SignalTypes.choices, default=SignalTypes.NATURE, verbose_name=_('سیگنال دریافتی')) 
     support_resistance1_from = models.DecimalField(max_digits=11, decimal_places=4, null=True, blank=True, verbose_name=_('شروع حمایت و مقاومت اول'))
