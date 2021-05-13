@@ -26,7 +26,7 @@ def signals_all(request):
 def signals_month(request):
     month = datetime.now().replace(day=1)
     running_signals = Signal.objects.filter(status=Signal.SignalStatus.RUNNING)
-    month_signals = Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(signal_datetime__gt=month))
+    month_signals = Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(result_datetime__gt=month))
     data = {
         'all_signals': month_signals,
         'running_signals': running_signals,
