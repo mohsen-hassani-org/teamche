@@ -845,14 +845,14 @@ def view_attendance_today(request, team_id):
             'id': att.id,
             'user': att.user,
             'type': att.get_attendance_type_display(),
-            'hours': '{0} ساعت'.format(att.leave_hours) if att.leave_hours else '',
+            'minutes': '{0} دقیقه'.format(att.leave_minutes) if att.leave_minutes else '',
         })
     data = {
         'page_title': _('لیست حضور و غیاب'),
         'page_subtitle': team.name,
         'items': items,
-        'fields': ['user', 'type', 'hours',],
-        'headers': [_('کاربر'), _('نوع حضور'), _('ساعت مرخصی')],
+        'fields': ['user', 'type', 'minutes',],
+        'headers': [_('کاربر'), _('نوع حضور'), _('مرخصی')],
         'header_buttons': [
             {
                 'title': _('ایجاد لیست امروز'),
@@ -907,14 +907,14 @@ def view_attendance_all(request, team_id):
             'user': att.user,
             'date': att.date,
             'type': att.get_attendance_type_display(),
-            'hours': '{0} ساعت'.format(att.leave_hours) if att.leave_hours else '',
+            'minutes': '{0} دقیقه'.format(att.leave_minutes) if att.leave_minutes else '',
         })
     data = {
         'page_title': _('لیست حضور و غیاب'),
         'page_subtitle': team.name,
         'items': items,
-        'fields': ['user', 'date', 'type', 'hours', ],
-        'headers': [_('کاربر'),_('تاریخ'), _('نوع حضور'), _('ساعت مرخصی')],
+        'fields': ['user', 'date', 'type', 'minutes', ],
+        'headers': [_('کاربر'),_('تاریخ'), _('نوع حضور'), _('مرخصی')],
         'footer_buttons': [
             {
                 'title': _('بازگشت'),

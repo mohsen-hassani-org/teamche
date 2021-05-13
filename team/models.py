@@ -69,12 +69,12 @@ class Attendance(models.Model):
         PRESENT = 'p', _('حاضر')
         ABSENT = 'a', _('عدم حضور')
         LEAVE = 'l', _('مرخصی کامل')
-        HOURLY_LEAVE = 'h', _('مرخصی ساعتی')
+        MINUTE_LEAVE = 'h', _('مرخصی (دقیقه)')
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='attendances', verbose_name=_('تیم'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='attendances', verbose_name=_('کاربر'))
     date = models.DateField(verbose_name=_('تاریخ'), default=datetime.now)
     attendance_type = models.CharField(max_length=1, choices=AttendanceType.choices, verbose_name=_('نوع حضور'), default=AttendanceType.ABSENT)
-    leave_hours = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name=_('مدت مرخصی ساعتی'))
+    leave_minutes = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name=_('مدت مرخصی (دقیقه)'))
 
 
 

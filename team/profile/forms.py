@@ -45,7 +45,7 @@ class AttendanceForm(forms.ModelForm):
     class Meta:
         """Meta definition for Attendanceform."""
         model = Attendance
-        fields = ('user', 'attendance_type', 'leave_hours', )
+        fields = ('user', 'attendance_type', 'leave_minutes', )
         widgets = {
             'attendance_type': forms.widgets.RadioSelect(),
         }
@@ -65,7 +65,7 @@ class AttendanceFormWithDate(forms.ModelForm):
     class Meta:
         """Meta definition for Attendanceform."""
         model = Attendance
-        fields = ('user', 'date', 'attendance_type', 'leave_hours', )
+        fields = ('user', 'date', 'attendance_type', 'leave_minutes', )
         widgets = {
             'attendance_type': forms.widgets.RadioSelect(),
         }

@@ -131,7 +131,7 @@ def view_pta_analysis(request):
         'items': items,
         'page_title': _('تحلیل‌های PTA'),
         'fields': ['num', 'user', 'signal', 'date', 'time'],
-        'headers': [_('شماره تحلیل'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('ساعت')],
+        'headers': [_('شماره تحلیل'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('دقیقه')],
         'header_buttons': [
             {
                 'title': _('افزودن تحلیل جدید'),
@@ -173,7 +173,7 @@ def view_classic_analysis(request):
         'items': items,
         'page_title': _('تحلیل‌های Classic'),
         'fields': ['num', 'title', 'user', 'signal', 'date', 'time'],
-        'headers': [_('شماره تحلیل'), _('عنوان'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('ساعت')],
+        'headers': [_('شماره تحلیل'), _('عنوان'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('دقیقه')],
         'header_buttons': [
             {
                 'title': _('افزودن تحلیل جدید'),
