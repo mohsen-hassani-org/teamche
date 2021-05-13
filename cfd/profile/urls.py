@@ -13,6 +13,7 @@ urlpatterns = [
     path('signals/<signal_id>/fill/', views.fill_signal, name='cfd_profile_signals_fill'),
     path('signals/<signal_id>/cancel/', views.cancel_signal, name='cfd_profile_signals_cancel'),
     path('signals/<signal_id>/result/', views.signal_result, name='cfd_profile_signals_result'),
+    path('signals/<signal_id>/mistakes/append/', views.append_signal_mistakes, name='cfd_profile_mistakes_append'),
     path('signals/report/', views.signal_report, name='cfd_profile_signals_report'),
     path('signals/mistakes/', views.view_mistakes, name='cfd_profile_signals_mistakes'),
     path('analysis/classic/', views.view_classic_analysis, name='cfd_profile_analysis_classic_view'),

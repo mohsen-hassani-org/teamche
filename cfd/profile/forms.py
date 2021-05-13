@@ -144,3 +144,19 @@ class SignalCommentForm(forms.ModelForm):
         model = Comment
         fields = ('body',)
         widgets = {'body': forms.Textarea()}
+
+
+class AppendSignalMistakesForm(forms.ModelForm):
+    class Meta:
+        model = Signal
+        fields = ('mistakes', )
+    def clean(self):
+        cleaned_data = super().clean()
+        if not self.instance.id:
+            raise ValidationError(_('این سیگنال وجود ندارد'))
+        signal = Signal.objects.get(id=self.instance.id)
+        if not signal.status == Signal.SignalStatus.FILLED:
+            raise ValidationError(_('این سیگنال هنوز تکمیل نشده است'))
+
+
+

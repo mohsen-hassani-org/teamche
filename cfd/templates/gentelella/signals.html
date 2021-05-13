@@ -138,9 +138,20 @@
                                         {% endif %}
                                         <tr><td>{% trans 'وضعیت' %}</td><td>{{signal.get_status_display}}</td></tr>
                                     </table>
-                                    <div class="action-buttons">
-                                        <a class="btn btn-block" href="{% url 'cfd_profile_signals_info' signal.id %}">مشاهده جزئیات</a>
+
+                                    <div class="row action-buttons">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <a class="btn btn-block" href="{% url 'cfd_profile_mistakes_append' signal.id %}" 
+                                                data-toggle="tooltip" data-placement="top" 
+                                                title="" data-original-title="{% trans 'ویرایش اشتباهات' %}"><i class="fa fa-pencil"></i></a>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <a class="btn btn-block" href="{% url 'cfd_profile_signals_info' signal.id %}"
+                                                data-toggle="tooltip" data-placement="top" 
+                                                title="" data-original-title="{% trans 'مشاهده جزئیات' %}"><i class="fa fa-info"></i></a>
+                                        </div>
                                     </div>
+
                                 </div>
                                 <div class="footer no-bg">
                                     <small>

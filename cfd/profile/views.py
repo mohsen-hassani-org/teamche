@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm
-from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm
+from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm, AppendSignalMistakesForm
 from cfd.models import Signal, PTAAnalysis, ClassicAnalysis
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
 from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
@@ -71,6 +71,25 @@ def signal_report(request):
 @login_required
 def signal_result(request):
     pass
+
+
+@login_required
+def append_signal_mistakes(request, signal_id):
+    signal = get_object_or_404(Signal, id=signal_id)
+    if request.method == 'POST':
+        form = AppendSignalMistakesForm(request.POST, instance=signal)
+        if form.is_valid():
+            form.save()
+            return redirect('cfd_profile_signals_month_view')
+    else:
+        form = AppendSignalMistakesForm(instance=signal)
+    data = {
+        'forms': [form],
+        'page_title': _('ویرایش اشتباهات سیگنال'),
+        'page_subtitle': f'#{signal.id}',
+        'form_cancel_url_name':'cfd_profile_signals_month_view', 
+    }
+    return render(request, GENERIC_MODEL_FORM, data)
 
 
 
