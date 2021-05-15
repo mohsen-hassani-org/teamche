@@ -24,21 +24,36 @@ def signals_all(request):
 
 @login_required
 def signals_month(request):
-    month = datetime.now().replace(day=1)
+    if 'month' in request.GET:
+        month = request.GET['month']
+        month = datetime.strptime(month, '%Y-%m')
+        try:
+            next_month = month.replace(month=month.month+1)
+        except ValueError:
+            if month.month == 12:
+                next_month = month.replace(year=month.year + 1, month=1)
+            else:
+                next_month = month
+    else:
+        month = datetime.now().replace(day=1)
     running_signals = Signal.objects.filter(status=Signal.SignalStatus.RUNNING)
-    month_signals = Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(result_datetime__gt=month))
+    month_signals = Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(
+        result_datetime__gt=month) & Q(result_datetime__lt=next_month))
     data = {
         'all_signals': month_signals,
         'running_signals': running_signals,
         'month': month.strftime('%B'),
+        'month_num': month.strftime('%m'),
         'year': month.strftime('%Y'),
     }
     return render(request, SIGNALS, data)
 
+
 @login_required
 def signal_info(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
-    classic_signal_count = classic_analysis_signal_count(signal.classic_analysis)
+    classic_signal_count = classic_analysis_signal_count(
+        signal.classic_analysis)
     if request.method == 'POST':
         comment_form = SignalCommentForm(request.POST)
         if comment_form.is_valid():
@@ -64,9 +79,11 @@ def signal_info(request, signal_id):
 def view_mistakes(request):
     pass
 
+
 @login_required
 def signal_report(request):
     pass
+
 
 @login_required
 def signal_result(request):
@@ -87,11 +104,9 @@ def append_signal_mistakes(request, signal_id):
         'forms': [form],
         'page_title': _('ویرایش اشتباهات سیگنال'),
         'page_subtitle': f'#{signal.id}',
-        'form_cancel_url_name':'cfd_profile_signals_month_view', 
+        'form_cancel_url_name': 'cfd_profile_signals_month_view',
     }
     return render(request, GENERIC_MODEL_FORM, data)
-
-
 
 
 @login_required
@@ -105,7 +120,8 @@ def add_signal(request):
             signal.save()
             return redirect('cfd_profile_signals_month_view')
     else:
-        user_signals = Signal.objects.filter(Q(user=request.user) & ~Q(mistakes=None) & ~Q(mistakes=''))[:10]
+        user_signals = Signal.objects.filter(
+            Q(user=request.user) & ~Q(mistakes=None) & ~Q(mistakes=''))[:10]
         form = SignalForm()
     context = {
         'form': form,
@@ -155,6 +171,7 @@ def view_pta_analysis(request):
     }
     return render(request, GENERIC_MODEL_LIST, data)
 
+
 @login_required
 def view_classic_analysis(request):
     classic = ClassicAnalysis.objects.all().order_by('datetime')
@@ -202,9 +219,11 @@ def view_classic_analysis(request):
 def pta_analysis_info(request, analysis_id):
     pass
 
+
 @login_required
 def classic_analysis_info(request, analysis_id):
     pass
+
 
 @login_required
 def pta_analysis_edit(request, analysis_id):
@@ -237,7 +256,6 @@ def pta_analysis_edit(request, analysis_id):
     return render(request, GENERIC_MODEL_FORM, data)
 
 
-
 @login_required
 def classic_analysis_edit(request, analysis_id):
     # User cannot edit if analysis added to a signal
@@ -266,8 +284,6 @@ def classic_analysis_edit(request, analysis_id):
     return render(request, CLASSIC_ANALYSIS_FORM_TEMPLATE, data)
 
 
-
-
 @login_required
 def pta_analysis_delete(request, analysis_id):
     # User cannot delete if analysis added to a signal
@@ -284,6 +300,7 @@ def pta_analysis_delete(request, analysis_id):
     analysis.delete()
     return redirect('cfd_profile_analysis_pta_view')
 
+
 @login_required
 def classic_analysis_delete(request, analysis_id):
     # User cannot delete if analysis added to a signal
@@ -299,6 +316,7 @@ def classic_analysis_delete(request, analysis_id):
         return render(request, GENERIC_MESSAGE, data)
     analysis.delete()
     return redirect('cfd_profile_analysis_classic_view')
+
 
 @login_required
 def add_pta_analysis(request):
@@ -338,6 +356,7 @@ def add_classic_analysis(request):
     }
     return render(request, CLASSIC_ANALYSIS_FORM_TEMPLATE, data)
 
+
 @login_required
 def choose_pta_analysis(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
@@ -361,6 +380,7 @@ def choose_pta_analysis(request, signal_id):
         'form_cancel_url_arg1': signal.id,
     }
     return render(request, GENERIC_MODEL_FORM, data)
+
 
 @login_required
 def choose_classic_analysis(request, signal_id):
@@ -393,14 +413,15 @@ def remove_classic_analysis(request, signal_id):
     signal.classic_analysis = None
     signal.save()
     return redirect('cfd_profile_signals_info', signal_id=signal_id)
-    
+
+
 @login_required
 def remove_pta_analysis(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
     signal.pta_analysis = None
     signal.save()
     return redirect('cfd_profile_signals_info', signal_id=signal_id)
-    
+
 
 @login_required
 def fill_signal(request, signal_id):
@@ -434,7 +455,8 @@ def fill_signal(request, signal_id):
         '''
     }
     return render(request, GENERIC_MODEL_FORM, context)
-    
+
+
 @login_required
 def cancel_signal(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
@@ -444,6 +466,3 @@ def cancel_signal(request, signal_id):
     signal.canceled_datetime = datetime.now()
     signal.save()
     return redirect('cfd_profile_signals_month_view')
-
-
-

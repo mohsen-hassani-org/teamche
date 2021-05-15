@@ -7,6 +7,11 @@
     {% if BIDI %}
     <link href="{% static "cfd/css/gentelella_style_rtl.css" %}" rel="stylesheet">
     {% endif %}
+    <style>
+        #month_form {
+            display: inline;
+        } 
+    </style>
 {% endblock %}
 {%block page_content%}
 
@@ -109,7 +114,9 @@
             <div class="x_title">
                 <h2>
                     سایر سیگنال‌های این ماه
-                    <small>{{year}} {{month}}</small>
+                    <small><form method="GET" id="month_form">
+                        <input type="month" id="monthpicker" value="{{year}}-{{month_num}}" name="month" />
+                    </form></small>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -166,5 +173,15 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+
+{% block extra_scripts %}
+    <script>
+        $(document).ready(function(){
+            $('#monthpicker').change(function(){
+                $('#month_form').submit();
+            });
+        });
+    </script>
 {% endblock %}

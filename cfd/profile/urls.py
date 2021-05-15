@@ -3,7 +3,7 @@ from cfd.profile import views
 
 urlpatterns = [
     path('signals/all/', views.signals_all, name='cfd_profile_signals_all_view'),
-    path('signals/month/', views.signals_month, name='cfd_profile_signals_month_view'),
+    path('signals/', views.signals_month, name='cfd_profile_signals_month_view'),
     path('signals/add/', views.add_signal, name='cfd_profile_signals_add'),
     path('signals/<signal_id>/analysis/classic/choose/', views.choose_classic_analysis, name='cfd_profile_analysis_classic_choose'),
     path('signals/<signal_id>/analysis/pta/choose/', views.choose_pta_analysis, name='cfd_profile_analysis_pta_choose'),
