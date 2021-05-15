@@ -18,6 +18,20 @@ def signals_all(request):
         'items': signals,
         'headers': ['زمان', 'کاربر', 'دارایی', 'نوع سیگنال', ],
         'fields': ['signal_datetime', 'user', 'asset', 'entry_type', ],
+        'page_title': 'تمامی سیگنال‌ها',
+        'footer_buttons': [{'title': 'بازگشت', 'url_name': 'cfd_profile_signals_month_view'}],
+        'action_buttons': [
+            {
+                'title': 'مشاهده جزئیات', 
+                'url_name': 'cfd_profile_signals_info',
+                'arg1_field': 'id',
+            },
+            {
+                'title': 'اشتباهات', 
+                'url_name': 'cfd_profile_mistakes_append',
+                'arg1_field': 'id',
+            },
+        ],
     }
     return render(request, GENERIC_MODEL_LIST, context)
 
@@ -27,15 +41,15 @@ def signals_month(request):
     if 'month' in request.GET:
         month = request.GET['month']
         month = datetime.strptime(month, '%Y-%m')
-        try:
-            next_month = month.replace(month=month.month+1)
-        except ValueError:
-            if month.month == 12:
-                next_month = month.replace(year=month.year + 1, month=1)
-            else:
-                next_month = month
     else:
         month = datetime.now().replace(day=1)
+    try:
+        next_month = month.replace(month=month.month+1)
+    except ValueError:
+        if month.month == 12:
+            next_month = month.replace(year=month.year + 1, month=1)
+        else:
+            next_month = month
     running_signals = Signal.objects.filter(status=Signal.SignalStatus.RUNNING)
     month_signals = Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(
         result_datetime__gt=month) & Q(result_datetime__lt=next_month))
