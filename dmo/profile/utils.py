@@ -107,6 +107,8 @@ def dmo_last_days(dmo):
     dmo_data = dmo_days_to_data(dmo)
     jnow = date2jalali(datetime.now())
     today = jnow.day
+    if today < 10:
+        today = 10
     classes = []
     tmp = 0
     table = '<table class="dmo_summary"><tr>'

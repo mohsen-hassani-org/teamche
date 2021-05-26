@@ -239,3 +239,23 @@ table {
     padding-left: 5px;
     padding-right: 5px;
 }
+.dmo_summary {
+    border: 1px solid #18252d;
+    width: 100%;
+    max-width: 350px;
+    margin: 0px auto;
+}
+.dmo_summary tr td {
+    border: 1px solid #18252d;
+    color: #222;
+    height: 15px;
+    max-width: 25px;
+    width: 10%;
+    text-align: center;
+}
+.dmo_summary .green {
+    background-color: limegreen;
+}
+.dmo_summary .red {
+    background-color: indianred;
+}

@@ -392,7 +392,8 @@ def all_public_dmos(request):
             'year': dmo.year,
             'type': dmo.dmo_type,
             'type_display': dmo.get_dmo_type_display(),
-            'data': dmo_to_table(dmo_days_to_data(dmo))
+            'data': dmo_to_table(dmo_days_to_data(dmo)),
+            'summary': dmo_last_days(dmo),
         })
 
     user_seprated_dmos = {}
