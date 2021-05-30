@@ -173,6 +173,7 @@
                             <div class="dmo-mini-info">
                                 <div>{{dmo.goal}}</div>
                                 {%if user_dmos.0.get_full_name%}{{user_dmos.0.get_full_name}}{%else%}{{user_dmos.0.username}}{%endif%}
+                                <div class="dmo-summary">{{dmo.summary|safe}}</div>
                             </div>
                             <div class="dmo-mini-table">
                                 <table>

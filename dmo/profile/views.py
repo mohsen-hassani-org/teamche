@@ -408,7 +408,8 @@ def all_public_dmos(request):
             'goal': dmo.goal,
             'month': month_num_to_str(dmo.month),
             'year': dmo.year,
-            'data': dmo_to_table(dmo_days_to_data(dmo))
+            'data': dmo_to_table(dmo_days_to_data(dmo)),
+            'summary': dmo_last_days(dmo),
         })
     items = []
     for user in user_seprated_dmos:
