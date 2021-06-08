@@ -93,7 +93,7 @@
 }
 .signal-mistakes {
     color: goldenrod;
-    white-space: pre;
+    white-space: break-spaces;
 }
 .signal-type-buy {
     color:green;
