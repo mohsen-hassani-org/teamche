@@ -5,7 +5,7 @@ from django.db.models import Q, Avg, Count, Min, Max, Sum
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm, SignalReportForm
+from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm
 from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm, AppendSignalMistakesForm
 from cfd.models import Signal, PTAAnalysis, ClassicAnalysis
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
