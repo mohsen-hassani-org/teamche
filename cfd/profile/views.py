@@ -1,24 +1,30 @@
+import random
 from datetime import datetime, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Avg, Count, Min, Max, Sum
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm
+from django.contrib.auth.models import User
+from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm, SignalReportForm
 from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm, AppendSignalMistakesForm
 from cfd.models import Signal, PTAAnalysis, ClassicAnalysis
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
 from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
+from cfd.profile.filters import SignalFilter, ClassicAnalysisFilter, PTAAnalysisFilter
 from cfd.profile.utils import classic_analysis_signal_count
 
 
 @login_required
 def signals_all(request):
     signals = Signal.objects.all()
+    filtered_signals = SignalFilter(request.GET, queryset=signals)
+    sum_pip = filtered_signals.qs.aggregate(res=Sum('result_pip'))['res']
     context = {
-        'items': signals,
-        'headers': ['زمان', 'کاربر', 'دارایی', 'نوع سیگنال', ],
-        'fields': ['signal_datetime', 'user', 'asset', 'entry_type', ],
         'page_title': 'تمامی سیگنال‌ها',
+        'items': filtered_signals.qs,
+        'fields': ['signal_datetime', 'user', 'asset', 'entry_type', 'result_pip', ],
+        'headers': ['زمان', 'کاربر', 'دارایی', 'نوع سیگنال', 'pip', ],
+        'filter': filtered_signals,
         'footer_buttons': [{'title': 'بازگشت', 'url_name': 'cfd_profile_signals_month_view'}],
         'action_buttons': [
             {
@@ -31,6 +37,9 @@ def signals_all(request):
                 'url_name': 'cfd_profile_mistakes_append',
                 'arg1_field': 'id',
             },
+        ],
+        'extra_rows': [
+            {'title': 'Final PIPs', 'value': sum_pip}
         ],
     }
     return render(request, GENERIC_MODEL_LIST, context)
@@ -95,11 +104,6 @@ def view_mistakes(request):
 
 
 @login_required
-def signal_report(request):
-    pass
-
-
-@login_required
 def signal_result(request):
     pass
 
@@ -147,21 +151,22 @@ def add_signal(request):
 @login_required
 def view_pta_analysis(request):
     pta = PTAAnalysis.objects.all().order_by('datetime')
-    items = []
-    for analysis in pta:
-        items.append({
-            'id': analysis.id,
-            'num': '#{id}'.format(id=analysis.id),
-            'user': analysis.user,
-            'date': analysis.datetime.strftime('%Y %B %d'),
-            'time': analysis.datetime.strftime('%H:%M:%S'),
-            'signal': analysis.signal if hasattr(analysis, 'signal') else _('ندارد')
-        })
+    filter_set = PTAAnalysisFilter(request.GET, pta)
+    for analysis in filter_set.qs:
+        analysis.id = analysis.id
+        analysis.num = '#{id}'.format(id=analysis.id)
+        analysis.user = analysis.user
+        analysis.date = analysis.datetime.strftime('%Y %B %d')
+        analysis.time = analysis.datetime.strftime('%H:%M:%S')
+        analysis.signal_status = analysis.signal if hasattr(analysis, 'signal') else _('ندارد')
+        analysis.pip = analysis.signal.result_pip if hasattr(analysis, 'signal') else 0
+    pips = filter_set.qs.aggregate(pip=Sum('signal__result_pip'))['pip']
     data = {
-        'items': items,
+        'items': filter_set.qs,
+        'filter': filter_set,
         'page_title': _('تحلیل‌های PTA'),
-        'fields': ['num', 'user', 'signal', 'date', 'time'],
-        'headers': [_('شماره تحلیل'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('دقیقه')],
+        'fields': ['num', 'user', 'signal_status', 'date', 'time', 'pip'],
+        'headers': [_('شماره تحلیل'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('دقیقه'), _('پیپ نهایی'), ],
         'header_buttons': [
             {
                 'title': _('افزودن تحلیل جدید'),
@@ -182,6 +187,7 @@ def view_pta_analysis(request):
             },
         ],
         'delete_button_url_name': 'cfd_profile_analysis_pta_delete',
+        'extra_rows': [{'title': _('مجموع پیپ'), 'value': pips}]
     }
     return render(request, GENERIC_MODEL_LIST, data)
 
@@ -189,21 +195,18 @@ def view_pta_analysis(request):
 @login_required
 def view_classic_analysis(request):
     classic = ClassicAnalysis.objects.all().order_by('datetime')
-    items = []
-    for analysis in classic:
-        items.append({
-            'id': analysis.id,
-            'num': '#{id}'.format(id=analysis.id),
-            'title': analysis.title,
-            'user': analysis.user,
-            'date': analysis.datetime.strftime('%Y %B %d'),
-            'time': analysis.datetime.strftime('%H:%M:%S'),
-            'signal': analysis.signal if hasattr(analysis, 'signal') else _('ندارد')
-        })
+    filter_set = ClassicAnalysisFilter(request.GET, classic)
+    for analysis in filter_set.qs:
+        analysis.num = '#{id}'.format(id=analysis.id)
+        analysis.date = analysis.datetime.strftime('%Y %B %d')
+        analysis.time = analysis.datetime.strftime('%H:%M:%S')
+        analysis.signal_status = analysis.signal if hasattr(analysis, 'signal') else _('ندارد')
+     
     data = {
-        'items': items,
+        'items': filter_set.qs,
+        'filter': filter_set,
         'page_title': _('تحلیل‌های Classic'),
-        'fields': ['num', 'title', 'user', 'signal', 'date', 'time'],
+        'fields': ['num', 'title', 'user', 'signal_status', 'date', 'time'],
         'headers': [_('شماره تحلیل'), _('عنوان'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('دقیقه')],
         'header_buttons': [
             {
