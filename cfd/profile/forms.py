@@ -2,8 +2,14 @@ from django import forms
 from django.forms import widgets
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from datetimewidget.widgets import DateTimeWidget
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset
+
+
+
+class DateTimeInput(forms.DateInput):
+    input_type = 'datetime-local'
 
 class SignalForm(forms.ModelForm):
     """Form definition for Signal."""
