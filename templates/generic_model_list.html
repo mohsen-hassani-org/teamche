@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static i18n jalali_tags %}
 {% load model_list_tags %}
+{% load widget_tweaks %}
 
 
 {% block title %} {{block.super}} {{page_title}} {% endblock title %}
@@ -26,7 +27,7 @@
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
-                    {% if filter_form %}<li><a class="filter-link"><i class="fa fa-filter"></i></a></li>{% endif %}
+                    {% if filter %}<li><a class="filter-link"><i class="fa fa-filter"></i></a></li>{% endif %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-cloud-download"></i></a>
                         <ul class="dropdown-menu" role="menu">
@@ -37,75 +38,23 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                
+
                 <!-- FILTER BOX BEGIN -->
-                {% if filter_form %}
-                <div id="filter_box" class="hide">
-                    <form class="filter-form" method="GET">
-                        {% for hidden_field in filter_form.hidden_fields %}
-                        {{ hidden_field }}
-                        {% endfor %}
-
-                        {% if filter_form.non_field_errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {% for error in filter_form.non_field_errors %}
-                            {{ error }}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-
+                {% if filter %}
+                <div id="filter_box" class="{% if not request.GET %}hide{% endif %}">
+                    <form method="get">
                         <div class="row">
-                            {% for field in filter_form.visible_fields %}
-                            <div class="form-group col-md-2">
-                                <label for="{{field.id_for_label}}">{{field.label}}</label>
-                                <div class="">
-                                    {% if field.widget_type == 'checkbox' %}
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="{{field.name}}" id="id_{{field.name}}" {% if field.value %}checked{% endif %}>
-                                        </label>
-                                    </div>
-                                    {% else %}
-                                    {{ field }}
-                                    {% endif %}
-                                    {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    {% endif %}
-                                    {% if filter_form.is_bound %}
-                                    {% if field.errors %}
-                                    {% for error in field.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ error }}
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
-                                    <!-- {{ field } -->
-                                    <!-- {% else } -->
-                                    {% endif %}
+                            {% for field in filter.form.visible_fields %}
+                                <div class="form-group col-sm-4 col-md-3">
+                                {{ field.label_tag }}
+                                {% render_field field %}
                                 </div>
-                            </div>
                             {% endfor %}
-                            <div class="form-group col-md-4">
-                                <div class="actions">
-                                    <button type="submit" class="btn btn-success">
-                                        {% trans 'اعمال' %}
-                                    </button>
-                                    <a class="btn btn-default" href="{{request.path}}">{% trans 'پاک کردن' %}</a>
-                                </div>
-                            </div>
                         </div>
-
-                        {% if form.errors %}
-                        <div class="ln_solid"></div>
-                            <div class="">
-                                {% for error in filter_form.non_field_errors %}
-                                <div class="alert alert-danger">
-                                    <strong>{{ error|escape }}</strong>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        {% endif %}
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-search"></span> {% trans 'جستجو' %}
+                        </button>
+                        <a class="btn btn-default" href="{{request.path}}">{% trans 'پاک کردن' %}</a>
                     </form>
                 </div>
                 {% endif %}
@@ -222,6 +171,14 @@
                                 </td>
                             </tr>
                             {% endfor %}
+                            {% if extra_rows %}
+                                <tr><td colspan="{{headers|length|add:2}}"></td></tr>
+                                {% for row in extra_rows %}
+                                <tr>
+                                    <td colspan="{{headers|length|add:1}}"></td>
+                                    <td><strong>{{row.title}}: {{row.value}}</strong></td></tr>
+                                {% endfor %}
+                            {% endif %}
                         {% else %}
                             <tr>
                                 <td colspan="{{headers|length|add:2}}">
