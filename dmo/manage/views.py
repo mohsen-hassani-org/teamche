@@ -28,12 +28,6 @@ def view_dmos(request):
                 'new_tab': True,
             },
         ],
-        'footer_buttons': [
-            {
-                'title': _('بازگشت'),
-                'url_name': 'dmo_profile_dmo_view_this_month',
-            }
-        ],
     }
     return render(request, GENERIC_MODEL_LIST, data)
 

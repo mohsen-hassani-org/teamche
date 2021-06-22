@@ -259,3 +259,13 @@ table {
 .dmo_summary .red {
     background-color: indianred;
 }
+
+.page-title {
+    text-align: center;
+    display: inline-block;
+    height: auto;
+}
+.page-title .title_center {
+    padding-bottom: 15px;
+}
+

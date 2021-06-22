@@ -13,31 +13,31 @@
 {%block page_content%}
 
 
-<div class="page-title">
-    <div class="title_left">
-        <h5>
-            <!-- Placement for HERE_YOU_ARE  links -->
-        </h5>
-    </div>
-</div>
+
+
+
 <div class="clearfix"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="x_panel">
             <div class="x_content">
-                <div class="">
-                    <a tabindex="0" class="btn btn-success buttons-html5" href="{% url 'dmo_profile_dmo_add' %}">
-                        <i class="fa fa-plus"></i><span>{% trans 'افزودن DMO جدید' %}</span>
-                    </a>
-                    <a tabindex="0" class="btn btn-default buttons-html5" href="{% url 'dmo_profile_dmo_view_all' %}">
-                        <span>{% trans 'مشاهده همه DMOهای من' %}</span>
-                    </a>
-                    {% if user.is_superuser %}
-                    <a tabindex="2" class="btn buttons-html5 btn-warning" href="{% url 'dmo_manage_dmo_view_all' %}">
-                        <span>{% trans 'مدیریت DMOها' %}</span>
-                    </a>
-                    {% endif %}
+                <div class="page-title">
+                    <div class="title_center">
+                        <h2>
+                            {{team.name}}
+                            <small>لیست DMO</small>
+                        </h2>
+                    </div>
+                    <div class="title_buttons">
+                        <a tabindex="0" class="btn btn-success buttons-html5" href="{% url 'dmo_profile_dmo_add' team.id %}">
+                            <i class="fa fa-plus"></i><span>{% trans 'افزودن DMO جدید' %}</span>
+                        </a>
+                        <a tabindex="0" class="btn btn-default buttons-html5" href="{% url 'dmo_profile_dmo_view_all' team.id %}">
+                            <span>{% trans 'مشاهده همه DMOهای من' %}</span>
+                        </a>
+                   </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -153,52 +153,52 @@
 </div>
 
     <div class="col-md-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>
-                    {% trans 'نمودارهای سایر کاربران' %}
-                </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                {% for user_dmos in users %}
-                <div class="row">
-                    {% for dmo in user_dmos.1 %}
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                        <div class="dmo-card">
-                            <div class="dmo-mini-info">
-                                <div>{{dmo.goal}}</div>
-                                {%if user_dmos.0.get_full_name%}{{user_dmos.0.get_full_name}}{%else%}{{user_dmos.0.username}}{%endif%}
-                                <div class="dmo-summary">{{dmo.summary|safe}}</div>
-                            </div>
-                            <div class="dmo-mini-table">
-                                <table>
-                                    {% for row in dmo.data %}
-                                    <tr>
-                                        {% for cell in row.values %}
-                                        <td class="cell cell-mini {{cell.class}}"></td>
+        {% for user_dmos in users %}
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        {% trans 'نمودارهای ' %}
+                        {%if user_dmos.0.get_full_name%}{{user_dmos.0.get_full_name}}{%else%}{{user_dmos.0.username}}{%endif%}
+                    </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        {% for dmo in user_dmos.1 %}
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                            <div class="dmo-card">
+                                <div class="dmo-mini-info">
+                                    <div>{{dmo.goal}}</div>
+                                    {{dmo.type}}
+                                    <div class="dmo-summary">{{dmo.summary|safe}}</div>
+                                </div>
+                                <div class="dmo-mini-table">
+                                    <table>
+                                        {% for row in dmo.data %}
+                                        <tr>
+                                            {% for cell in row.values %}
+                                            <td class="cell cell-mini {{cell.class}}"></td>
+                                            {% endfor %}
+                                        </tr>
                                         {% endfor %}
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            <div class="dmo-action">
-                                <a class="btn btn-default btn-block"
-                                    href="{% url 'dmo_profile_dmo_view_table' dmo.id %}" target="_blank">
-                                    {% trans 'مشاهده کامل جدول' %}</a>
+                                    </table>
+                                </div>
+                                <div class="dmo-action">
+                                    <a class="btn btn-default btn-block"
+                                        href="{% url 'dmo_profile_dmo_view_table' dmo.id %}" target="_blank">
+                                        {% trans 'مشاهده کامل جدول' %}</a>
+                                </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-                <hr />
-                {% endfor %}
             </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 

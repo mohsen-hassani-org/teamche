@@ -54,6 +54,11 @@ def my_teams(request):
                 'arg1_field': 'id',
             },
             {
+                'title': _('DMO'),
+                'url_name': 'dmo_profile_dmo_view_this_month',
+                'arg1_field': 'id',
+            },
+            {
                 'title': _('جلسات'),
                 'url_name': 'team_profile_meetings_list',
                 'arg1_field': 'id',

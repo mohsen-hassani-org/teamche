@@ -9,6 +9,7 @@ from dmo.gvars import DMO_TABLE_TEMPLATE, DMO_CHART_TEMPLATE, ALL_PUBLIC_DMO, DM
 from dmo.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST
 from dmo.profile.utils import dmo_days_to_data, month_num_to_str, jalali_month_length, dmo_to_table, dmo_last_days
 from dmo.profile.forms import DmoForm, MicroactionForm, DmoDayForm
+from team.models import Team
 
 @login_required
 def view_dmo_as_table(request, dmo_id):
@@ -24,9 +25,10 @@ def view_dmo_as_table(request, dmo_id):
 
 
 @login_required
-def view_my_all_dmos(request):
+def view_my_all_dmos(request, team_id):
     user = request.user
-    user_dmos = user.dmo_set.all()
+    team = get_object_or_404(Team, id=team_id, users__in=[user])
+    user_dmos = user.dmo_set.filter(team=team)
     dmos = []
     for dmo in user_dmos:
         dmos.append({
@@ -57,6 +59,7 @@ def view_my_all_dmos(request):
             {
                 'title': _('بازگشت'),
                 'url_name': 'dmo_profile_dmo_view_this_month',
+                'url_arg1': team_id,
             }
         ],
     }
@@ -135,15 +138,21 @@ def dmo_image(request, dmo_id):
 
 
 @login_required
-def add_dmo(request):
+def add_dmo(request, team_id):
     user = request.user
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, users__in=[request.user])
+
     if request.method == 'POST':
         form = DmoForm(request.POST)
         if form.is_valid():
             dmo = form.save(commit=False)
             dmo.user = user
+            dmo.team = team
             dmo.save()
-            return redirect('dmo_profile_dmo_view_this_month')
+            return redirect('dmo_profile_dmo_view_this_month', team_id=team_id)
     else:
         form = DmoForm()
     context = {
@@ -151,20 +160,21 @@ def add_dmo(request):
         'page_subtitle': user.get_full_name(),
         'forms': [form],
         'form_submit_url_name': 'dmo_profile_dmo_add',
+        'form_submit_url_arg1': team.id,
         'form_cancel_url_name': 'dmo_profile_dmo_view_this_month',
+        'form_cancel_url_arg1': team.id,
     }
     return render(request, GENERIC_MODEL_FORM, context)
 
 @login_required
 def edit_dmo(request, dmo_id):
     user = request.user
-    dmo = get_object_or_404(Dmo, id=dmo_id)
+    dmo = get_object_or_404(Dmo, id=dmo_id, user=user)
     if request.method == 'POST':
         form = DmoForm(request.POST, instance=dmo)
         if form.is_valid():
             dmo = form.save()
-            dmo.save()
-            return redirect('dmo_profile_dmo_view_this_month')
+            return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
     else:
         form = DmoForm(instance=dmo)
     context = {
@@ -174,6 +184,7 @@ def edit_dmo(request, dmo_id):
         'form_submit_url_name': 'dmo_profile_dmo_edit',
         'form_submit_url_arg1': dmo_id,
         'form_cancel_url_name': 'dmo_profile_dmo_view_this_month',
+        'form_cancel_url_arg1': dmo.team.id,
     }
     return render(request, GENERIC_MODEL_FORM, context)
 
@@ -183,7 +194,7 @@ def delete_dmo(request, dmo_id):
     user = request.user
     dmo = get_object_or_404(Dmo, id=dmo_id, user=user)
     dmo.delete()
-    return redirect('dmo_profile_dmo_view_this_month')
+    return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
 
 
 @login_required 
@@ -215,6 +226,7 @@ def view_dmo_microactions(request, dmo_id):
             {
                 'title': _('بازگشت'),
                 'url_name': 'dmo_profile_dmo_view_this_month',
+                'url_arg1': dmo.team.id,
             }
         ],
         'delete_button_url_name': 'dmo_profile_dmo_delete_microaction',
@@ -297,6 +309,7 @@ def dmodays_view(request, dmo_id):
             {
                 'title': _('بازگشت'),
                 'url_name': 'dmo_profile_dmo_view_this_month',
+                'url_arg1': dmo.team.id,
             }
         ],
         'delete_button_url_name': 'dmo_profile_dmoday_delete',
@@ -328,7 +341,7 @@ def fill_dmo(request, dmo_id):
             dmoday.done = True if 'btn_finished' in request.POST else False
             dmoday.dmo = dmo
             dmoday.save()
-            return redirect('dmo_profile_dmo_view_this_month')
+            return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
     else:
         form = DmoDayForm()
     context = {
@@ -339,6 +352,7 @@ def fill_dmo(request, dmo_id):
         'form_submit_url_name': 'dmo_profile_dmo_fill',
         'form_submit_url_arg1': dmo_id,
         'form_cancel_url_name': 'dmo_profile_dmo_view_this_month',
+        'form_cancel_url_arg1': dmo.team.id,
         'submit_buttons': [
             {
                 'name': 'btn_finished',
@@ -377,29 +391,22 @@ def fill_dmo(request, dmo_id):
 
 
 @login_required
-def all_public_dmos(request):
+def all_public_dmos(request, team_id):
     user = request.user
+    team = get_object_or_404(Team, id=team_id, users__in=[user])
+
     jnow = date2jalali(datetime.now())
-    my_dmos = user.dmo_set.filter(month=jnow.month).filter(year=jnow.year)
-    users_dmos = Dmo.objects.filter(month=jnow.month).filter(year=jnow.year).filter(dmo_type='public')
+    my_dmos = Dmo.contents.get_my_team_month_dmo(user, team)
+    team_dmos = Dmo.contents.get_team_month_dmo(user, team)
     
-    my_dmo_set = []
     for dmo in my_dmos:
-        my_dmo_set.append({
-            'id': dmo.id,
-            'goal': dmo.goal,
-            'month': month_num_to_str(dmo.month),
-            'year': dmo.year,
-            'type': dmo.dmo_type,
-            'type_display': dmo.get_dmo_type_display(),
-            'data': dmo_to_table(dmo_days_to_data(dmo)),
-            'summary': dmo_last_days(dmo),
-        })
+        dmo.month_str = month_num_to_str(dmo.month)
+        dmo.type_display = dmo.get_dmo_type_display()
+        dmo.data = dmo_to_table(dmo_days_to_data(dmo))
+        dmo.summary = dmo_last_days(dmo)
 
     user_seprated_dmos = {}
-    for dmo in users_dmos:
-        if dmo.user == user:
-            continue
+    for dmo in team_dmos:
         if dmo.user not in user_seprated_dmos.keys():
             user_seprated_dmos[dmo.user] = []
         user_seprated_dmos[dmo.user].append({
@@ -408,6 +415,7 @@ def all_public_dmos(request):
             'goal': dmo.goal,
             'month': month_num_to_str(dmo.month),
             'year': dmo.year,
+            'type': dmo.get_dmo_type_display(),
             'data': dmo_to_table(dmo_days_to_data(dmo)),
             'summary': dmo_last_days(dmo),
         })
@@ -416,8 +424,9 @@ def all_public_dmos(request):
         items.append([user, user_seprated_dmos[user]])
     context = {
         'users': items,
-        'my_dmo_set': my_dmo_set,
+        'my_dmo_set': my_dmos,
         'month': month_num_to_str(jnow.month),
-        'year': jnow.year
+        'year': jnow.year,
+        'team': team,
     }
     return render(request, ALL_PUBLIC_DMO, context)

@@ -3,6 +3,7 @@ from django import forms
 from jalali_date import date2jalali
 from dmo.models import Dmo, DmoDay, Microaction
 from dmo.profile.utils import jalali_month_length
+from team.models import Team
 
 class DmoForm(forms.ModelForm):
     """Form definition for Dmo."""
