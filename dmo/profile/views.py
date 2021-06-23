@@ -1,14 +1,16 @@
 from datetime import datetime
+from django.http.response import Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.forms.models import inlineformset_factory
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 from jalali_date import date2jalali
-from dmo.models import Dmo, DmoDay, Microaction
+from dmo.models import Dmo, DmoDay, Microaction, Setting
 from dmo.gvars import DMO_TABLE_TEMPLATE, DMO_CHART_TEMPLATE, ALL_PUBLIC_DMO, DMO_IMAGE_TEMPLATE
 from dmo.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST
 from dmo.profile.utils import dmo_days_to_data, month_num_to_str, jalali_month_length, dmo_to_table, dmo_last_days
-from dmo.profile.forms import DmoForm, MicroactionForm, DmoDayForm
+from dmo.profile.forms import DmoForm, MicroactionForm, DmoDayForm, CloseTeamDmoForm, DmoSettingForm
 from team.models import Team
 
 @login_required
@@ -320,7 +322,8 @@ def dmodays_view(request, dmo_id):
 def dmoday_delete(request, dmoday_id):
     user = request.user
     dmoday = get_object_or_404(DmoDay, dmo__user=user, id=dmoday_id)
-    dmoday.delete()
+    if not dmoday.user_locked:
+        dmoday.delete()
     return redirect('dmo_profile_dmodays_view', dmo_id=dmoday.dmo.id)
 
 @login_required
@@ -332,16 +335,23 @@ def fill_dmo(request, dmo_id):
         form = DmoDayForm(request.POST)
         if form.is_valid():
             dmoday = form.save(commit=False)
-            # Delete previus dmodays of selected day
             day = dmoday.day
-            prev_days = DmoDay.objects.filter(dmo=dmo, day=day)
-            prev_days.delete()
 
-            # Save new day data
-            dmoday.done = True if 'btn_finished' in request.POST else False
-            dmoday.dmo = dmo
-            dmoday.save()
-            return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
+            # Check for previous dmoday
+            prev_day = DmoDay.objects.filter(dmo=dmo, day=day).first()
+            if prev_day:
+                if prev_day.user_locked:
+                    form.add_error('day', _('این روز قفل شده است و امکان تغییر در آن وجود ندارد'))
+                else:
+                    prev_day.done = True if 'btn_finished' in request.POST else False
+                    prev_day.save()
+                    return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
+            else:
+                # Save new day data
+                dmoday.done = True if 'btn_finished' in request.POST else False
+                dmoday.dmo = dmo
+                dmoday.save()
+                return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
     else:
         form = DmoDayForm()
     context = {
@@ -430,3 +440,58 @@ def all_public_dmos(request, team_id):
         'team': team,
     }
     return render(request, ALL_PUBLIC_DMO, context)
+
+
+@login_required
+def close_team_dmos(request, team_id):
+    user = request.user
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = Team.objects.filter(Q(id=team_id), Q(Q(leader=user) | Q(dmo_settings__dmo_manager=user))).first()
+        if not team:
+            raise Http404()
+    if request.method == 'POST':
+        form = CloseTeamDmoForm(request.POST)
+        if form.is_valid():
+            day = form.cleaned_data.get('day')
+            if day and day < 31 and day > 0:
+                # close all dmos in this day
+                dmos = team.dmos.filter(dmo_type=Dmo.DmoTypes.TEAM)
+                for dmo in dmos:
+                    dmo_day, created = DmoDay.objects.get_or_create(dmo=dmo, day=day, defaults={'done':False, 'user_locked': True})
+                return redirect('dmo_profile_dmo_view_this_month', team_id=team_id)
+    else:
+        form = CloseTeamDmoForm()
+    data = {
+        'page_title': _('منفی بستن DMO تیمی'),
+        'page_subtitle': team.name,
+        'forms': [form],
+        'form_submit_url_name': 'dmo_profile_team_close',
+        'form_submit_url_arg1': team_id,
+    }
+    return render(request, GENERIC_MODEL_FORM, data)
+
+
+@login_required
+@permission_required('team.manage_team', raise_exception=True)
+def dmo_settings(request, team_id):
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+    else:
+        team = get_object_or_404(Team, id=team_id, leader=request.user)
+    dmo_settings, created = Setting.objects.get_or_create(team=team)
+    if request.method == 'POST':
+        form = DmoSettingForm(team, request.POST, instance=dmo_settings)
+        if form.is_valid():
+            form.save()
+            return redirect('dmo_profile_dmo_view_this_month', team_id=team_id)
+    else:
+        form = DmoSettingForm(team, instance=dmo_settings)
+    data = {
+        'page_title': _('تنظیمات DMO'),
+        'page_subtitle': team.name,
+        'forms': [form],
+    }
+    return render(request, GENERIC_MODEL_FORM, data)
+

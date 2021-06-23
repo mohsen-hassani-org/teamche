@@ -163,12 +163,12 @@ def manage_team(request, team_id):
     else:
         team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
-        form = TeamForm(request.POST, instance=team)
+        form = TeamEditForm(request.POST, instance=team)
         if form.is_valid():
             form.save()
             return redirect('team_profile_teams_mine')
     else:
-        form = TeamForm(instance=team)
+        form = TeamEditForm(instance=team)
     data = {
         'page_title': _('ویرایش تیم'),
         'page_subtitle': team.name,

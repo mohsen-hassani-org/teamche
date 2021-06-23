@@ -61,6 +61,12 @@ class Dmo(models.Model):
     contents = DmoManager()
     objects = models.Manager()
 
+class Setting(models.Model):
+    class Meta:
+        verbose_name = _('تنظیم DMO')
+        verbose_name_plural = _('تنظیمات DMO')
+    team = models.OneToOneField(Team, verbose_name=_('تیم'), on_delete=models.CASCADE, related_name='dmo_settings')
+    dmo_manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('مدیر DMO'))
 
 class Microaction(models.Model):
     class Meta:
@@ -97,3 +103,4 @@ class DmoDay(models.Model):
     done = models.BooleanField(verbose_name=_('انجام شده'))
     comment = models.CharField(
         max_length=200, null=True, blank=True, verbose_name=_('توضیحات'))
+    user_locked = models.BooleanField(verbose_name=_('قفل کاربر'), default=False)

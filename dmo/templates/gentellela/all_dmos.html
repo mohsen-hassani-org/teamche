@@ -35,6 +35,11 @@
                         <a tabindex="0" class="btn btn-default buttons-html5" href="{% url 'dmo_profile_dmo_view_all' team.id %}">
                             <span>{% trans 'مشاهده همه DMOهای من' %}</span>
                         </a>
+                        {% if request.user == team.dmo_settings.dmo_manager or request.user == team.leader or request.user.is_superuser %}
+                        <a tabindex="0" class="btn btn-warning buttons-html5" href="{% url 'dmo_profile_team_close' team.id %}">
+                            <span>{% trans 'منفی بستن نمودارهای تیمی' %}</span>
+                        </a>
+                        {% endif %}
                    </div>
                 </div>
                 

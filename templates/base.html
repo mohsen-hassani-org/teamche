@@ -169,6 +169,9 @@
                                         <li><a href="{% url 'dmo_profile_dmo_view_this_month' team.id %}">{% trans 'DMO' %}</a></li>
                                         <li><a href="{% url 'team_profile_meetings_list' team.id %}">{% trans 'جلسات' %}</a></li>
                                         <li><a href="{% url 'team_profile_votes_list' team.id %}">{% trans 'نظرسنجی' %}</a></li>
+                                        {% if request.user == team.leader %}
+                                        <li><a href="{% url 'dmo_profile_team_settings' team.id %}">{% trans 'تنظیمات DMO' %}</a></li>
+                                        {% endif %}
                                     </ul>
                                 </li>
                                 {% endfor %}

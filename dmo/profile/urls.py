@@ -16,4 +16,6 @@ urlpatterns = [
     path('<int:dmo_id>/days/', views.dmodays_view, name="dmo_profile_dmodays_view"),
     path('day/<int:dmoday_id>/delete/', views.dmoday_delete, name="dmo_profile_dmoday_delete"),
     path('<int:dmo_id>/view/table/', views.view_dmo_as_table, name="dmo_profile_dmo_view_table"),
+    path('team/<int:team_id>/close/', views.close_team_dmos, name='dmo_profile_team_close'),
+    path('team/<int:team_id>/settings/', views.dmo_settings, name='dmo_profile_team_settings'),
 ]
