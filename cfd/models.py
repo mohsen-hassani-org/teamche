@@ -240,6 +240,7 @@ class Signal(models.Model):
     class Meta:
         verbose_name = _('سیگنال')
         verbose_name_plural = _('سیگنال‌ها')
+        ordering = ['-result_datetime']
     def __str__(self):
         return 'Signal by {user} on {asset} on {date}'.format(user=self.user, asset=self.asset, date=self.signal_datetime)
     signal_datetime = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ و زمان'))
