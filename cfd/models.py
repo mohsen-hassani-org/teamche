@@ -80,6 +80,7 @@ class ClassicAnalysis(models.Model):
     class Meta:
         verbose_name = _('آنالیز Classic')
         verbose_name_plural = _('آنالیزهای Classic')
+        ordering = ['-datetime']
     class TrendLines(models.TextChoices):
         BULLISH_TREND = 'bl', _('خط روند صعودی')
         BEARISH_TREND = 'br', _('خط روند نزولی')
