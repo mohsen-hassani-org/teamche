@@ -384,5 +384,24 @@
         window.onload=show_signal();
     {% endif %}
 
+    function setSignalType()
+    {
+        let entryField = document.getElementById("id_entry_point1");
+        let profitField = document.getElementById("id_take_profit1");
+        let entry = parseInt(entryField.value);
+        let profit = parseInt(profitField.value);
+        let type;
+        if (profit > entry)
+            type = 0;
+        else
+            type = 1;
+        let checkboxId = `id_entry_type_${type}`;
+        document.getElementById(checkboxId).checked = true;
+    }
+    let entryField = document.getElementById("id_entry_point1");
+    let profitField = document.getElementById("id_take_profit1");
+    entryField.onchange = () => {setSignalType()}
+    profitField.onchange = () => {setSignalType()}
+
 </script>
 {%endblock page_content%}
