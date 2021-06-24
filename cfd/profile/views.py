@@ -369,6 +369,7 @@ def classic_analysis_edit(request, analysis_id):
         'form': form,
         'action': 'cfd_profile_analysis_classic_edit',
         'action_arg': analysis.id,
+        'team': analysis.team,
     }
     return render(request, CLASSIC_ANALYSIS_FORM_TEMPLATE, data)
 
@@ -447,6 +448,8 @@ def add_classic_analysis(request, team_id):
     data = {
         'form': form,
         'action': 'cfd_profile_analysis_classic_add',
+        'action_arg': team_id,
+        'team': team,
     }
     return render(request, CLASSIC_ANALYSIS_FORM_TEMPLATE, data)
 

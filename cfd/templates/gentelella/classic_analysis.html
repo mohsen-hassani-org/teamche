@@ -1535,7 +1535,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                     <button type="submit" name="submit" class="btn btn-success">{% trans 'ثبت' %}</button>
                     <button type="submit" name="submit_and_signal" class="btn btn-success">{% trans 'ثبت و افزودن سیگنال' %}</button>
-                    <a href="{% url 'cfd_profile_analysis_classic_view' %}" class="btn btn-default">
+                    <a href="{% url 'cfd_profile_analysis_classic_view' team.id %}" class="btn btn-default">
                         {% trans 'انصراف' %}
                     </a>
                 </div>
