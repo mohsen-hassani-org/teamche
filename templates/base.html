@@ -123,19 +123,6 @@
                                 </li>
                                 <!-- TEAM END -->
 
-                                <!-- CFD BEGIN -->
-                                <li>
-                                    <a><i class="fa fa-dollar"></i>{% trans 'CFD' %}<span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="{% url 'cfd_profile_signals_month_view' %}">{% trans 'سیگنال‌ها' %}</a>
-                                        </li>
-                                        <li><a href="{% url 'cfd_profile_analysis_classic_view' %}">{% trans 'تحلیل‌ها' %}</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <!-- CFD END -->
-
                                 <!-- FILE APP BEGIN -->
                                 {% if perms.file %}
                                 <li>
@@ -167,6 +154,7 @@
                                         <li><a href="{% url 'team_profile_teams_view' team.id %}">{% trans 'مشاهده' %}</a></li>
                                         <li><a href="{% url 'team_profile_attendance_view_today' team.id %}">{% trans 'حضور و غیاب' %}</a></li>
                                         <li><a href="{% url 'dmo_profile_dmo_view_this_month' team.id %}">{% trans 'DMO' %}</a></li>
+                                        <li><a href="{% url 'cfd_profile_signals_month_view' team.id %}">{% trans 'CFD' %}</a></li>
                                         <li><a href="{% url 'team_profile_meetings_list' team.id %}">{% trans 'جلسات' %}</a></li>
                                         <li><a href="{% url 'team_profile_votes_list' team.id %}">{% trans 'نظرسنجی' %}</a></li>
                                         {% if request.user == team.leader %}

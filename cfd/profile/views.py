@@ -1,5 +1,6 @@
 import random
 from datetime import datetime, timedelta
+from re import L
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Avg, Count, Min, Max, Sum
 from django.utils.translation import ugettext as _
@@ -12,28 +13,86 @@ from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE
 from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
 from cfd.profile.filters import SignalFilter, ClassicAnalysisFilter, PTAAnalysisFilter
 from cfd.profile.utils import classic_analysis_signal_count
+from cfd.profile.chart_handler import single_dataset_chart, multi_dataset_chart
+from cfd.profile.permissions import team_leader_permission, team_registration_permission
+from team.models import Team
+
+
+# @login_required
+# def user_summary(request):
+
+#     DATASET = User.objects.all()
+#     CHART_TYPE = 'line'
+#     X_DATA_TYPE = 'datetime'
+#     X_DATA_FIELD = 'date_joined'
+#     X_START_RANGE = datetime(year=2021, month=4, day=1)
+#     X_END_RANGE = datetime(year=2021, month=6, day=1)
+#     X_INTERVAL = 'months'
+#     Y_DATA = 'id'
+#     OBJECT_FIELD = 'username'
+#     OPERATION = Count
+#     SUM_RESULTS = True
+
+#     labels = []
+#     datasets = []
+
+#     distance = X_START_RANGE - X_END_RANGE
+#     interval = getattr(distance, X_INTERVAL)
+#     for i in range(int(interval)):
+#         date_start = X_START_RANGE + timedelta(i)
+#         labels.append(date_start.strftime('%Y-%m-%d'))
+
+#     objects = ''
+#     for obj in objects:
+#         values = []
+#         summ = 0
+#         for i in range(int(interval)):
+#             date_start = X_START_RANGE + timedelta(i)
+#             date_end = date_start + timedelta(days=1)
+#             data = Signal.objects.filter(
+#                 user=obj, signal_datetime__gt=date_start, signal_datetime__lt=date_end)
+#             data = data.aggregate(summ=OPERATION(VALUE))
+#             data = data['summ'] if data['summ'] else 0
+#             summ = data + summ if SUM_RESULTS else data
+#             values.append(summ)
+#         datasets.append(
+#             {'label': obj, 'data': values, 'color': random_color()})
+#     data = {
+#         'type': TYPE,
+#         'labels': labels,
+#         'datasets': datasets,
+#     }
+#     return render(request, 'test.html', {**data})
+
+
+# def test(request):
+#     # data = single_dataset_chart(qs=Signal.objects.all(), x_data_field='user__username',
+#                                 # y_data_field='result_pip', chart_type='bar', operation=Sum, sum_results=False)
+#     data = multi_dataset_chart(qs=Signal.objects.all(), x_data_field='user__username',
+#       y_data_field='result_pip',dataset_field='asset__name', chart_type='pie', operation=Sum, sum_results=False)
+#     return render(request, 'test.html', {**data})
 
 
 @login_required
-def signals_all(request):
-    signals = Signal.objects.all()
+def signals_all(request, team_id):
+    signals = Signal.signals.get_team_signals(team_id)
     filtered_signals = SignalFilter(request.GET, queryset=signals)
-    sum_pip = filtered_signals.qs.aggregate(res=Sum('result_pip'))['res']
+    sum_pip = filtered_signals.qs.aggregate(res=Sum('result_pip')).get('res')
     context = {
         'page_title': 'تمامی سیگنال‌ها',
         'items': filtered_signals.qs,
         'fields': ['signal_datetime', 'user', 'asset', 'entry_type', 'result_pip', ],
         'headers': ['زمان', 'کاربر', 'دارایی', 'نوع سیگنال', 'pip', ],
         'filter': filtered_signals,
-        'footer_buttons': [{'title': 'بازگشت', 'url_name': 'cfd_profile_signals_month_view'}],
+        'footer_buttons': [{'title': 'بازگشت', 'url_name': 'cfd_profile_signals_month_view', 'url_arg1': team_id}],
         'action_buttons': [
             {
-                'title': 'مشاهده جزئیات', 
+                'title': 'مشاهده جزئیات',
                 'url_name': 'cfd_profile_signals_info',
                 'arg1_field': 'id',
             },
             {
-                'title': 'اشتباهات', 
+                'title': 'اشتباهات',
                 'url_name': 'cfd_profile_mistakes_append',
                 'arg1_field': 'id',
             },
@@ -46,28 +105,24 @@ def signals_all(request):
 
 
 @login_required
-def signals_month(request):
+def signals_month(request, team_id):
     if 'month' in request.GET:
         month = request.GET['month']
         month = datetime.strptime(month, '%Y-%m')
     else:
         month = datetime.now().replace(day=1)
-    try:
-        next_month = month.replace(month=month.month+1)
-    except ValueError:
-        if month.month == 12:
-            next_month = month.replace(year=month.year + 1, month=1)
-        else:
-            next_month = month
-    running_signals = Signal.objects.filter(status=Signal.SignalStatus.RUNNING)
-    month_signals = Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(
-        result_datetime__gt=month) & Q(result_datetime__lt=next_month))
+    
+    team = get_object_or_404(Team, id=team_id)
+    running_signals = Signal.signals.get_team_running_signals(team_id)
+    month_signals = Signal.signals.get_month_team_signals(team_id, month)
+
     data = {
         'all_signals': month_signals,
         'running_signals': running_signals,
         'month': month.strftime('%B'),
         'month_num': month.strftime('%m'),
         'year': month.strftime('%Y'),
+        'team': team,
     }
     return render(request, SIGNALS, data)
 
@@ -75,6 +130,9 @@ def signals_month(request):
 @login_required
 def signal_info(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
+    user = request.user
+    team = signal.team
+    team_registration_permission(user, team)
     classic_signal_count = classic_analysis_signal_count(
         signal.classic_analysis)
     if request.method == 'POST':
@@ -99,7 +157,7 @@ def signal_info(request, signal_id):
 
 
 @login_required
-def view_mistakes(request):
+def view_mistakes(request, team_id):
     pass
 
 
@@ -115,7 +173,7 @@ def append_signal_mistakes(request, signal_id):
         form = AppendSignalMistakesForm(request.POST, instance=signal)
         if form.is_valid():
             form.save()
-            return redirect('cfd_profile_signals_month_view')
+            return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)
     else:
         form = AppendSignalMistakesForm(instance=signal)
     data = {
@@ -123,20 +181,23 @@ def append_signal_mistakes(request, signal_id):
         'page_title': _('ویرایش اشتباهات سیگنال'),
         'page_subtitle': f'#{signal.id}',
         'form_cancel_url_name': 'cfd_profile_signals_month_view',
+        'form_cancel_url_arg1': signal.team.id,
     }
     return render(request, GENERIC_MODEL_FORM, data)
 
 
 @login_required
-def add_signal(request):
+def add_signal(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
     user_signals = None
     if request.method == 'POST':
         form = SignalForm(request.POST)
         if form.is_valid():
             signal = form.save(commit=False)
             signal.user = request.user
+            signal.team = team
             signal.save()
-            return redirect('cfd_profile_signals_month_view')
+            return redirect('cfd_profile_signals_month_view', team_id=team_id)
     else:
         user_signals = Signal.objects.filter(
             Q(user=request.user) & ~Q(mistakes=None) & ~Q(mistakes=''))[:10]
@@ -144,13 +205,15 @@ def add_signal(request):
     context = {
         'form': form,
         'user_signals': user_signals,
+        'team_id': team_id,
     }
     return render(request, SIGNAL_FORM, context)
 
 
 @login_required
-def view_pta_analysis(request):
-    pta = PTAAnalysis.objects.all().order_by('datetime')
+def view_pta_analysis(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    pta = PTAAnalysis.objects.filter(team=team).order_by('-datetime')
     filter_set = PTAAnalysisFilter(request.GET, pta)
     for analysis in filter_set.qs:
         analysis.id = analysis.id
@@ -158,8 +221,10 @@ def view_pta_analysis(request):
         analysis.user = analysis.user
         analysis.date = analysis.datetime.strftime('%Y %B %d')
         analysis.time = analysis.datetime.strftime('%H:%M:%S')
-        analysis.signal_status = analysis.signal if hasattr(analysis, 'signal') else _('ندارد')
-        analysis.pip = analysis.signal.result_pip if hasattr(analysis, 'signal') else 0
+        analysis.signal_status = analysis.signal if hasattr(
+            analysis, 'signal') else _('ندارد')
+        analysis.pip = analysis.signal.result_pip if hasattr(
+            analysis, 'signal') else 0
     pips = filter_set.qs.aggregate(pip=Sum('signal__result_pip'))['pip']
     data = {
         'items': filter_set.qs,
@@ -171,6 +236,7 @@ def view_pta_analysis(request):
             {
                 'title': _('افزودن تحلیل جدید'),
                 'url_name': 'cfd_profile_analysis_pta_add',
+                'url_arg1': team_id,
             },
         ],
         'action_buttons': [
@@ -184,6 +250,7 @@ def view_pta_analysis(request):
             {
                 'title': _('بازگشت'),
                 'url_name': 'cfd_profile_signals_month_view',
+                'url_arg1': team_id,
             },
         ],
         'delete_button_url_name': 'cfd_profile_analysis_pta_delete',
@@ -193,15 +260,17 @@ def view_pta_analysis(request):
 
 
 @login_required
-def view_classic_analysis(request):
-    classic = ClassicAnalysis.objects.all().order_by('datetime')
+def view_classic_analysis(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    classic = ClassicAnalysis.objects.filter(team=team).order_by('-datetime')
     filter_set = ClassicAnalysisFilter(request.GET, classic)
     for analysis in filter_set.qs:
         analysis.num = '#{id}'.format(id=analysis.id)
         analysis.date = analysis.datetime.strftime('%Y %B %d')
         analysis.time = analysis.datetime.strftime('%H:%M:%S')
-        analysis.signal_status = analysis.signal if hasattr(analysis, 'signal') else _('ندارد')
-     
+        analysis.signal_status = analysis.signal if hasattr(
+            analysis, 'signal') else _('ندارد')
+
     data = {
         'items': filter_set.qs,
         'filter': filter_set,
@@ -212,6 +281,7 @@ def view_classic_analysis(request):
             {
                 'title': _('افزودن تحلیل جدید'),
                 'url_name': 'cfd_profile_analysis_classic_add',
+                'url_arg1': team_id,
             },
         ],
         'action_buttons': [
@@ -225,6 +295,7 @@ def view_classic_analysis(request):
             {
                 'title': _('بازگشت'),
                 'url_name': 'cfd_profile_signals_month_view',
+                'url_arg1': team_id,
             },
         ],
         'delete_button_url_name': 'cfd_profile_analysis_classic_delete',
@@ -259,7 +330,7 @@ def pta_analysis_edit(request, analysis_id):
         form = PTAAnalysisForm(request.POST, instance=analysis)
         if form.is_valid():
             form.save()
-            return redirect('cfd_profile_analysis_pta_view')
+            return redirect('cfd_profile_analysis_pta_view', team_id=analysis.team.id)
     else:
         form = PTAAnalysisForm(instance=analysis)
     data = {
@@ -269,6 +340,7 @@ def pta_analysis_edit(request, analysis_id):
         'form_submit_url_name': 'cfd_profile_analysis_pta_edit',
         'form_submit_url_arg1': analysis_id,
         'form_cancel_url_name': 'cfd_profile_analysis_pta_view',
+        'form_cancel_url_arg1': analysis.team.id,
     }
     return render(request, GENERIC_MODEL_FORM, data)
 
@@ -290,7 +362,7 @@ def classic_analysis_edit(request, analysis_id):
         form = ClassicAnalysisForm(request.POST, instance=analysis)
         if form.is_valid():
             form.save()
-            return redirect('cfd_profile_analysis_classic_view')
+            return redirect('cfd_profile_analysis_classic_view', team_id=analysis.team.id)
     else:
         form = ClassicAnalysisForm(instance=analysis)
     data = {
@@ -315,7 +387,7 @@ def pta_analysis_delete(request, analysis_id):
         }
         return render(request, GENERIC_MESSAGE, data)
     analysis.delete()
-    return redirect('cfd_profile_analysis_pta_view')
+    return redirect('cfd_profile_analysis_pta_view', team_id=analysis.team.id)
 
 
 @login_required
@@ -332,39 +404,44 @@ def classic_analysis_delete(request, analysis_id):
         }
         return render(request, GENERIC_MESSAGE, data)
     analysis.delete()
-    return redirect('cfd_profile_analysis_classic_view')
+    return redirect('cfd_profile_analysis_classic_view', team_id=analysis.team.id)
 
 
 @login_required
-def add_pta_analysis(request):
+def add_pta_analysis(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
     if request.method == 'POST':
         form = PTAAnalysisForm(request.POST)
         if form.is_valid():
             analysis = form.save(commit=False)
             analysis.user = request.user
+            analysis.team = team
             analysis.save()
-            return redirect('cfd_profile_analysis_pta_view')
+            return redirect('cfd_profile_analysis_pta_view', team_id=team_id)
     else:
         form = PTAAnalysisForm()
     data = {
         'forms': [form],
         'page_title': _('افزودن تحلیل PTA'),
         'form_cancel_url_name': 'cfd_profile_analysis_pta_view',
+        'form_cancel_url_arg1': team_id,
     }
     return render(request, GENERIC_MODEL_FORM, data)
 
 
 @login_required
-def add_classic_analysis(request):
+def add_classic_analysis(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
     if request.method == 'POST':
         form = ClassicAnalysisForm(request.POST)
         if form.is_valid():
             analysis = form.save(commit=False)
             analysis.user = request.user
+            analysis.team = team
             analysis.save()
             if 'submit_and_signal' in request.POST:
-                return redirect('cfd_profile_signals_add')
-            return redirect('cfd_profile_analysis_classic_view')
+                return redirect('cfd_profile_signals_add', team_id=team_id)
+            return redirect('cfd_profile_analysis_classic_view', team_id=team_id)
     else:
         form = ClassicAnalysisForm()
     data = {
@@ -451,7 +528,7 @@ def fill_signal(request, signal_id):
             filled_signal = form.save(commit=False)
             filled_signal.status = Signal.SignalStatus.FILLED
             filled_signal.save()
-            return redirect('cfd_profile_signals_month_view')
+            return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)
     else:
         form = FillSignalForm(instance=signal)
     context = {
@@ -461,6 +538,7 @@ def fill_signal(request, signal_id):
         'form_submit_url_name': 'cfd_profile_signals_fill',
         'form_submit_url_arg1': signal.id,
         'form_cancel_url_name': 'cfd_profile_signals_month_view',
+        'form_cancel_url_arg1': signal.team.id,
         'extra_head': '''
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
             <script src="/static/vendors/bootstrap/dist/js/bootstrap.js"></script>
@@ -482,4 +560,4 @@ def cancel_signal(request, signal_id):
     signal.status = Signal.SignalStatus.CANCELED
     signal.canceled_datetime = datetime.now()
     signal.save()
-    return redirect('cfd_profile_signals_month_view')
+    return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)

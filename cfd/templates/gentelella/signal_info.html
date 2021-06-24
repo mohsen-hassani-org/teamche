@@ -110,7 +110,7 @@
                         <a class="btn btn-success" href="{% url 'cfd_profile_signals_fill' signal.id %}">{% trans 'اتمام سیگنال' %}</a>
                         <a class="btn btn-danger" href="{% url 'cfd_profile_signals_cancel' signal.id %}">{% trans 'لغو سیگنال' %}</a>
                     {% endif %}
-                    <a class="btn btn-default" href="{% url 'cfd_profile_signals_month_view' %}">{% trans 'بازگشت' %}</a>
+                    <a class="btn btn-default" href="{% url 'cfd_profile_signals_month_view' 1 %}">{% trans 'بازگشت' %}</a>
                 </div>
             </div>
         </div>

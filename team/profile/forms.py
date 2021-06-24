@@ -19,7 +19,7 @@ class DateTimeInput(forms.DateInput):
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ('name', )
+        fields = ('name', 'avatar', )
 
 class TeamInvitationForm(forms.Form):
     users = forms.ModelMultipleChoiceField(queryset=User.objects.none(), label=_('کاربران'))

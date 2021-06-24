@@ -84,13 +84,7 @@
                                         </div>
                                     </div>
                                     {% endif %}
-                                    {% if perms.cfd %}
-                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
-                                        <div class="app-box">
-                                            <a href="{% url 'cfd_profile_signals_month_view' %}"><i class="fa fa-dollar"></i><div>CFD</div></a>
-                                        </div>
-                                    </div>
-                                    {% endif %}
+                                    
                                     {% if perms.file %}
                                     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
                                         <div class="app-box">
@@ -141,6 +135,65 @@
             </div>
         </div>
     </div>
+
+    {% for team in request.user.teams.all %}
+    <div class="col-md-12 col-lg-6">
+        <div class="x_panel">
+            {% comment %} <div class="x_title">
+                <h2>
+                    {{team.name}}
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div> {% endcomment %}
+            <div class="x_content">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 profile_left">
+                            <div class="team_avatar">
+                                <div id="crop-avatar">
+                                    <!-- Current avatar -->
+                                    <img class="img-responsive avatar-view"
+                                        src="{% if team.avatar %}{{ team.avatar.url }}{% else %}{% static 'team/avatar.png' %}{% endif %}"
+                                        alt="Avatar" title="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                            <h3>{{team.name}}</h3>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <i class="fa fa-user user-profile-icon"></i><span> {% trans 'رهبر تیم' %}: {{team.leader}}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <i class="fa fa-users user-profile-icon"></i>
+                                    <span>{% trans 'اعضا' %}: {{team.users.count}}</span>
+                                </div>
+                            </div>
+                            <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_teams_view' team.id %}"><i class="fa fa-eye"></i> {% trans 'مشاهده' %} </a>
+                                    <a class="btn btn-default btn-xs" href="{% url 'cfd_profile_signals_month_view' team.id %}"><i class="fa fa-dollar"></i> CFD </a>
+                                    <a class="btn btn-default btn-xs" href="{% url 'dmo_profile_dmo_view_this_month' team.id %}"><i class="fa fa-line-chart"></i> DMO </a>
+                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_meetings_list' team.id %}">{% trans 'جلسات' %} </a>
+                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_attendance_view_today' team.id %}">{% trans 'حضور و غیاب' %} </a>
+                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_votes_list' team.id %}">{% trans 'نظرسنجی‌ها' %} </a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {%endblock page_content%}

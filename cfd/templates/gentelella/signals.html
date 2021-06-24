@@ -29,14 +29,14 @@
         <div class="x_panel">
             <div class="x_content">
                 <div class="">
-                    <a tabindex="0" class="btn buttons-html5 btn-success" href="{% url 'cfd_profile_signals_add' %}">
+                    <a tabindex="0" class="btn buttons-html5 btn-success" href="{% url 'cfd_profile_signals_add' team.id %}">
                         <i class="fa fa-plus"></i><span>{% trans 'افزودن سیگنال جدید' %}</span>
                     </a>
-                    <a tabindex="1" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_signals_all_view' %}">
+                    <a tabindex="1" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_signals_all_view' team.id %}">
                         <span>{% trans 'مشاهده تمام سیگنال‌ها' %}</span>
-                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_pta_view' %}">
+                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_pta_view' team.id %}">
                         <span>{% trans 'تحلیل‌های PTA' %}</span>
-                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_classic_view' %}">
+                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_classic_view' team.id %}">
                         <span>{% trans 'تحلیل‌های Classic' %}</span>
                     </a>
                     {% if user.is_superuser %}

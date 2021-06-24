@@ -1,11 +1,27 @@
 from datetime import datetime
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django_quill.fields import QuillField
+from accounts.models import AccountSetting
 
 
 # Create your models here.
+
+def file_size_validator(avatar):
+    vs = avatar.size
+    setting = AccountSetting.objects.last()
+    max_size = 2
+    if setting is not None:
+        max_size = setting.avatar_max_file_size
+    max_size_b = max_size * 1024 * 1024
+    if vs > max_size_b:
+        raise ValidationError(
+            _('سایز فایل شما بیشتر از حد مجاز است. حداکثر حجم مجاز فایل {0} مگابایت می‌باشد.'.format(max_size)))
+    else:
+        return avatar
+
 
 class Team(models.Model):
     class Meta:
@@ -19,6 +35,8 @@ class Team(models.Model):
     name = models.CharField(max_length=50, verbose_name=_('نام تیم'))
     leader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name='teams_as_leader', verbose_name=_('رهبر'))
     users = models.ManyToManyField(User, related_name='teams', verbose_name=('اعضا'))
+    avatar = models.ImageField(max_length=300, upload_to='team/avatars', default='team/avatar.png',
+                               validators=[file_size_validator], verbose_name=_('تصویر نمایه'), null=True, blank=True)
 
 class TeamInvitation(models.Model):
     class Meta:

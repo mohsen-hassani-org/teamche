@@ -5478,3 +5478,8 @@ body.lock #lock_screen .unlock {
 .filter-form .actions {
     padding-top: 23px;
 }
+
+.no-margin-x {
+    margin-right: 0px;
+    margin-left: 0px;
+}

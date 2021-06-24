@@ -83,7 +83,7 @@ def my_teams(request):
 @login_required
 def new_team(request):
     if request.method == 'POST':
-        form = TeamForm(request.POST)
+        form = TeamForm(request.POST, request.FIELS)
         if form.is_valid():
             team = form.save(commit=False)
             team.leader = request.user
@@ -99,6 +99,7 @@ def new_team(request):
     data = {
         'page_title': _('ایجاد تیم جدید'),
         'forms': [form],
+        'is_file_form': True,
         'form_cancel_url_name': 'team_profile_teams_mine',
     }
     return render(request, GENERIC_MODEL_FORM, data)
@@ -163,16 +164,17 @@ def manage_team(request, team_id):
     else:
         team = get_object_or_404(Team, id=team_id, leader=request.user)
     if request.method == 'POST':
-        form = TeamEditForm(request.POST, instance=team)
+        form = TeamForm(request.POST, request.FILES, instance=team)
         if form.is_valid():
             form.save()
             return redirect('team_profile_teams_mine')
     else:
-        form = TeamEditForm(instance=team)
+        form = TeamForm(instance=team)
     data = {
         'page_title': _('ویرایش تیم'),
         'page_subtitle': team.name,
         'forms': [form],
+        'is_file_form': True,
         'form_cancel_url_name': 'team_profile_teams_mine',
     }
     return render(request, GENERIC_MODEL_FORM, data)

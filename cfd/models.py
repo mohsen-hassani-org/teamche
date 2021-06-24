@@ -1,13 +1,38 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.db.models.deletion import SET_NULL
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy  as _
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from team.models import Team
 
 
 # Create your models here.
+
+class SignalManager(models.Manager):
+    def get_team_signals(self, team_id):
+        team = get_object_or_404(Team, id=team_id)
+        return Signal.objects.filter(team=team)
+
+    def get_team_running_signals(self, team_id):
+        team = get_object_or_404(Team, id=team_id)
+        return Signal.objects.filter(team=team, status=Signal.SignalStatus.RUNNING)
+
+    def get_month_team_signals(self, team_id, month):
+        team = get_object_or_404(Team, id=team_id)
+        try:
+            next_month = month.replace(month=month.month+1)
+        except ValueError:
+            if month.month == 12:
+                next_month = month.replace(year=month.year + 1, month=1)
+            else:
+                next_month = month
+    
+        return Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(
+            result_datetime__gt=month) & Q(result_datetime__lt=next_month) & Q(team=team))
 
 class Comment(models.Model):
     class Meta:
@@ -75,6 +100,7 @@ class PTAAnalysis(models.Model):
     datetime = models.DateTimeField(auto_now=True)
     image_url = models.URLField(max_length=300, null=True, blank=True)
     comments = GenericRelation(Comment)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='pta_analysis', verbose_name=_('تیم'))
 
 class ClassicAnalysis(models.Model):
     class Meta:
@@ -229,6 +255,7 @@ class ClassicAnalysis(models.Model):
     image_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('URL تصویر'))
     tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
     comments = GenericRelation(Comment)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='classic_analysis', verbose_name=_('تیم'))
 
 class Signal(models.Model):
     class TradeType(models.TextChoices):
@@ -269,5 +296,7 @@ class Signal(models.Model):
     result_image_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('تصویر نهایی'))
     self_entered = models.BooleanField(default=True, verbose_name=_('وارد شده‌اید؟'))
     comments = GenericRelation(Comment, verbose_name=_('نظرات'))
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='signals', verbose_name=_('تیم'))
+    signals = SignalManager()
+    objects = models.Manager()
 
-   

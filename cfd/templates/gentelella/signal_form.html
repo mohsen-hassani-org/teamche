@@ -82,7 +82,7 @@
 
     <div class="x_content">
         <form id="form" data-parsley-validate class="form-horizontal form-label-left" 
-        action="{% url 'cfd_profile_signals_add' %}" method="POST">
+        action="{% url 'cfd_profile_signals_add' team_id %}" method="POST">
             {% csrf_token %}
             {% if formset %}
             {{ formset.management_form }}
@@ -364,7 +364,7 @@
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                     <button type="submit" class="btn btn-success">{% trans 'ثبت' %}</button>
-                    <a href="{% url 'cfd_profile_signals_month_view' %}" class="btn btn-default">
+                    <a href="{% url 'cfd_profile_signals_month_view' team_id %}" class="btn btn-default">
                         {% trans 'انصراف' %}
                     </a>
                 </div>
