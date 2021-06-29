@@ -83,7 +83,7 @@ def my_teams(request):
 @login_required
 def new_team(request):
     if request.method == 'POST':
-        form = TeamForm(request.POST, request.FIELS)
+        form = TeamForm(request.POST, request.FILES)
         if form.is_valid():
             team = form.save(commit=False)
             team.leader = request.user
