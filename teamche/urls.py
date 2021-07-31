@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 # import locale
 # locale.setlocale(locale.LC_ALL, "fa_IR")
 
 urlpatterns = [
     path('d/admin/', admin.site.urls),
+    path('', RedirectView.as_view(pattern_name='account_login')),
     path('account/', include('accounts.urls')),
     path('admin/', include('accounts.urls')),
     path('dmo/', include('dmo.urls')),
