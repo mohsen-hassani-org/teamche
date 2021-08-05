@@ -2,8 +2,10 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.db.models.aggregates import Sum
 from django.db.models.deletion import SET_NULL
 from django.shortcuts import get_object_or_404
+from django.utils.timezone import make_aware
 from django.utils.translation import ugettext_lazy  as _
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -33,6 +35,84 @@ class SignalManager(models.Manager):
     
         return Signal.objects.filter(~Q(status=Signal.SignalStatus.RUNNING) & Q(
             result_datetime__gt=month) & Q(result_datetime__lt=next_month) & Q(team=team))
+    
+    def user_month_profit_signals(self, user_id, month):
+        user = get_object_or_404(User, id=user_id)
+        try:
+            next_month = month.replace(month=month.month+1)
+        except ValueError:
+            if month.month == 12:
+                next_month = month.replace(year=month.year + 1, month=1)
+            else:
+                next_month = month
+    
+        month = month.replace(day=1)
+        next_month = next_month.replace(day=1)
+   
+        return self.filter(user=user, signal_datetime__gt=month,
+                            signal_datetime__lt=next_month,
+                            result_pip__gt=0).aggregate(s=Sum('result_pip'))['s']
+
+
+    def user_month_loss_signals(self, user_id, month):
+        user = get_object_or_404(User, id=user_id)
+        try:
+            next_month = month.replace(month=month.month+1)
+        except ValueError:
+            if month.month == 12:
+                next_month = month.replace(year=month.year + 1, month=1)
+            else:
+                next_month = month
+    
+        month = month.replace(day=1)
+        next_month = next_month.replace(day=1)
+        return self.filter(user=user, signal_datetime__gt=month,
+                        signal_datetime__lt=next_month,
+                        result_pip__lte=0).aggregate(s=Sum('result_pip'))['s']
+
+    def user_month_profit_signals_count(self, user_id, month):
+        user = get_object_or_404(User, id=user_id)
+        try:
+            next_month = month.replace(month=month.month+1)
+        except ValueError:
+            if month.month == 12:
+                next_month = month.replace(year=month.year + 1, month=1)
+            else:
+                next_month = month
+    
+        month = month.replace(day=1)
+        next_month = next_month.replace(day=1)
+   
+        return self.filter(user=user, signal_datetime__gt=month,
+                            signal_datetime__lt=next_month,
+                            result_pip__gt=0).count()
+
+
+
+    def user_month_loss_signals_count(self, user_id, month):
+        user = get_object_or_404(User, id=user_id)
+        try:
+            next_month = month.replace(month=month.month+1)
+        except ValueError:
+            if month.month == 12:
+                next_month = month.replace(year=month.year + 1, month=1)
+            else:
+                next_month = month
+    
+        month = month.replace(day=1)
+        next_month = next_month.replace(day=1)
+        return self.filter(user=user, signal_datetime__gt=month,
+                        signal_datetime__lt=next_month,
+                        result_pip__lte=0).count()
+
+    def user_mistakes(self, user):
+        mistakes = []
+        user_signals = self.filter(user=user)
+        for signal in user_signals:
+            if signal.mistakes:
+                mistakes.append(signal.mistakes)
+        return mistakes
+
 
 class Comment(models.Model):
     class Meta:
