@@ -6,9 +6,9 @@ from django.db.models import Q, Avg, Count, Min, Max, Sum
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from cfd.profile.forms import SignalForm, FillSignalForm, ChooseAnalysisForm
+from cfd.profile.forms import SignalEventForm, SignalForm, FillSignalForm, ChooseAnalysisForm
 from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm, AppendSignalMistakesForm
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, SignalEvent
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
 from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
 from cfd.profile.filters import SignalFilter, ClassicAnalysisFilter, PTAAnalysisFilter
@@ -193,10 +193,14 @@ def add_signal(request, team_id):
     if request.method == 'POST':
         form = SignalForm(request.POST)
         if form.is_valid():
+            open_now = form.cleaned_data['open_now']
             signal = form.save(commit=False)
             signal.user = request.user
             signal.team = team
-            signal.save()
+            if open_now:
+                signal.open_signal(signal.entry_point1)
+            else:
+                signal.save()
             return redirect('cfd_profile_signals_month_view', team_id=team_id)
     else:
         user_signals = Signal.objects.filter(
@@ -528,12 +532,12 @@ def fill_signal(request, signal_id):
     if request.method == 'POST':
         form = FillSignalForm(request.POST, instance=signal)
         if form.is_valid():
+            current_price = form.cleaned_data.get('current_price', None)
             filled_signal = form.save(commit=False)
-            filled_signal.status = Signal.SignalStatus.FILLED
-            filled_signal.save()
+            filled_signal.close_signal(current_price)
             return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)
     else:
-        form = FillSignalForm(instance=signal)
+        form = FillSignalForm(instance=signal, initial={'result_datetime': datetime.now()})
     context = {
         'forms': [form],
         'page_title': _('فرم پایان معامله'),
@@ -555,12 +559,49 @@ def fill_signal(request, signal_id):
     return render(request, GENERIC_MODEL_FORM, context)
 
 
+# @login_required
+# def cancel_signal(request, signal_id):
+#     signal = get_object_or_404(Signal, id=signal_id)
+#     if request.user != signal.user:
+#         return render(request, HTTP403PAGE)
+#     signal.status = Signal.SignalStatus.CANCELED
+#     signal.canceled_datetime = datetime.now()
+#     signal.save()
+#     return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)
+
+
+
 @login_required
-def cancel_signal(request, signal_id):
+def add_signal_event(request, signal_id):
     signal = get_object_or_404(Signal, id=signal_id)
     if request.user != signal.user:
         return render(request, HTTP403PAGE)
-    signal.status = Signal.SignalStatus.CANCELED
-    signal.canceled_datetime = datetime.now()
-    signal.save()
-    return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)
+    if request.method == 'POST':
+        form = SignalEventForm(request.POST)
+        if form.is_valid():
+            event_type = form.cleaned_data.get('event_type', None)
+            event_price = form.cleaned_data.get('event_price', None)
+            event_desc = form.cleaned_data.get('description ', None)
+
+            if event_type == SignalEvent.EventType.OPEN_SIGNAL:
+                signal.open_signal(event_price, event_desc)
+            elif event_type == SignalEvent.EventType.CANCEL_SIGNAL:
+                signal.cancel_signal(event_price, event_desc)
+            else:
+                event = form.save(commit=False)
+                event.signal = signal
+                event.save()
+            return redirect('cfd_profile_signals_info', signal_id=signal_id)
+    else:
+        form = SignalEventForm()
+    context = {
+        'forms': [form],
+        'page_title': _('اضافه کردن رویداد به سیگنال'),
+        'page_subtitle': _('شماره سیگنال #') + str(signal.id),
+        'form_submit_url_name': 'cfd_profile_signal_events_add',
+        'form_submit_url_arg1': signal.id,
+        'form_cancel_url_name': 'cfd_profile_signals_info',
+        'form_cancel_url_arg1': signal.id,
+    }
+    return render(request, GENERIC_MODEL_FORM, context)
+

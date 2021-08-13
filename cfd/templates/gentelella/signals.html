@@ -65,8 +65,8 @@
                 <div class="row">
                     {% for signal in running_signals %}
                         <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="card border-{{signal.entry_type}}">
-                                <div class="header bg-{{signal.entry_type}}">
+                            <div class="card border-{{signal.status}}">
+                                <div class="header bg-{{signal.status}}">
                                     <small class="{{signal.entry_type}}">{{signal.get_entry_type_display}}</small>
                                     <h4 class="{{signal.entry_type}}">{{signal.asset}}</h4>
                                 </div>
@@ -76,7 +76,7 @@
                                         <tr><td>{% trans 'نقطه ورود' %}</td><td>{{signal.entry_point1}}</td></tr>
                                         <tr><td>{% trans 'حد ضرر' %}</td><td>{{signal.stop_loss1}}</td></tr>
                                         <tr><td>{% trans 'حد سود' %}</td><td>{{signal.take_profit1}}</td></tr>
-                                        <tr><td>{% trans 'سود به ضرر' %}</td><td>1/{{signal.risk_reward}}</td></tr>
+                                        <tr><td>{% trans 'وضعیت' %}</td><td>{{signal.get_status_display}}</td></tr>
                                     </table>
                                     <div class="row action-buttons">
                                         <div class="col-md-4 col-sm-4 col-xs-4">
@@ -90,9 +90,9 @@
                                                 title="" data-original-title="{% trans 'مشاهده جزئیات' %}"><i class="fa fa-info"></i></a>
                                         </div>
                                         <div class="col-md-4 col-sm-4 col-xs-4">
-                                            <a class="btn btn-block" href="{% url 'cfd_profile_signals_cancel' signal.id %}" 
+                                            <a class="btn btn-block" href="{% url 'cfd_profile_signal_events_add' signal.id %}" 
                                                 data-toggle="tooltip" data-placement="top" 
-                                                title="" data-original-title="{% trans 'لغو سیگنال' %}"><i class="fa fa-close"></i></a>
+                                                title="" data-original-title="{% trans 'رخداد جدید' %}"><i class="fa fa-code-fork"></i></a>
                                         </div>
                                     </div>
                                 </div>

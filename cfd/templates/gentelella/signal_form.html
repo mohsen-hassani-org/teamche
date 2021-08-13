@@ -344,6 +344,26 @@
                 </div>
             </div>
 
+            <!-- 9 Open now -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.visible_fields.13.id_for_label}}">{{form.visible_fields.13.label}}{% if form.visible_fields.13.field.required %}<span class="required"> *</span>{% endif %}</label>
+                <div class="col-md-4 col-sm-4 col-xs-6">
+                    {{ form.visible_fields.13 }}
+                    {% if form.visible_fields.13.help_text %}
+                    <small class="form-text text-muted">{{ form.visible_fields.13.help_text }}</small>
+                    {% endif %}
+                    {% if form.is_bound %}
+                    {% if form.visible_fields.13.errors %}
+                    {% for error in form.visible_fields.13.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
 
 
 

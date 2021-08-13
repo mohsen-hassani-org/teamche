@@ -3,11 +3,11 @@
     transition: 0.3s;
     margin-bottom: 10px;
 }
-.border-sell{
-    border-color: #cea4ab;
+.border-pending{
+    border-color: #b29758bb;
 }
-.border-buy{
-    border-color: #a8c292;
+.border-running{
+    border-color: #5c5f7cbb;
 }
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -48,11 +48,11 @@
     margin: 10px 0px;
     text-decoration: underline dotted;
 }
-.card .bg-buy {
-    background-color: #39ad47;
+.card .bg-pending {
+    background-color: #b29758;
 }
-.card .bg-sell {
-    background-color: #ad3939;
+.card .bg-running {
+    background-color: #5c5f7c;
 }
 .card .header .sell {
     color: wheat;
@@ -146,6 +146,14 @@
 .new-comment h3 small {
     font-size: 50%;
     margin: 10px;
+}
+
+.timeline .block {
+    margin: 0 125px 0 0;
+}
+
+.timeline .tags {
+    width: 100px;
 }
 
 

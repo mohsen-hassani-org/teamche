@@ -108,7 +108,7 @@
                 <div class="action-buttons">
                     {% if signal.status == signal.SignalStatus.RUNNING %}
                         <a class="btn btn-success" href="{% url 'cfd_profile_signals_fill' signal.id %}">{% trans 'اتمام سیگنال' %}</a>
-                        <a class="btn btn-danger" href="{% url 'cfd_profile_signals_cancel' signal.id %}">{% trans 'لغو سیگنال' %}</a>
+                        <a class="btn btn-danger" href="{% url 'cfd_profile_signal_events_add' signal.id %}">{% trans 'ایجاد رخداد' %}</a>
                     {% endif %}
                     <a class="btn btn-default" href="{% url 'cfd_profile_signals_month_view' 1 %}">{% trans 'بازگشت' %}</a>
                 </div>
@@ -117,9 +117,8 @@
     </div>
 
 
+    <div class="col-md-8 col-sm-12">
 
-
-    <div class="col-md-12 col-sm-12">
         <div class="x_panel">
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -382,6 +381,69 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-4 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    {% trans 'رخدادها' %}
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <section class="content">
+                    <div class="row">
+
+                        <ul class="list-unstyled timeline">
+                            {% for event in signal.events.all %}
+                                {% if event.event_type == event.EventType.OPEN_SIGNAL or event.event_type == event.EventType.CLOSE_SIGNAL or event.event_type == event.EventType.CANCEL_SIGNAL %}
+                                    <li style="text-align: center;
+                                                background: #26b99a;
+                                                border: 1px solid #169f85;
+                                                color: wheat;
+                                                padding: 10px;
+                                                border-radius: 10px;">
+                                        <h5>{{event.get_event_type_display}}</h5>
+                                        <span>
+                                            {{event.event_datetime|timesince}}
+                                            {% trans 'قبل' %} - 
+                                            {% trans 'در قیمت' %}
+                                            {{event.event_price}}
+                                        </span>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <div class="block">
+                                            <div class="tags">
+                                                <a href="" class="tag">
+                                                    <span>{{event.get_event_type_display}}</span>
+                                                </a>
+                                            </div>
+                                            <div class="block_content">
+                                                <h2 class="title">
+                                                    <p>مقدار جدید: {{event.operation_value}}</p>
+                                                </h2>
+                                                <div class="byline">
+                                                    {{event.event_datetime|timesince}}
+                                                    {% trans 'قبل' %} - 
+                                                    {% trans 'در قیمت' %}
+                                                    {{event.event_price}}
+                                                </div>
+                                            </div>
+                                            <p>{{event.description}}</p>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% empty %}
+                                <li>No data</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}

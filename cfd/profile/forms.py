@@ -1,10 +1,11 @@
+from datetime import datetime
 from django import forms
 from django.forms import widgets
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetimewidget.widgets import DateTimeWidget
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset, SignalEvent
 
 
 
@@ -13,13 +14,15 @@ class DateTimeInput(forms.DateInput):
 
 class SignalForm(forms.ModelForm):
     """Form definition for Signal."""
+    open_now = forms.BooleanField(required=False, label='سیگنال هم اکنون فعال شود')
 
     class Meta:
         """Meta definition for Signalform."""
 
         model = Signal
-        fields = ('asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',)
-        fields += ( 'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis', 'self_entered', )
+        fields = ('asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
+        'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis',
+        'self_entered', )
         widgets = {
             #Use localization and bootstrap 3
             'signal_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3),
@@ -46,7 +49,9 @@ class SignalForm(forms.ModelForm):
         if not pta and not classic:
             raise ValidationError(_('برای ایجاد سیگنال باید یک تحلیل انتخاب کنید'))
 
+
 class FillSignalForm(forms.ModelForm):
+    current_price = forms.DecimalField(required=True, label='قیمت کنونی')
     class Meta:
         model = Signal
         fields = ('result_datetime', 'trade_id', 'result_pip', 'result_dollar', 'lot', 'result_image_url', 'mistakes')
@@ -163,6 +168,23 @@ class AppendSignalMistakesForm(forms.ModelForm):
         signal = Signal.objects.get(id=self.instance.id)
         if not signal.status == Signal.SignalStatus.FILLED:
             raise ValidationError(_('این سیگنال هنوز تکمیل نشده است'))
+
+class SignalEventForm(forms.ModelForm):
+    class Meta:
+        model = SignalEvent
+        fields = (
+                'event_type',
+                'event_price',
+                'operation_value',
+                'description',
+        )
+    def __init__(self, *args, **kwargs):
+        super(SignalEventForm, self).__init__(*args, **kwargs)
+        close = SignalEvent.EventType.CLOSE_SIGNAL
+        choices = self.fields['event_type'].choices
+        choices = [c for c in choices if c[0] != close]
+        self.fields['event_type'].choices = choices
+
 
 
 

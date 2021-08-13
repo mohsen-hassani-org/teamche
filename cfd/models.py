@@ -21,7 +21,7 @@ class SignalManager(models.Manager):
 
     def get_team_running_signals(self, team_id):
         team = get_object_or_404(Team, id=team_id)
-        return Signal.objects.filter(team=team, status=Signal.SignalStatus.RUNNING)
+        return Signal.objects.filter(Q(team=team) & Q(status=Signal.SignalStatus.RUNNING) | Q(status=Signal.SignalStatus.PENDING))
 
     def get_month_team_signals(self, team_id, month):
         team = get_object_or_404(Team, id=team_id)
@@ -342,6 +342,7 @@ class Signal(models.Model):
         BUY = 'buy', _('خرید')
         SELL = 'sell', _('فروش')
     class SignalStatus(models.TextChoices):
+        PENDING = 'pending', _('باز نشده')
         RUNNING = 'running', _('در حال اجرا')
         FILLED = 'filled', _('انجام شده')
         CANCELED = 'canceled', _('لغو شده')
@@ -372,11 +373,63 @@ class Signal(models.Model):
     mistakes = models.TextField(null=True, blank=True, verbose_name=_('اشتباهات معامله'))
     pta_analysis = models.OneToOneField(PTAAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل PTA'))
     classic_analysis = models.OneToOneField(ClassicAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل Classic'))
-    status = models.CharField(max_length=8, choices=SignalStatus.choices, default=SignalStatus.RUNNING, verbose_name=_('وضعیت'))
+    status = models.CharField(max_length=8, choices=SignalStatus.choices, default=SignalStatus.PENDING, verbose_name=_('وضعیت'))
     result_image_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('تصویر نهایی'))
     self_entered = models.BooleanField(default=True, verbose_name=_('وارد شده‌اید؟'))
     comments = GenericRelation(Comment, verbose_name=_('نظرات'))
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='signals', verbose_name=_('تیم'))
     signals = SignalManager()
     objects = models.Manager()
+
+    def open_signal(self, current_price, description=None):
+        self.status = self.SignalStatus.RUNNING
+        self.save()
+        signal_event = SignalEvent(signal=self, event_type=SignalEvent.EventType.OPEN_SIGNAL, 
+                                    event_datetime=datetime.now(), event_price=current_price,
+                                    description=description)
+        signal_event.save()
+
+    def close_signal(self, current_price, description=None):
+        self.status = self.SignalStatus.FILLED
+        self.save()
+        signal_event = SignalEvent(signal=self, event_type=SignalEvent.EventType.CLOSE_SIGNAL,
+                                    event_datetime=datetime.now(), event_price=current_price,
+                                    description=description)
+        signal_event.save()
+
+    def cancel_signal(self, current_price, description=None):
+        self.status = self.SignalStatus.CANCELED
+        self.save()
+        signal_event = SignalEvent(signal=self, event_type=SignalEvent.EventType.CANCEL_SIGNAL,
+                                    event_datetime=datetime.now(), event_price=current_price,
+                                    description=description)
+
+    
+
+
+
+class SignalEvent(models.Model):
+    class Meta:
+        verbose_name = _('رخداد سیگنال')
+        verbose_name_plural = _('رخدادهای سیگنال')
+        ordering = ['event_datetime']
+    class EventType(models.TextChoices):
+        OPEN_SIGNAL = 'open', _('باز کردن سیگنال')
+        CLOSE_SIGNAL = 'close', _('بستن')
+        CANCEL_SIGNAL = 'cancel', _('لغو سیگنال')
+        CHANGE_STOP_LOSS = 'change_sl', _('تغییر حد ضرر')
+        CHANGE_TAKE_PROFIT = 'change_tp', _('تغییر حد سود')
+        DECREASE_LOT = 'dec_lot', _('کاهش حجم')
+        INCREASE_LOT = 'inc_lot', _('افزایش حجم')
+
+    def __str__(self):
+        return '{} - {}: {}'.format(self.event_datetime, self.event_type, self.operation_value)
+
+
+    signal = models.ForeignKey(Signal, related_name='events', on_delete=models.CASCADE, verbose_name=_('سیگنال'))
+    event_datetime = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ و زمان'))
+    event_type = models.CharField(max_length=10, choices=EventType.choices, default=EventType.OPEN_SIGNAL, verbose_name=_('نوع رخداد'))
+    event_price = models.DecimalField(max_digits=11, decimal_places=4, verbose_name=_('قیمت'))
+    operation_value = models.CharField(max_length=10, null=True, blank=True, verbose_name=_('مقدار عملیاتی'))
+    description = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
 
