@@ -168,6 +168,7 @@ class PTAAnalysis(models.Model):
     def __str__(self):
         return '{user} - date: {date} - time: {time}'.format(user=self.user, date=self.datetime.strftime('%Y/%m/%d'), time=self.datetime.strftime('%H:%M:%S'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='pta_analysis', verbose_name=_('کاربر'))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True)
     any_news = models.BooleanField(default=False, verbose_name=_('خبر؟'), help_text=_('در صورتی که در مدت معامله، خبری مرتبط با دارایی وجود دارد این گزینه را تیک بزنید'))
     news_detail = models.TextField(verbose_name=_('جزئیات خبر'), null=True, blank=True, help_text=_('توجه: سی دقیقه قبل و بعد از خبر نباید وارد معامله شوید، اما در صورتی که برای انجام معامله مصر هستید، اطلاعات خبر را اینجا وارد کنید.'))
     chart_move = models.CharField(max_length=3, choices=ChartMove.choices, verbose_name=_('حرکت نمودار'), default=ChartMove.IMPULSIVE)
