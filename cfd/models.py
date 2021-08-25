@@ -400,6 +400,14 @@ class Signal(models.Model):
 
     def cancel_signal(self, current_price, description=None):
         self.status = self.SignalStatus.CANCELED
+        pta_canceled_analysis = self.pta_analysis
+        classic_canceled_analysis = self.classic_analysis
+        if pta_canceled_analysis:
+            pta_canceled_analysis.id = None
+            pta_canceled_analysis.save()
+        if classic_canceled_analysis:
+            classic_canceled_analysis.id = None
+            classic_canceled_analysis.save()
         self.save()
         signal_event = SignalEvent(signal=self, event_type=SignalEvent.EventType.CANCEL_SIGNAL,
                                     event_datetime=datetime.now(), event_price=current_price,
