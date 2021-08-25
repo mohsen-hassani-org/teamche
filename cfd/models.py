@@ -403,6 +403,7 @@ class Signal(models.Model):
         signal_event = SignalEvent(signal=self, event_type=SignalEvent.EventType.CANCEL_SIGNAL,
                                     event_datetime=datetime.now(), event_price=current_price,
                                     description=description)
+        signal_event.save()
 
     
 
