@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'jalali_date',
     'rest_framework',
     'django_quill',
+    # 'django_extensions',
     'utils',
     'accounts',
     'file',

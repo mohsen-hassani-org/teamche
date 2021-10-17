@@ -131,6 +131,9 @@
                     <li role="presentation" class=""><a href="#comments" role="tab" id="profile-tab"
                             data-toggle="tab" aria-expanded="false">نظرات <span class="label label-danger">{{signal.comments.count}}</span></a>
                     </li>
+                    <li role="presentation" class=""><a href="#evaluation" role="tab" id="profile-tab"
+                            data-toggle="tab" aria-expanded="false">ارزیابی</a>
+                    </li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="classic" aria-labelledby="home-tab">
@@ -375,6 +378,44 @@
                                 <button class="btn" type="submit">{% trans 'ارسال نظر' %}</button>
                             </form>
 
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade in" id="evaluation" aria-labelledby="home-tab">
+                        <div class="x_content">
+                            {% if not signal.evaluations.all %}
+                                <p>{% trans 'ارزیابی وجود ندارد' %}</p>
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="signal-table table table-responsive">
+                                            <tr>
+                                                <th>شاخص</th>
+                                                <th>وزن</th>
+                                                <th>امتیاز</th>
+                                            </tr>
+                                            {% for eval in signal.evaluations.all %}
+                                                <tr>
+                                                    <td>{{eval.evaluation.name}}</td>
+                                                    <td>{{eval.weight}}</td>
+                                                    <td style="text-align: right">{{eval.score}}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="signal-image">
+                                            <span>امتیاز کلی:</span>
+                                            <div style="font-size: 96px;">
+                                                {{signal.evaluation_score|floatformat:2}}
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                </div>
+                            {% endif %}
+                                {% if requset.user == signal.team.leader or request.user.is_superuser %}
+                                    <a class="btn btn-success" href="{% url 'cfd_profile_signal_evaluations_list' signal.id %}">
+                                    {% trans 'جدول ارزیابی سیگنال' %}</a>
+                                {% endif %}
                         </div>
                     </div>
                 </div>

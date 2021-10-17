@@ -5,7 +5,8 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetimewidget.widgets import DateTimeWidget
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset, SignalEvent
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset, SignalEvent,\
+                        SignalEvaluation, Evaluation
 
 
 
@@ -186,5 +187,14 @@ class SignalEventForm(forms.ModelForm):
         self.fields['event_type'].choices = choices
 
 
+class SignalEvaluationForm(forms.ModelForm):
+    class Meta:
+        model = SignalEvaluation
+        fields = ('evaluation','weight','score',)
+
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = Evaluation
+        fields = ('name', 'description', 'default_weight',)
 
 

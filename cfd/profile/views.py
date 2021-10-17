@@ -6,9 +6,10 @@ from django.db.models import Q, Avg, Count, Min, Max, Sum
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from cfd.profile.forms import SignalEventForm, SignalForm, FillSignalForm, ChooseAnalysisForm
-from cfd.profile.forms import ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm, AppendSignalMistakesForm
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, SignalEvent
+from cfd.profile.forms import EvaluationForm, SignalEventForm, SignalForm, FillSignalForm, ChooseAnalysisForm,\
+                            ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm,\
+                            AppendSignalMistakesForm, SignalEvaluationForm
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, SignalEvaluation, SignalEvent, Evaluation
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
 from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
 from cfd.profile.filters import SignalFilter, ClassicAnalysisFilter, PTAAnalysisFilter
@@ -605,3 +606,189 @@ def add_signal_event(request, signal_id):
     }
     return render(request, GENERIC_MODEL_FORM, context)
 
+
+@login_required
+def signal_evaluation_list(request, signal_id):
+    signal = get_object_or_404(Signal, id=signal_id)
+    if request.user != signal.team.leader and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    context = {
+        'page_title': _('ارزیابی‌های سیگنال'),
+        'page_subtitle': signal.id,
+        'items': signal.evaluations.all(),
+        'fields': ['evaluation', 'weight', 'score'],
+        'headers': [_('عنوان'), _('وزن'), _('امتیاز')],
+        'header_buttons': [
+            {
+                'title': _('افزودن ارزیابی جدید'),
+                'url_name': 'cfd_profile_signal_evaluations_add',
+                'url_arg1': signal_id,
+            },{
+                'title': _('مدیریت شاخص‌های ارزیابی'),
+                'url_name': 'cfd_profile_evaluations_list',
+                'url_arg1': signal.team.id,
+            },
+        ],
+        'action_buttons': [
+            {
+                'title': _('ویرایش'),
+                'url_name': 'cfd_profile_signal_evaluations_edit',
+                'arg1_field': 'id',
+            },
+        ],
+        'footer_buttons': [
+            {
+                'title': _('بازگشت'),
+                'url_name': 'cfd_profile_signals_info',
+                'url_arg1': signal_id,
+            }
+        ],
+        'delete_button_url_name': 'cfd_profile_signal_evaluations_delete',
+    }
+    return render(request, GENERIC_MODEL_LIST, context)
+
+@login_required
+def signal_evaluation_add(request, signal_id):
+    signal = get_object_or_404(Signal, id=signal_id)
+    if request.user != signal.team.leader and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    if request.method == 'POST':
+        form = SignalEvaluationForm(request.POST)
+        if form.is_valid():
+            signal_evaluation = form.save(commit=False)
+            signal_evaluation.signal = signal
+            signal_evaluation.created_by = request.user
+            signal_evaluation.save()
+            return redirect('cfd_profile_signal_evaluations_list', signal_id=signal_id)
+    else:
+        form = SignalEvaluationForm()
+    context = {
+        'forms': [form],
+        'page_title': _('افزودن ارزیابی سیگنال'),
+        'page_subtitle': f'#{signal.id}',
+        'form_submit_url_name': 'cfd_profile_signal_evaluations_add',
+        'form_submit_url_arg1': signal_id,
+        'form_cancel_url_name': 'cfd_profile_signal_evaluations_list',
+        'form_cancel_url_arg1': signal_id,
+    }
+    return render(request, GENERIC_MODEL_FORM, context)
+
+@login_required
+def signal_evaluation_edit(request, signaleval_id):
+    signal_evaluation = get_object_or_404(SignalEvaluation, id=signaleval_id)
+    if request.user != signal_evaluation.signal.team.leader and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    if request.method == 'POST':
+        form = SignalEvaluationForm(request.POST, instance=signal_evaluation)
+        if form.is_valid():
+            form.save()
+            return redirect('cfd_profile_signal_evaluations_list', signal_id=signal_evaluation.signal.id)
+    else:
+        form = SignalEvaluationForm(instance=signal_evaluation)
+    context = {
+        'forms': [form],
+        'page_title': _('ویرایش ارزیابی سیگنال'),
+        'page_subtitle': f'#{signal_evaluation.id}',
+        'form_submit_url_name': 'cfd_profile_signal_evaluations_edit',
+        'form_submit_url_arg1': signal_evaluation.id,
+        'form_cancel_url_name': 'cfd_profile_signal_evaluations_list',
+        'form_cancel_url_arg1': signal_evaluation.signal.id,
+    }
+    return render(request, GENERIC_MODEL_FORM, context)
+
+@login_required
+def signal_evaluation_delete(request, signaleval_id):
+    signal_evaluation = get_object_or_404(SignalEvaluation, id=signaleval_id)
+    if request.user != signal_evaluation.signal.team.leader and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    signal_evaluation.delete()
+    return redirect('cfd_profile_signal_evaluations_list', signal_id=signal_evaluation.signal.id)
+
+
+@login_required
+def evaluation_list(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    if request.user not in team.users.all() and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    context = {
+        'page_title': _('شاخص‌های ارزیابی تیم'),
+        'page_subtitle': team,
+        'items': Evaluation.objects.filter(team=team),
+        'fields': ['name', 'default_weight'],
+        'headers': [_('عنوان'), _('وزن')],
+        'header_buttons': [
+            {
+                'title': _('افزودن ارزیابی جدید'),
+                'url_name': 'cfd_profile_evaluations_add',
+                'url_arg1': team_id,
+            }
+        ],
+        'action_buttons': [
+            {
+                'title': _('ویرایش'),
+                'url_name': 'cfd_profile_evaluations_edit',
+                'arg1_field': 'id',
+            },
+        ],
+        'delete_button_url_name': 'cfd_profile_evaluations_delete',
+    }
+    return render(request, GENERIC_MODEL_LIST, context)
+
+
+@login_required
+def evaluation_add(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    if request.user not in team.users.all() and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    if request.method == 'POST':
+        form = EvaluationForm(request.POST)
+        if form.is_valid():
+            evaluation = form.save(commit=False)
+            evaluation.team = team
+            evaluation.save()
+            return redirect('cfd_profile_evaluations_list', team_id=team_id)
+    else:
+        form = EvaluationForm()
+    context = {
+        'forms': [form],
+        'page_title': _('افزودن شاخص ارزیابی تیم'),
+        'page_subtitle': team,
+        'form_submit_url_name': 'cfd_profile_evaluations_add',
+        'form_submit_url_arg1': team_id,
+        'form_cancel_url_name': 'cfd_profile_evaluations_list',
+        'form_cancel_url_arg1': team_id,
+    }
+    return render(request, GENERIC_MODEL_FORM, context)
+
+
+@login_required
+def evaluation_edit(request, evaluation_id):
+    evaluation = get_object_or_404(Evaluation, id=evaluation_id)
+    if request.user not in evaluation.team.users.all() and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    if request.method == 'POST':
+        form = EvaluationForm(request.POST, instance=evaluation)
+        if form.is_valid():
+            form.save()
+            return redirect('cfd_profile_evaluations_list', team_id=evaluation.team.id)
+    else:
+        form = EvaluationForm(instance=evaluation)
+    context = {
+        'forms': [form],
+        'page_title': _('ویرایش شاخص ارزیابی تیم'),
+        'page_subtitle': evaluation,
+        'form_submit_url_name': 'cfd_profile_evaluations_edit',
+        'form_submit_url_arg1': evaluation_id,
+        'form_cancel_url_name': 'cfd_profile_evaluations_list',
+        'form_cancel_url_arg1': evaluation.team.id,
+    }
+    return render(request, GENERIC_MODEL_FORM, context)
+
+
+@login_required
+def evaluation_delete(request, evaluation_id):
+    evaluation = get_object_or_404(Evaluation, id=evaluation_id)
+    if request.user not in evaluation.team.users.all() and not request.user.is_superuser:
+        return render(request, HTTP403PAGE)
+    evaluation.delete()
+    return redirect('cfd_profile_evaluations_list', team_id=evaluation.team.id)

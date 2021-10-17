@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.db.models import Q
 from django.db.models.aggregates import Sum
 from django.db.models.deletion import SET_NULL
@@ -414,9 +415,15 @@ class Signal(models.Model):
                                     description=description)
         signal_event.save()
 
-    
-
-
+    def evaluation_score(self):
+        score = 0
+        total_weight = 0
+        for evaluation in self.evaluations.all():
+            score += evaluation.score * evaluation.weight
+            total_weight += evaluation.weight
+        return score / total_weight
+        
+        
 
 class SignalEvent(models.Model):
     class Meta:
@@ -443,3 +450,37 @@ class SignalEvent(models.Model):
     operation_value = models.CharField(max_length=10, null=True, blank=True, verbose_name=_('مقدار عملیاتی'))
     description = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
 
+class Evaluation(models.Model):
+    class Meta:
+        verbose_name = _('ارزیابی')
+        verbose_name_plural = _('ارزیابی‌ها')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
+
+    name = models.CharField(max_length=100, verbose_name=_('نام'))
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='evaluations', verbose_name=_('تیم'))
+    description = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
+    created_at = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ ایجاد'))
+    updated_at = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ بروزرسانی'))
+    default_weight = models.PositiveSmallIntegerField(default=1, verbose_name=_('وزن پیش فرض'))
+
+
+
+class SignalEvaluation(models.Model):
+    class Meta:
+        verbose_name = _('ارزیابی سیگنال')
+        verbose_name_plural = _('ارزیابی‌های سیگنال')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return '{} - {}'.format(self.signal, self.evaluation)
+
+    signal = models.ForeignKey(Signal, related_name='evaluations', on_delete=models.CASCADE, verbose_name=_('سیگنال'))
+    evaluation = models.ForeignKey(Evaluation, related_name='signals', on_delete=models.CASCADE, verbose_name=_('ارزیابی'))
+    weight = models.PositiveSmallIntegerField(default=1, verbose_name=_('وزن'))
+    score = models.PositiveSmallIntegerField(default=0, verbose_name=_('امتیاز'), validators=[MaxValueValidator(20)])
+    created_at = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ ایجاد'))
+    updated_at = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ بروزرسانی'))
+    created_by = models.ForeignKey(User, related_name='signal_evaluations', on_delete=models.CASCADE, verbose_name=_('ایجاد کننده'))
