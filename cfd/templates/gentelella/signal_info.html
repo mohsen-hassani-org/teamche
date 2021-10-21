@@ -412,7 +412,7 @@
                                     </div>                            
                                 </div>
                             {% endif %}
-                                {% if requset.user == signal.team.leader or request.user.is_superuser %}
+                                {% if requset.user != signal.team.leader and not request.user.is_superuser %}
                                     <a class="btn btn-success" href="{% url 'cfd_profile_signal_evaluations_list' signal.id %}">
                                     {% trans 'جدول ارزیابی سیگنال' %}</a>
                                 {% endif %}
