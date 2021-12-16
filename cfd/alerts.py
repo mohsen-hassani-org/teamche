@@ -4,7 +4,7 @@ class DiscordAlert(Discord):
     @staticmethod
     def send_signal_alert(signal):
         message = DiscordAlert._build_signal_message(signal)
-        discord = Discord(discord_url=signal.team.discord_url)
+        discord = Discord(discord_url=signal.team.discord_url, bot_name=signal.team.name)
         discord.send_message(message)
 
     @staticmethod
