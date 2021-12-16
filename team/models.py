@@ -33,6 +33,7 @@ class Team(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=50, verbose_name=_('نام تیم'))
+    discord_url = models.URLField(max_length=200, verbose_name=_('آدرس دیسکورد'), blank=True, null=True)
     leader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name='teams_as_leader', verbose_name=_('رهبر'))
     users = models.ManyToManyField(User, related_name='teams', verbose_name=('اعضا'))
     avatar = models.ImageField(max_length=300, upload_to='team/avatars', default='team/avatar.png',
