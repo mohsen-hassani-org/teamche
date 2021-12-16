@@ -10,7 +10,7 @@ class DiscordAlert(Discord):
     @staticmethod
     def _build_signal_message(signal):
         message = '**New Signal**\n'
-        message += 'Pair: {}\n'.format(signal.symbol)
+        message += 'Pair: {}\n'.format(signal.asset)
         message += 'By: {}\n'.format(signal.user.username)
         message += 'Entry Point 1: {}\n'.format(signal.entry_point1)
         message += 'Entry Point 2: {}\n'.format(signal.entry_point2)\
