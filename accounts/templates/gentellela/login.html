@@ -29,11 +29,14 @@
 
 <body class="auth">
   <div class="wrapper">
+        <div class="header-title">
+          <h1>پنل جامع معاملاتی</h1>
+        </div>
     <div class="animate form login_form">
       <section class="login_content">
         <form method="POST" action="{% url 'account_login' %}">
           {% csrf_token %}
-          <h1>{% trans 'فرم ورود' %}</h1>
+          <h4>{% trans 'فرم ورود' %}</h4>
           <div>
             <input type="text" class="form-control" placeholder="{% trans 'نام کاربری' %}" required="yes"
               id="id_username" name="username" />

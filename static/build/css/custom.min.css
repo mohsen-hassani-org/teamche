@@ -5483,3 +5483,7 @@ body.lock #lock_screen .unlock {
     margin-right: 0px;
     margin-left: 0px;
 }
+
+.header-title {
+    text-align: center;
+}
