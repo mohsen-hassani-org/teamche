@@ -6,6 +6,7 @@ from django.forms.models import inlineformset_factory
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from jalali_date import date2jalali
+from dmo.alerts import DiscordAlert
 from dmo.models import Dmo, DmoDay, Microaction, Setting
 from dmo.gvars import DMO_TABLE_TEMPLATE, DMO_CHART_TEMPLATE, ALL_PUBLIC_DMO, DMO_IMAGE_TEMPLATE
 from dmo.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST
@@ -154,6 +155,8 @@ def add_dmo(request, team_id):
             dmo.user = user
             dmo.team = team
             dmo.save()
+            if dmo.dmo_type == Dmo.DmoTypes.TEAM and dmo.team.dmo_settings.discord_webhook:
+                DiscordAlert.send_new_dmo_alert(dmo)
             return redirect('dmo_profile_dmo_view_this_month', team_id=team_id)
     else:
         form = DmoForm()

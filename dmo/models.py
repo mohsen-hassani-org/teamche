@@ -67,6 +67,7 @@ class Setting(models.Model):
         verbose_name_plural = _('تنظیمات DMO')
     team = models.OneToOneField(Team, verbose_name=_('تیم'), on_delete=models.CASCADE, related_name='dmo_settings')
     dmo_manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('مدیر DMO'))
+    discord_webhook = models.URLField(verbose_name=_('Webhook دیسکورد'), blank=True)
 
 class Microaction(models.Model):
     class Meta:

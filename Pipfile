@@ -25,6 +25,7 @@ Pillow = "==8.0.1"
 requests = "*"
 ipython = "*"
 python-dotenv = "*"
+discord-webhook = "*"
 
 [dev-packages]
 

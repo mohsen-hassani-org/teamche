@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2285d80d4dd54fe0563485edb6fb48187c9c0255548cb85bb38bea8fd785c04d"
+            "sha256": "be1fd2bd61830a206819dab370a873d7a4b01068f9ba4e2d80ca4449d60ddf53"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -61,6 +61,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==5.1.0"
+        },
+        "discord-webhook": {
+            "hashes": [
+                "sha256:17e475d8a52fe0bfa26b071925f55087600e9bb96e821b611dc463f4b4998c89",
+                "sha256:f3d660df572caaa9c2621edd7e8634a70d6d8295ce9256c365838312457069a1"
+            ],
+            "index": "pypi",
+            "version": "==0.14.0"
         },
         "django": {
             "hashes": [
@@ -284,11 +292,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:22c7348c6d2976a52632c67f7ab0cdf40147db7789f9aed18734643fe9cf3373",
-                "sha256:4ce92f1e1f8f01233ee9952c04f6b81d1e02939d6e1b488428154974a4d0783e"
+                "sha256:8244876a37456ccbcbe1247b4cba1b015f4e42dfebfadd6a5488bfc12060f21b",
+                "sha256:dae4d7933ca671d51fa44c10b4ef8165319d9be3aa41807dd4c73f1c1ba81dc3"
             ],
-            "markers": "python_version >= '3.6'",
-            "version": "==59.6.0"
+            "markers": "python_version >= '3.7'",
+            "version": "==60.0.4"
         },
         "six": {
             "hashes": [

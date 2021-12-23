@@ -67,9 +67,13 @@ class Profile(models.Model):
         lname = self.user.last_name
         return '{code} ({fn} {ln})'.format(code=uname, fn=fname, ln=lname)
 
+    @property
+    def display_name(self):
+        return self.user.get_full_name() or self.user.username
+
 def user_str_function(self):
     return '{fn} {ln} ({un})'.format(fn=self.first_name, ln=self.last_name, un=self.username)
-    
+
 class AccountSetting(models.Model):
     class Meta:
         verbose_name_plural = strings.MODEL_ACCOUNT_SETTING

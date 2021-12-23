@@ -4,6 +4,7 @@ from django.db.models import fields
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from jalali_date import date2jalali
+from dmo.alerts import DiscordAlert
 from dmo.models import Dmo, DmoDay, Microaction, Setting
 from dmo.profile.utils import jalali_month_length
 from team.models import Team
