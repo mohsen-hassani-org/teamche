@@ -71,7 +71,7 @@ class DiscordAlert(Discord):
 
     @staticmethod
     def _build_image(summary):
-        options = {'crop-w': '350'}
+        options = {'crop-w': '350', 'xvfb': ''}
         body = '''
         <html>
             <head>
