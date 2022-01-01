@@ -26,6 +26,7 @@ requests = "*"
 ipython = "*"
 python-dotenv = "*"
 discord-webhook = "*"
+imgkit = "*"
 
 [dev-packages]
 

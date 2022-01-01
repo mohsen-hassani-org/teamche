@@ -1,6 +1,8 @@
+import imgkit
 from django.contrib.auth import base_user
 from discord.interfaces import Discord
 from discord_webhook import DiscordWebhook, DiscordEmbed, webhook
+from dmo.profile.utils import dmo_last_days
 
 from dmo.models import Dmo, DmoDay
 
@@ -17,7 +19,11 @@ class DiscordAlert(Discord):
     def send_fill_dmo_alert(dmo_day):
         webhook = DiscordWebhook(url=dmo_day.dmo.team.dmo_settings.discord_webhook, username=dmo_day.dmo.team.name)
         embed = DiscordAlert._build_fill_dmo_embed(dmo_day)
+        summary = dmo_day.dmo.get_summary_as_table()
+        image_file = DiscordAlert._build_image(summary)
+
         webhook.add_embed(embed)
+        webhook.add_file(file=image_file, filename=f'summary{dmo_day.dmo.goal}.png')
         response = webhook.execute()
 
     @staticmethod
@@ -47,15 +53,40 @@ class DiscordAlert(Discord):
         status = 'مثبت' if dmo_day.done else 'منفی'
         color = '00ff00' if dmo_day.done else 'ff0000'
         goal = dmo_day.dmo.goal
+        day = dmo_day.day
+        description = f'{dmo_user} روز {day}ام DMO "{goal}" خودش رو {status} بست'
         embed = DiscordEmbed(
-            title=f'تیک {status}', description=f'{dmo_user} DMO {goal} خودش رو {status} بست', color=color,
+            title=f'تیک {status} DMO', description=description, color=color,
         )
         embed.set_author(
             name=dmo_user,
-            url="https://panel.robin-traders.ir/",
+            url=f'{base_url}{dmo_day.dmo.user.profile.avatar.url}',
             icon_url=f'{base_url}{dmo_day.dmo.user.profile.avatar.url}',
         )
-        
+        if dmo_day.comment:
+            embed.add_embed_field(name="توضیحات", value=dmo_day.comment, inline=True)
         return embed
 
-       
+    @staticmethod
+    def _build_image(summary):
+        options = {'crop-w': '350'}
+        body = '''
+        <html>
+            <head>
+                <style>
+                body {margin: 0px;}
+                .dmo_summary .green {background-color: limegreen;}
+                .dmo_summary .red {background-color: indianred;}
+                .dmo_summary {border: 1px solid #18252d;width: 100%;max-width: 350px;margin: 0px; border-collapse: collapse}
+                .dmo_summary tr td {border: 1px solid #18252d;color: #222;height: 15px;max-width: 25px;width: 10%;text-align: center;}
+                </style>
+            </head>
+            <body>
+        '''
+        body += '''
+            {summary}
+            </body>
+        </html>
+        '''.format(summary=summary)
+        image = imgkit.from_string(body, False, options=options)
+        return image

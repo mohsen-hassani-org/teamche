@@ -61,6 +61,43 @@ class Dmo(models.Model):
     contents = DmoManager()
     objects = models.Manager()
 
+    def days_to_data(self):
+        dmo_days = self.days.all().order_by('day')
+        procedure = 0
+        step = 0
+        data = {}
+        for dmo_day in dmo_days:
+            procedure = procedure + 1 if dmo_day.done else procedure - 1
+            step += 1
+            if  step == 1 and procedure == -1:
+                procedure = 0
+            data[dmo_day.day] = procedure
+        return data
+
+    def get_summary_as_table(self):
+        dmo_data = self.days_to_data()
+        jnow = date2jalali(datetime.now())
+        today = jnow.day
+        if today < 10:
+            today = 10
+        classes = []
+        tmp = 0
+        table = '<table class="dmo_summary"><tr>'
+        for i in range(1, today + 1):
+            if i in dmo_data.keys():
+                if dmo_data[i] > tmp:
+                    classes.append({'day': i, 'color': 'green'})
+                else:
+                    classes.append({'day': i, 'color': 'red'})
+                tmp = dmo_data[i]
+            else:
+                classes.append({'day': i, 'color': 'gray'})
+        classes = classes[-10:]
+        for klass in classes:
+            table += '<td class="{color}">{day}</td>'.format(color=klass['color'], day=klass['day'])
+        table += '</tr></table>'
+        return table
+
 class Setting(models.Model):
     class Meta:
         verbose_name = _('تنظیم DMO')
