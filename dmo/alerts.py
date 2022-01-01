@@ -45,7 +45,7 @@ class DiscordAlert(Discord):
         base_url = 'https://iprpars.ir'
         dmo_user = dmo_day.dmo.user.profile.display_name
         status = 'مثبت' if dmo_day.done else 'منفی'
-        color = '#00ff00' if dmo_day.done else '#ff0000'
+        color = '00ff00' if dmo_day.done else 'ff0000'
         goal = dmo_day.dmo.goal
         embed = DiscordEmbed(
             title=f'تیک {status}', description=f'{dmo_user} DMO {goal} خودش رو {status} بست', color=color,
