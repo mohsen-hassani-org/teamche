@@ -348,12 +348,13 @@ def fill_dmo(request, dmo_id):
                 else:
                     prev_day.done = True if 'btn_finished' in request.POST else False
                     prev_day.save()
+                    DiscordAlert.send_fill_dmo_alert(prev_day)
             else:
                 # Save new day data
                 dmoday.done = True if 'btn_finished' in request.POST else False
                 dmoday.dmo = dmo
                 dmoday.save()
-            DiscordAlert.send_fill_dmo_alert(dmoday)
+                DiscordAlert.send_fill_dmo_alert(dmoday)
             return redirect('dmo_profile_dmo_view_this_month', team_id=dmo.team.id)
     else:
         form = DmoDayForm()
