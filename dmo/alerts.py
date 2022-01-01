@@ -28,7 +28,7 @@ class DiscordAlert(Discord):
 
     @staticmethod
     def _build_new_dmo_embed(dmo: Dmo):
-        base_url = 'https://iprpars.ir'
+        base_url = 'http://iprpars.ir'
         dmo_user = dmo.user.profile.display_name
         embed = DiscordEmbed(
             title="یک DMO جدید!", description=f'همین الان {dmo_user} یک DMO جدید ثبت کرد', color=dmo.color.replace('#', ''),
@@ -48,7 +48,7 @@ class DiscordAlert(Discord):
     @staticmethod
     def _build_fill_dmo_embed(dmo_day):
         ''' Create an image from dmo table and send it with description '''
-        base_url = 'https://iprpars.ir'
+        base_url = 'http://iprpars.ir'
         dmo_user = dmo_day.dmo.user.profile.display_name
         status = 'مثبت' if dmo_day.done else 'منفی'
         color = '00ff00' if dmo_day.done else 'ff0000'
@@ -63,8 +63,10 @@ class DiscordAlert(Discord):
             url=f'{base_url}{dmo_day.dmo.user.profile.avatar.url}',
             icon_url=f'{base_url}{dmo_day.dmo.user.profile.avatar.url}',
         )
+        embed.add_embed_field(name="روز", value=dmo_day.day, inline=True)
+        embed.add_embed_field(name="هدف DMO", value=dmo_day.dmo.goal, inline=True)
         if dmo_day.comment:
-            embed.add_embed_field(name="توضیحات", value=dmo_day.comment, inline=True)
+            embed.add_embed_field(name="توضیحات", value=dmo_day.comment, inline=False)
         return embed
 
     @staticmethod

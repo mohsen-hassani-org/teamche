@@ -347,6 +347,7 @@ def fill_dmo(request, dmo_id):
                     form.add_error('day', _('این روز قفل شده است و امکان تغییر در آن وجود ندارد'))
                 else:
                     prev_day.done = True if 'btn_finished' in request.POST else False
+                    prev_day.comment = dmoday.comment
                     prev_day.save()
                     DiscordAlert.send_fill_dmo_alert(prev_day)
             else:
