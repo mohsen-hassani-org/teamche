@@ -1,0 +1,93 @@
+
+.nav-md ul.nav.child_menu li:before {
+    right: 23px;
+    left: auto;
+}
+
+.nav-md ul.nav.child_menu li:after {
+    right: 27px;
+    left: auto;
+}
+
+.site_title {
+    padding-right: 10px
+}
+
+.nav-sm footer {
+    margin-right: 70px;
+    margin-left: 0px;
+}
+
+.nav-sm .container.body .right_col {
+    margin-right: 70px;
+    margin-left: 0px;
+}
+.nav.child_menu li {
+    padding-right: 36px
+}
+
+.top_nav .navbar-right li {
+    float: left;
+}
+.top_nav .navbar-right {
+    float: left !important;
+}
+.toggle {
+    float: right;
+}
+
+.nav-sm ul.nav.child_menu {
+    right: 100%;
+}
+.nav-sm ul.nav.child_menu li a {
+    text-align: right !important
+}
+.nav-sm .main_container .top_nav {
+    margin-right: 70px;
+    margin-left: 0px;
+}
+
+.sidebar-profile-footer a {
+    float: right;
+}
+
+.profile_pic {
+    float: right;
+}
+.img-circle.profile_img {
+    margin-right: 15%;
+}
+.x_title h2 {
+    float: right;
+}
+.panel_toolbox.navbar-right {
+    float: left !important;
+}
+.panel_toolbox>li {
+    float: left;
+}
+
+.main_container .top_nav {
+    margin-left: 0px;
+    margin-right: 230px;
+}
+@media (min-width:992px) {
+    footer {
+        margin-left: 0px;
+        margin-right: 230px;
+    }
+    .nav-md .container.body .right_col {
+        margin-left: 0px;
+        margin-right: 230px;
+    }
+
+}
+
+.main_menu span.fa {
+    float: left;
+}
+
+
+.search-box {
+    float: right;
+}

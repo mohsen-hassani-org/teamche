@@ -16,23 +16,17 @@
     <title> {% block title %} {% trans 'پنل مدیریت' %} | {{settings.site_settings}} {% endblock title %}  </title>
 
     <!-- Bootstrap -->
-    <link href="{% static "vendors/bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     {% if BIDI %}
-    <link href="{% static "vendors/bootstrap-rtl/dist/css/bootstrap-rtl.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-rtl.min.css" %}" rel="stylesheet">
     {% endif %}
     <!-- Font Awesome -->
-    <link href="{% static "vendors/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
-    <!-- bootstrap-progressbar -->
-    <link href="{% static "vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" %}" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="{% static "vendors/iCheck/skins/flat/green.css" %}" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="{% static "vendors/bootstrap-daterangepicker/daterangepicker.css" %}" rel="stylesheet">
+    <link href="{% static "css/font-awesome.min.css" %}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{% static "build/css/custom.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/custom.min.css" %}" rel="stylesheet">
     {% if BIDI %}
-    <link href="{% static "build/css/custom-rtl.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/custom-rtl.min.css" %}" rel="stylesheet">
     {% endif %}
     <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
 
@@ -219,32 +213,17 @@
     </div>
 
    <!-- jQuery -->
-    <script src="{% static "vendors/jquery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "js/jquery.min.js" %}"></script>
     <script src="{% static "admin/js/django_jalali.min.js" %}"></script>
 
     <!-- Bootstrap -->
-    <script src="{% static "vendors/bootstrap/dist/js/bootstrap.min.js" %}"></script>
-
-    <!-- FastClick -->
-    <script src="{% static "vendors/fastclick/lib/fastclick.js" %}"></script>
-
-    <!-- bootstrap-progressbar -->
-    <script src="{% static "vendors/bootstrap-progressbar/bootstrap-progressbar.min.js" %}"></script>
-    <!-- iCheck -->
-    <script src="{% static "vendors/iCheck/icheck.min.js" %}"></script>
-
-    <!-- bootstrap-daterangepicker -->
-    <script src="{% static "vendors/moment/min/moment.min.js" %}"></script>
-    <script src="{% static "vendors/bootstrap-daterangepicker/daterangepicker.js" %}"></script>
-
-    <!-- DateJS -->
-    <script src="{% static "vendors/DateJS/build/production/date.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="{% static "build/js/custom.min.js" %}"></script>
+    <script src="{% static "js/custom.min.js" %}"></script>
 
     <!-- Table To Csv Downloader Script-->
-    <script src="{% static "build/js/table2csv.js" %}"></script>
+    <script src="{% static "js/table2csv.js" %}"></script>
 
     <!-- Extra Scripts -->
     {% block extra_scripts %}{% endblock %}
