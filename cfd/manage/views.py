@@ -32,7 +32,7 @@ def asset_view(request):
         'footer_buttons': [
             {
                 'title': _('بازگشت'),
-                'url_name': 'cfd_profile_signals_month_view',
+                'url_name': 'account_profile',
             }
         ]
     }

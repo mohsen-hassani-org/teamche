@@ -20,9 +20,19 @@ class SignalManager(models.Manager):
         team = get_object_or_404(Team, id=team_id)
         return Signal.objects.filter(team=team)
 
-    def get_team_running_signals(self, team_id):
+    def get_team_running_signals(self, team_id, analysis_type='live'):
         team = get_object_or_404(Team, id=team_id)
-        return Signal.objects.filter(Q(team=team) & Q(status=Signal.SignalStatus.RUNNING) | Q(status=Signal.SignalStatus.PENDING))
+        return Signal.objects.filter(
+            Q(team=team) &
+            Q(
+                Q(classic_analysis__analysis_type=analysis_type) |
+                Q(pta_analysis__analysis_type=analysis_type)
+            ) &
+            Q(
+                Q(status=Signal.SignalStatus.RUNNING) |
+                Q(status=Signal.SignalStatus.PENDING)
+            )
+        )
 
     def get_month_team_signals(self, team_id, month):
         team = get_object_or_404(Team, id=team_id)
@@ -142,6 +152,10 @@ class PTAAnalysis(models.Model):
     class Meta:
         verbose_name = _('آنالیز PTA')
         verbose_name_plural = _('آنالیز‌های PTA')
+    class AnalysisType(models.TextChoices):
+        LIVE = 'live', _('Live')
+        DEMO = 'demo', _('Demo')
+        BACKTEST = 'btst', _('Back Test')
     class ChartMove(models.TextChoices):
         IMPULSIVE = 'imp', 'Impulsive'
         CORRECTIVE = 'cor', 'Corrective'
@@ -168,6 +182,7 @@ class PTAAnalysis(models.Model):
     
     def __str__(self):
         return '{user} - date: {date} - time: {time}'.format(user=self.user, date=self.datetime.strftime('%Y/%m/%d'), time=self.datetime.strftime('%H:%M:%S'))
+    analysis_type = models.CharField(max_length=4, choices=AnalysisType.choices, default=AnalysisType.LIVE, verbose_name=_('نوع سیگنال'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='pta_analysis', verbose_name=_('کاربر'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True)
     any_news = models.BooleanField(default=False, verbose_name=_('خبر؟'), help_text=_('در صورتی که در مدت معامله، خبری مرتبط با دارایی وجود دارد این گزینه را تیک بزنید'))
@@ -189,6 +204,10 @@ class ClassicAnalysis(models.Model):
         verbose_name = _('آنالیز Classic')
         verbose_name_plural = _('آنالیزهای Classic')
         ordering = ['-datetime']
+    class AnalysisType(models.TextChoices):
+        LIVE = 'live', _('Live')
+        DEMO = 'demo', _('Demo')
+        BACKTEST = 'btst', _('Back Test')
     class TrendLines(models.TextChoices):
         BULLISH_TREND = 'bl', _('خط روند صعودی')
         BEARISH_TREND = 'br', _('خط روند نزولی')
@@ -259,7 +278,13 @@ class ClassicAnalysis(models.Model):
         WAVEB = 'wvb', _('موج B')
         WAVEC = 'wvc', _('موج C')
     def __str__(self):
-        return '{title} ({user}) - date: {date} {time}'.format(title=self.title, user=self.user, date=self.datetime.strftime('%Y/%m/%d'), time=self.datetime.strftime('%H:%M:%S'))
+        return '{title} ({user}) - date: {date} {time} {type}'.format(
+            title=self.title, 
+            user=self.user, 
+            date=self.datetime.strftime('%Y/%m/%d'), 
+            time=self.datetime.strftime('%H:%M:%S'),
+            type=self.get_analysis_type_display())
+    analysis_type = models.CharField(max_length=4, choices=AnalysisType.choices, default=AnalysisType.LIVE, verbose_name=_('نوع سیگنال'))
     title = models.CharField(max_length=70, default='تحلیل کلاسیک', verbose_name=_('عنوان'))
     desc = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='classic_analysis', verbose_name=_('کاربر'))

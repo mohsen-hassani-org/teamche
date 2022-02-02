@@ -105,6 +105,7 @@ class ClassicAnalysisForm(forms.ModelForm):
         fields += ('support_resistance1_timeframe', 'support_resistance2_timeframe', 'support_resistance3_timeframe') # 64, 65, 66
         fields += ('support_resistance_signal', ) # 67
         fields += ('trend_line', 'trend_line_signal', ) # 68, 69
+        fields += ('analysis_type', ) # 70
         widgets = {
             'major_trend': forms.widgets.RadioSelect(),
             'major_trend_signal': forms.widgets.RadioSelect(),

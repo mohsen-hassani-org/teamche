@@ -114,8 +114,9 @@ def signals_month(request, team_id):
     else:
         month = datetime.now().replace(day=1)
     
+    analysis_type = request.GET.get('analysis_type', 'live')
     team = get_object_or_404(Team, id=team_id)
-    running_signals = Signal.signals.get_team_running_signals(team_id)
+    running_signals = Signal.signals.get_team_running_signals(team_id, analysis_type)
     month_signals = Signal.signals.get_month_team_signals(team_id, month)
 
     data = {

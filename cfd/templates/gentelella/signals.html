@@ -44,6 +44,13 @@
                         <span>{% trans 'مدیریت دارایی‌ها' %}</span>
                     </a>
                     {% endif %}
+                    <form method="GET" id="analysis_form" style="display: inline">
+                        <select id="analysis_types" style="display: inline; width: 120px;" name="analysis_type">
+                            <option value="live" {% if request.GET.analysis_type == 'live' %}selected{%endif%}>Live</option>
+                            <option value="demo" {% if request.GET.analysis_type == 'demo' %}selected{%endif%}>Demo</option>
+                            <option value="btst" {% if request.GET.analysis_type == 'btst' %}selected{%endif%}>Back Test</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -182,6 +189,9 @@
             $('#monthpicker').change(function(){
                 $('#month_form').submit();
             });
+        });
+        $("#analysis_types").change(function(){
+            $("#analysis_form").submit();
         });
     </script>
 {% endblock %}
