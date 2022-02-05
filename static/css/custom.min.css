@@ -4029,7 +4029,7 @@ body.yekan .view p {
 
 .auth {
     background: #18252d;
-    background-image: url(/static/build/images/auth.jpg);
+    background-image: url(/static/images/auth.jpg);
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
