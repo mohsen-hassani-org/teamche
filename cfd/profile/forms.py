@@ -21,9 +21,9 @@ class SignalForm(forms.ModelForm):
         """Meta definition for Signalform."""
 
         model = Signal
-        fields = ('asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
+        fields = ( 'asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
         'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis',
-        'self_entered', )
+        'self_entered', 'signal_datetime',)
         widgets = {
             #Use localization and bootstrap 3
             'signal_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3),

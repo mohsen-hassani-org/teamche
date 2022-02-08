@@ -6,7 +6,7 @@
 
 {% block extra_head %}{{extra_head|safe}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="/static/vendors/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     {{ form.media }}
     <style>
         .datetimepicker {
@@ -324,6 +324,28 @@
                 </div>
             </div>
 
+
+            <!-- Signal datetime -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.signal_datetime.id_for_label}}">{{form.signal_datetime.label}}{% if form.signal_datetime.field.required %}<span class="required"> *</span>{% endif %}</label>
+                <div class="col-md-9 col-sm-10 col-xs-12">
+                    {{ form.signal_datetime }}
+                    {% if form.signal_datetime.help_text %}
+                    <small class="form-text text-muted">{{ form.signal_datetime.help_text }}</small>
+                    {% endif %}
+                    {% if form.is_bound %}
+                    {% if form.signal_datetime.errors %}
+                    {% for error in form.signal_datetime.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+
             <!-- 8 Self entrance -->
             <div class="form-group">
                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.visible_fields.12.id_for_label}}">{{form.visible_fields.12.label}}{% if form.visible_fields.12.field.required %}<span class="required"> *</span>{% endif %}</label>
@@ -346,15 +368,15 @@
 
             <!-- 9 Open now -->
             <div class="form-group">
-                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.visible_fields.13.id_for_label}}">{{form.visible_fields.13.label}}{% if form.visible_fields.13.field.required %}<span class="required"> *</span>{% endif %}</label>
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.open_now.id_for_label}}">{{form.open_now.label}}{% if form.open_now.field.required %}<span class="required"> *</span>{% endif %}</label>
                 <div class="col-md-4 col-sm-4 col-xs-6">
-                    {{ form.visible_fields.13 }}
-                    {% if form.visible_fields.13.help_text %}
-                    <small class="form-text text-muted">{{ form.visible_fields.13.help_text }}</small>
+                    {{ form.open_now }}
+                    {% if form.open_now.help_text %}
+                    <small class="form-text text-muted">{{ form.open_now.help_text }}</small>
                     {% endif %}
                     {% if form.is_bound %}
-                    {% if form.visible_fields.13.errors %}
-                    {% for error in form.visible_fields.13.errors %}
+                    {% if form.open_now.errors %}
+                    {% for error in form.open_now.errors %}
                     <div class="invalid-feedback">
                         {{ error }}
                     </div>
