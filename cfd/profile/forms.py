@@ -23,7 +23,7 @@ class SignalForm(forms.ModelForm):
         model = Signal
         fields = ( 'asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
         'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis',
-        'self_entered', 'signal_datetime',)
+        'self_entered', 'signal_datetime', 'signal_type', )
         widgets = {
             #Use localization and bootstrap 3
             'signal_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3),
@@ -105,7 +105,6 @@ class ClassicAnalysisForm(forms.ModelForm):
         fields += ('support_resistance1_timeframe', 'support_resistance2_timeframe', 'support_resistance3_timeframe') # 64, 65, 66
         fields += ('support_resistance_signal', ) # 67
         fields += ('trend_line', 'trend_line_signal', ) # 68, 69
-        fields += ('analysis_type', ) # 70
         widgets = {
             'major_trend': forms.widgets.RadioSelect(),
             'major_trend_signal': forms.widgets.RadioSelect(),
