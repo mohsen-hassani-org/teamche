@@ -20,14 +20,11 @@ class SignalManager(models.Manager):
         team = get_object_or_404(Team, id=team_id)
         return Signal.objects.filter(team=team)
 
-    def get_team_running_signals(self, team_id, analysis_type='live'):
+    def get_team_running_signals(self, team_id, signal_type='live'):
         team = get_object_or_404(Team, id=team_id)
         return Signal.objects.filter(
             Q(team=team) &
-            Q(
-                Q(classic_analysis__analysis_type=analysis_type) |
-                Q(pta_analysis__analysis_type=analysis_type)
-            ) &
+            Q(signal_type=signal_type) &
             Q(
                 Q(status=Signal.SignalStatus.RUNNING) |
                 Q(status=Signal.SignalStatus.PENDING)
