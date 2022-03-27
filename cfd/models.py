@@ -373,6 +373,10 @@ class Signal(models.Model):
         RUNNING = 'running', _('در حال اجرا')
         FILLED = 'filled', _('انجام شده')
         CANCELED = 'canceled', _('لغو شده')
+    class SignalType(models.TextChoices):
+        LIVE = 'live', _('Live')
+        DEMO = 'demo', _('Demo')
+        BACKTEST = 'btst', _('Back Test')
     class Meta:
         verbose_name = _('سیگنال')
         verbose_name_plural = _('سیگنال‌ها')
@@ -382,6 +386,7 @@ class Signal(models.Model):
     signal_datetime = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ و زمان'))
     result_datetime = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ و زمان پایان معامله'))
     canceled_datetime = models.DateTimeField(verbose_name=_('تاریخ و زمان لغو معامله'), null=True, blank=True)
+    signal_type = models.CharField(max_length=4, choices=SignalType.choices, default=SignalType.LIVE, verbose_name=_('نوع سیگنال'))
     user = models.ForeignKey(User, related_name='signals', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('کاربر'))
     asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name='signals', verbose_name=_('دارایی'))
     trade_id = models.CharField(max_length=100, null=True, blank=True, verbose_name=_('شناسه Trade'), help_text=_('مشخصه‌ای که با آن بتوان معامله را در پلتفرم‌های معاملاتی پیدا کرد'))
