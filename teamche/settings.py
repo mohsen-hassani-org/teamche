@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'jalali_date',
     'rest_framework',
     'django_quill',
+    'dbbackup',
     # 'django_extensions',
     'utils',
     'accounts',
@@ -156,6 +157,9 @@ QUILL_CONFIGS = {
         }
     }
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, 'backups/')}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
