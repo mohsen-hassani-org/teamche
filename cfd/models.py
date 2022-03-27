@@ -270,8 +270,7 @@ class ClassicAnalysis(models.Model):
             title=self.title, 
             user=self.user, 
             date=self.datetime.strftime('%Y/%m/%d'), 
-            time=self.datetime.strftime('%H:%M:%S'),
-            type=self.get_analysis_type_display())
+            time=self.datetime.strftime('%H:%M:%S'))
     title = models.CharField(max_length=70, default='تحلیل کلاسیک', verbose_name=_('عنوان'))
     desc = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='classic_analysis', verbose_name=_('کاربر'))
