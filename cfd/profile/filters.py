@@ -9,6 +9,7 @@ class SignalFilter(FilterSet):
             'result_datetime': ['lt', 'gt'],
             'user': ['exact'],
             'asset': ['exact'],
+            'signal_type': ['exact'],
         }
 
 class ClassicAnalysisFilter(FilterSet):
