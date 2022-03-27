@@ -266,7 +266,7 @@ class ClassicAnalysis(models.Model):
         WAVEB = 'wvb', _('موج B')
         WAVEC = 'wvc', _('موج C')
     def __str__(self):
-        return '{title} ({user}) - date: {date} {time} {type}'.format(
+        return '{title} ({user}) - date: {date} {time}'.format(
             title=self.title, 
             user=self.user, 
             date=self.datetime.strftime('%Y/%m/%d'), 
