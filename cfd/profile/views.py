@@ -204,7 +204,7 @@ def add_signal(request, team_id):
                 signal.open_signal(signal.entry_point1)
             else:
                 signal.save()
-            if signal.team.discord_url:
+            if signal.team.discord_url and signal.signal_type == Signal.SignalType.LIVE:
                 DiscordAlert.send_signal_alert(signal)
             return redirect('cfd_profile_signals_month_view', team_id=team_id)
     else:
