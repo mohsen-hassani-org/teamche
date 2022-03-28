@@ -30,13 +30,14 @@ class DiscordAlert(Discord):
     def _build_new_dmo_embed(dmo: Dmo):
         base_url = 'http://iprpars.ir'
         dmo_user = dmo.user.profile.display_name
+        user_avatar = f'{base_url}{dmo.user.profile.avatar.url}' if dmo.user.profile.avatar else ''
         embed = DiscordEmbed(
             title="یک DMO جدید!", description=f'همین الان {dmo_user} یک DMO جدید ثبت کرد', color=dmo.color.replace('#', ''),
         )
         embed.set_author(
             name=dmo_user,
             url="https://panel.robin-traders.ir/",
-            icon_url=f'{base_url}{dmo.user.profile.avatar.url}',
+            icon_url=user_avatar,
         )
         embed.add_embed_field(name="هدف", value=dmo.goal, inline=False)
         embed.add_embed_field(name="ماه", value=dmo.month)
@@ -50,6 +51,7 @@ class DiscordAlert(Discord):
         ''' Create an image from dmo table and send it with description '''
         base_url = 'http://iprpars.ir'
         dmo_user = dmo_day.dmo.user.profile.display_name
+        user_avatar = f'{base_url}{dmo_day.dmo.user.profile.avatar.url}' if dmo_day.dmo.user.profile.avatar else ''
         status = 'مثبت' if dmo_day.done else 'منفی'
         color = '00ff00' if dmo_day.done else 'ff0000'
         goal = dmo_day.dmo.goal
@@ -60,8 +62,8 @@ class DiscordAlert(Discord):
         )
         embed.set_author(
             name=dmo_user,
-            url=f'{base_url}{dmo_day.dmo.user.profile.avatar.url}',
-            icon_url=f'{base_url}{dmo_day.dmo.user.profile.avatar.url}',
+            url=user_avatar,
+            icon_url=user_avatar,
         )
         embed.add_embed_field(name="روز", value=dmo_day.day, inline=True)
         embed.add_embed_field(name="هدف DMO", value=dmo_day.dmo.goal, inline=True)
