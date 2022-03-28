@@ -32,6 +32,7 @@ class SignalForm(forms.ModelForm):
         }
         
     def __init__(self, *args, **kwargs):
+        self.team = kwargs.pop('team', None)
         super(SignalForm, self).__init__(*args, **kwargs)
         self.fields['entry_point1'].widget.attrs.update({'placeholder': 'نقطه ورود اول (الزامی)'})
         self.fields['entry_point2'].widget.attrs.update({'placeholder': 'نقطه ورود دوم (اختیاری)'})
@@ -40,8 +41,9 @@ class SignalForm(forms.ModelForm):
         self.fields['take_profit1'].widget.attrs.update({'placeholder': 'حد اول (الزامی)'})
         self.fields['take_profit2'].widget.attrs.update({'placeholder': 'حد دوم (اختیاری)'})
         self.fields['take_profit3'].widget.attrs.update({'placeholder': 'حد سوم (اختیاری)'})
-        self.fields['classic_analysis'].queryset = ClassicAnalysis.objects.filter(signal=None)
-        self.fields['pta_analysis'].queryset = PTAAnalysis.objects.filter(signal=None)
+        self.fields['classic_analysis'].queryset = ClassicAnalysis.objects.filter(signal=None, team=self.team)
+        self.fields['pta_analysis'].queryset = PTAAnalysis.objects.filter(signal=None, team=self.team)
+
     def clean(self):
         cleaned_data = super().clean()
         # One of classic and pta analysis must be filled

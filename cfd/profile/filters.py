@@ -1,5 +1,7 @@
-from django_filters import FilterSet
+from django.contrib.auth import get_user_model
+from django_filters import FilterSet, ModelChoiceFilter
 from cfd.models import PTAAnalysis, Signal, ClassicAnalysis
+User = get_user_model()
 
 class SignalFilter(FilterSet):
     class Meta:
@@ -12,6 +14,10 @@ class SignalFilter(FilterSet):
             'signal_type': ['exact'],
         }
 
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None, team_id=None):
+        super().__init__(data, queryset, request=request, prefix=prefix)
+        self.form.fields['user'].queryset = User.objects.filter(teams__id=team_id)
+
 class ClassicAnalysisFilter(FilterSet):
     class Meta:
         model = ClassicAnalysis
@@ -19,6 +25,10 @@ class ClassicAnalysisFilter(FilterSet):
             'title': ['icontains'],
             'user': ['exact'],
         }
+
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None, team_id=None):
+        super().__init__(data, queryset, request=request, prefix=prefix)
+        self.form.fields['user'].queryset = User.objects.filter(teams__id=team_id)
 
 
 class PTAAnalysisFilter(FilterSet):
@@ -35,3 +45,7 @@ class PTAAnalysisFilter(FilterSet):
             'entrance': ['exact'],
             'datetime': ['lt', 'gt'],
         }
+
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None, team_id=None):
+        super().__init__(data, queryset, request=request, prefix=prefix)
+        self.form.fields['user'].queryset = User.objects.filter(teams__id=team_id)

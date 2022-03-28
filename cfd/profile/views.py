@@ -78,7 +78,7 @@ from cfd.alerts import DiscordAlert
 @login_required
 def signals_all(request, team_id):
     signals = Signal.signals.get_team_signals(team_id)
-    filtered_signals = SignalFilter(request.GET, queryset=signals)
+    filtered_signals = SignalFilter(request.GET, queryset=signals, team_id=team_id)
     sum_pip = filtered_signals.qs.aggregate(res=Sum('result_pip')).get('res')
     context = {
         'page_title': 'تمامی سیگنال‌ها',
@@ -194,7 +194,7 @@ def add_signal(request, team_id):
     team = get_object_or_404(Team, id=team_id)
     user_signals = None
     if request.method == 'POST':
-        form = SignalForm(request.POST)
+        form = SignalForm(request.POST, team=team)
         if form.is_valid():
             open_now = form.cleaned_data['open_now']
             signal = form.save(commit=False)
@@ -210,7 +210,7 @@ def add_signal(request, team_id):
     else:
         user_signals = Signal.objects.filter(
             Q(user=request.user) & ~Q(mistakes=None) & ~Q(mistakes=''))[:10]
-        form = SignalForm()
+        form = SignalForm(team=team)
     context = {
         'form': form,
         'user_signals': user_signals,
@@ -223,7 +223,7 @@ def add_signal(request, team_id):
 def view_pta_analysis(request, team_id):
     team = get_object_or_404(Team, id=team_id)
     pta = PTAAnalysis.objects.filter(team=team).order_by('-datetime')
-    filter_set = PTAAnalysisFilter(request.GET, pta)
+    filter_set = PTAAnalysisFilter(request.GET, pta, team_id=team_id)
     for analysis in filter_set.qs:
         analysis.id = analysis.id
         analysis.num = '#{id}'.format(id=analysis.id)
@@ -272,7 +272,7 @@ def view_pta_analysis(request, team_id):
 def view_classic_analysis(request, team_id):
     team = get_object_or_404(Team, id=team_id)
     classic = ClassicAnalysis.objects.filter(team=team).order_by('-datetime')
-    filter_set = ClassicAnalysisFilter(request.GET, classic)
+    filter_set = ClassicAnalysisFilter(request.GET, classic, team_id=team_id)
     for analysis in filter_set.qs:
         analysis.num = '#{id}'.format(id=analysis.id)
         analysis.date = analysis.datetime.strftime('%Y %B %d')
