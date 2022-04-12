@@ -153,6 +153,7 @@ class PTAAnalysis(models.Model):
         IMPULSIVE = 'imp', 'Impulsive'
         CORRECTIVE = 'cor', 'Corrective'
     class ImpulsiveDirection(models.TextChoices):
+        RANGE = 'rg', _('رنج')
         UP = 'up', _('صعودی')
         DOWN = 'dw', _('نزولی')
     class PTAPattern(models.TextChoices):
