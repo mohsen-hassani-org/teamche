@@ -178,6 +178,11 @@ class PTAAnalysis(models.Model):
         return '{user} - date: {date} - time: {time}'.format(user=self.user, date=self.datetime.strftime('%Y/%m/%d'), time=self.datetime.strftime('%H:%M:%S'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='pta_analysis', verbose_name=_('کاربر'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True)
+    desc = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
+    datetime = models.DateTimeField(auto_now=True)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='pta_analysis', verbose_name=_('تیم'))
+    image_url = models.URLField(max_length=300, null=True)
+
     any_news = models.BooleanField(default=False, verbose_name=_('خبر؟'), help_text=_('در صورتی که در مدت معامله، خبری مرتبط با دارایی وجود دارد این گزینه را تیک بزنید'))
     news_detail = models.TextField(verbose_name=_('جزئیات خبر'), null=True, blank=True, help_text=_('توجه: سی دقیقه قبل و بعد از خبر نباید وارد معامله شوید، اما در صورتی که برای انجام معامله مصر هستید، اطلاعات خبر را اینجا وارد کنید.'))
     chart_move = models.CharField(max_length=3, choices=ChartMove.choices, verbose_name=_('حرکت نمودار'), default=ChartMove.IMPULSIVE)
@@ -187,10 +192,7 @@ class PTAAnalysis(models.Model):
     candle_pressure = models.BooleanField(default=False, verbose_name=_('فشارخوانی'))
     scenario = models.CharField(max_length=3, choices=ScenarioTypes.choices, verbose_name=_('سناریو'), default=ScenarioTypes.SCENARIO3)
     entrance = models.CharField(max_length=4, choices=EntranceTypes.choices, verbose_name=_('روش ورود'), default=EntranceTypes.DISCOUNT)
-    datetime = models.DateTimeField(auto_now=True)
-    image_url = models.URLField(max_length=300, null=True)
     comments = GenericRelation(Comment)
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='pta_analysis', verbose_name=_('تیم'))
 
 class ClassicAnalysis(models.Model):
     class Meta:
@@ -272,9 +274,13 @@ class ClassicAnalysis(models.Model):
             user=self.user, 
             date=self.datetime.strftime('%Y/%m/%d'), 
             time=self.datetime.strftime('%H:%M:%S'))
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='classic_analysis', verbose_name=_('کاربر'))
     title = models.CharField(max_length=70, default='تحلیل کلاسیک', verbose_name=_('عنوان'))
     desc = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='classic_analysis', verbose_name=_('کاربر'))
+    datetime = models.DateTimeField(auto_now=True)
+    image_url = models.URLField(max_length=300, null=True, verbose_name=_('URL تصویر'))
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='classic_analysis', verbose_name=_('تیم'))
+
     news = models.TextField(verbose_name=_('اخبار'), null=True, blank=True, help_text=_('توجه: سه دقیقه قبل و بعد از خبر نباید وارد معامله شوید، اما در صورتی که برای انجام معامله مصر هستید، اطلاعات خبر را اینجا وارد کنید.'))
     major_trend = models.CharField(max_length=2, choices=TrendTypes.choices, default=TrendTypes.BULLISH, verbose_name=_('روند اصلی'))
     major_trend_signal = models.CharField(max_length=2, choices=SignalTypes.choices, default=SignalTypes.NATURE, verbose_name=_('سیگنال دریافتی')) 
@@ -345,11 +351,8 @@ class ClassicAnalysis(models.Model):
     adx = models.TextField(verbose_name=_('ADX'), null=True, blank=True)
     adx_signal = models.CharField(max_length=2, choices=SignalTypes.choices, verbose_name=_('سیگنال دریافتی'), null=True, blank=True) 
     adx_timeframe = models.CharField(max_length=3, choices=TimeFrames.choices, verbose_name=_('تایم‌فریم'), null=True, blank=True)
-    datetime = models.DateTimeField(auto_now=True)
-    image_url = models.URLField(max_length=300, null=True, verbose_name=_('URL تصویر'))
     tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
     comments = GenericRelation(Comment)
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='classic_analysis', verbose_name=_('تیم'))
 
 class Signal(models.Model):
     class TradeType(models.TextChoices):
@@ -390,13 +393,20 @@ class Signal(models.Model):
     result_dollar = models.DecimalField(max_digits=7, decimal_places=2, default=0, verbose_name=_('سود/ضرر نهایی (دلار)'))
     lot = models.DecimalField(max_digits=4, decimal_places=2, verbose_name=_('حجم ورود'), null=True, blank=True)
     mistakes = models.TextField(null=True, blank=True, verbose_name=_('اشتباهات معامله'))
-    pta_analysis = models.OneToOneField(PTAAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل PTA'))
-    classic_analysis = models.OneToOneField(ClassicAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل Classic'))
     status = models.CharField(max_length=8, choices=SignalStatus.choices, default=SignalStatus.PENDING, verbose_name=_('وضعیت'))
     result_image_url = models.URLField(max_length=300, null=True, verbose_name=_('تصویر نهایی'))
     self_entered = models.BooleanField(default=True, verbose_name=_('وارد شده‌اید؟'))
     comments = GenericRelation(Comment, verbose_name=_('نظرات'))
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='signals', verbose_name=_('تیم'))
+
+    pta_analysis = models.OneToOneField(PTAAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل PTA'))
+    classic_analysis = models.OneToOneField(ClassicAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل Classic'))
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT, null=True)
+    analysis_id = models.PositiveIntegerField(null=True)
+    analysis = GenericForeignKey('content_type', 'analysis_id')
+
+
     signals = SignalManager()
     objects = models.Manager()
 
