@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_quill',
     'dbbackup',
-    # 'django_extensions',
+    'django_extensions',
     'utils',
     'accounts',
     'file',

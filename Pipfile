@@ -28,6 +28,7 @@ python-dotenv = "*"
 discord-webhook = "*"
 imgkit = "*"
 django-dbbackup = "*"
+django-extensions = "*"
 
 [dev-packages]
 
