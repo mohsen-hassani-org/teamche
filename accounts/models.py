@@ -71,6 +71,14 @@ class Profile(models.Model):
     def display_name(self):
         return self.user.get_full_name() or self.user.username
 
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        first_name = self.user.first_name
+        last_name = self.user.last_name
+        return f"https://ui-avatars.com/api/?name={first_name}+{last_name}"
+
 def user_str_function(self):
     return '{fn} {ln} ({un})'.format(fn=self.first_name, ln=self.last_name, un=self.username)
 
