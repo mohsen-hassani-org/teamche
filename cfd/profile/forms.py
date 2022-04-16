@@ -4,6 +4,7 @@ from django.forms import widgets
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from datetimewidget.widgets import DateTimeWidget
 from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset, SignalEvent,\
                         SignalEvaluation, Evaluation
@@ -16,6 +17,8 @@ class DateTimeInput(forms.DateInput):
 class SignalForm(forms.ModelForm):
     """Form definition for Signal."""
     open_now = forms.BooleanField(required=False, label='سیگنال هم اکنون فعال شود')
+    analysis_id = forms.IntegerField(required=True, widget=forms.HiddenInput(), label='تحلیل')
+    content_type = forms.IntegerField(required=True, widget=forms.HiddenInput())
 
     class Meta:
         """Meta definition for Signalform."""
@@ -23,7 +26,7 @@ class SignalForm(forms.ModelForm):
         model = Signal
         fields = ( 'asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
         'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis',
-        'self_entered', 'signal_datetime', 'signal_type', )
+        'self_entered', 'signal_datetime', 'signal_type', 'analysis_id', 'content_type')
         widgets = {
             #Use localization and bootstrap 3
             'signal_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3),
@@ -49,8 +52,14 @@ class SignalForm(forms.ModelForm):
         # One of classic and pta analysis must be filled
         classic = cleaned_data.get('classic_analysis', None)
         pta = cleaned_data.get('pta_analysis', None)
+        return
         if not pta and not classic:
             raise ValidationError(_('برای ایجاد سیگنال باید یک تحلیل انتخاب کنید'))
+
+    def clean_content_type(self):
+        content_type_id = self.cleaned_data.get('content_type')
+        content_type = ContentType.objects.get(id=content_type_id)
+        return content_type
 
 
 class FillSignalForm(forms.ModelForm):

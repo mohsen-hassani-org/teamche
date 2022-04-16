@@ -10,6 +10,13 @@
     <script src="/static/js/moment/moment.min.js"></script>
     {{ form.media }}
     <style>
+        .test {
+            border: 1px solid red;
+            padding: 20px;
+        }
+        .image {
+            width: 100%;
+        }
         .datetimepicker {
             right: auto;
         }
@@ -26,6 +33,21 @@
         }
         #mistakes_list{
             transition: 0.3s linear all;
+        }
+        .dashed-box {
+            border: 1px dashed darkgray !important;
+            cursor: pointer;
+            padding: 50px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .analysis-box {
+            border: 1px solid #ccc !important;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .dashed-box:hover {
+            background-color: #f5f5f5;
         }
     </style>
 {% endblock extra_head %}
@@ -326,9 +348,59 @@
             </div>
 
 
+            <!-- Analysis -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.analysis_id.id_for_label}}">
+                    {{form.analysis_id.label}}
+                    {% if form.analysis_id.field.required %}<span class="required"> *</span>{% endif %}</label>
+                <div class="col-md-9 col-sm-10 col-xs-12">
+                    <div class="dashed-box" id="emptyAnalysisBox" onclick="openAnalysisPopup()">
+                        <span>برای انتخاب تحلیل، اینجا کلیک کنید</span>
+                    </div>
+                    <div id="analysisBox">
+                        <div class="analysis-box">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img id="analysisUserAvatar" src="" alt="" class="image">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4 id="analysisTitle"></h4>
+                                    <div id="analysisUserName"></div>
+                                    <p id="analysisDatetime"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <img id="analysisImg" src="" alt="" class="image">
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn-link" onclick="openAnalysisPopup()">
+                            <small>برای تغییر تحلیل، اینجا کلیک کنید</small>
+                        </a>
+                    </div>
+
+
+                    {% if form.analysis_id.help_text %}
+                    <small class="form-text text-muted">{{ form.analysis_id.help_text }}</small>
+                    {% endif %}
+                    {% if form.is_bound %}
+                    {% if form.analysis_id.errors %}
+                    {% for error in form.analysis_id.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+
             <!-- Signal datetime -->
             <div class="form-group">
-                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.signal_datetime.id_for_label}}">{{form.signal_datetime.label}}{% if form.signal_datetime.field.required %}<span class="required"> *</span>{% endif %}</label>
+                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="{{form.signal_datetime.id_for_label}}">
+                    {{form.signal_datetime.label}}
+                    {% if form.signal_datetime.field.required %}<span class="required"> *</span>{% endif %}
+                </label>
                 <div class="col-md-9 col-sm-10 col-xs-12">
                     {{ form.signal_datetime }}
                     {% if form.signal_datetime.help_text %}
@@ -468,6 +540,53 @@
     let profitField = document.getElementById("id_take_profit1");
     entryField.onchange = () => {setSignalType()}
     profitField.onchange = () => {setSignalType()}
+
+    function openAnalysisPopup(){
+        let popup = window.open("{% url 'cfd_profile_analysis_choose' team_id %}", "Analysis", "width=800,height=600");
+        popup.focus();
+
+    }
+
+    function setAnalysisCallback(analysisID, content, analysisTitle, analysisUserName,
+                                 analysisUserAvatar, analysisImg, analysisDatetime){
+        let analysisField = document.getElementById("id_analysis_id");
+        analysisField.value = analysisID;
+        let analysisContentField = document.getElementById("id_content_type");
+        analysisContentField.value = content;
+        $("#analysisTitle").text(analysisTitle);
+        $("#analysisUserName").text(analysisUserName);
+        $("#analysisUserAvatar").attr("src", analysisUserAvatar);
+        $("#analysisUserAvatar").attr("alt", analysisUserName);
+        $("#analysisImg").attr("src", analysisImg);
+        $("#analysisImg").attr("alt", analysisTitle);
+        $("#analysisDatetime").text(analysisDatetime);
+        renderAnalysis();
+    }
+
+    function renderAnalysis(){
+        let analysisId = document.getElementById("id_analysis_id");
+        if(analysisId && analysisId.value){
+            showAnalysisBox();
+        } else {
+            showAnalysisEmptyBox();
+        }
+    }
+
+    function showAnalysisEmptyBox(){
+        let emptyAnalysisBox = document.getElementById("emptyAnalysisBox");
+        let analysisBox = document.getElementById("analysisBox");
+        emptyAnalysisBox.setAttribute("style", "display:block");
+        analysisBox.setAttribute("style", "display:none");
+    }
+    
+    function showAnalysisBox(){
+        let emptyAnalysisBox = document.getElementById("emptyAnalysisBox");
+        let analysisBox = document.getElementById("analysisBox");
+        emptyAnalysisBox.setAttribute("style", "display:none");
+        analysisBox.setAttribute("style", "display:block");
+    }
+
+    renderAnalysis();
 
 </script>
 {%endblock page_content%}

@@ -194,6 +194,14 @@ class PTAAnalysis(models.Model):
     entrance = models.CharField(max_length=4, choices=EntranceTypes.choices, verbose_name=_('روش ورود'), default=EntranceTypes.DISCOUNT)
     comments = GenericRelation(Comment)
 
+    def get_class_name(self):
+        return self.__class__.__name__
+
+    @classmethod
+    def class_name(cls):
+        return cls.__name__
+
+
 class ClassicAnalysis(models.Model):
     class Meta:
         verbose_name = _('آنالیز Classic')
@@ -353,6 +361,14 @@ class ClassicAnalysis(models.Model):
     adx_timeframe = models.CharField(max_length=3, choices=TimeFrames.choices, verbose_name=_('تایم‌فریم'), null=True, blank=True)
     tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
     comments = GenericRelation(Comment)
+
+    def get_class_name(self):
+        return self.__class__.__name__
+
+    @classmethod
+    def class_name(cls):
+        return cls.__name__
+
 
 class Signal(models.Model):
     class TradeType(models.TextChoices):

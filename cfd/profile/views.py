@@ -3,9 +3,11 @@ from datetime import datetime, timedelta
 from re import L
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Avg, Count, Min, Max, Sum
+from django.views.generic import TemplateView
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from cfd.profile.forms import EvaluationForm, SignalEventForm, SignalForm, FillSignalForm, ChooseAnalysisForm,\
                             ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm,\
                             AppendSignalMistakesForm, SignalEvaluationForm
@@ -155,6 +157,8 @@ def signal_info(request, signal_id):
         'year': now.year,
         'month': now.strftime('%B'),
         'classic_signals': classic_signal_count,
+        'ClassicAnalysis': ClassicAnalysis,
+        'PTAAnalysis': PTAAnalysis,
     }
     return render(request, SIGNAL_INFO, data)
 
@@ -796,3 +800,18 @@ def evaluation_delete(request, evaluation_id):
         return render(request, HTTP403PAGE)
     evaluation.delete()
     return redirect('cfd_profile_evaluations_list', team_id=evaluation.team.id)
+
+    
+class ChooseAnalysis(TemplateView):
+    template_name = 'gentelella/choose_analysis.html'
+
+    def get_context_data(self, **kwargs):
+        team_id = self.kwargs['team_id']
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = _('انتخاب آنالیز')
+        context['page_subtitle'] = _('انتخاب آنالیز برای تیم')
+        context['classic_analysis'] = ClassicAnalysis.objects.filter(team_id=team_id, signal=None).order_by('-id')
+        context['classic_analysis_content_type'] = ContentType.objects.get(model=ClassicAnalysis._meta.model_name).id
+        context['pta_analysis'] = PTAAnalysis.objects.filter(team_id=team_id, signal=None).order_by('-id')
+        context['pta_analysis_content_type'] = ContentType.objects.get(model=PTAAnalysis._meta.model_name).id
+        return context

@@ -5,6 +5,7 @@ urlpatterns = [
     path('team/<team_id>/signals/all/', views.signals_all, name='cfd_profile_signals_all_view'),
     path('team/<team_id>/signals/', views.signals_month, name='cfd_profile_signals_month_view'),
     path('team/<team_id>/signals/add/', views.add_signal, name='cfd_profile_signals_add'),
+    path('team/<team_id>/analysis/choose/', views.ChooseAnalysis.as_view(), name='cfd_profile_analysis_choose'),
     path('signals/<signal_id>/analysis/classic/choose/', views.choose_classic_analysis, name='cfd_profile_analysis_classic_choose'),
     path('signals/<signal_id>/analysis/pta/choose/', views.choose_pta_analysis, name='cfd_profile_analysis_pta_choose'),
     path('signals/<signal_id>/analysis/classic/remove/', views.remove_classic_analysis, name='cfd_profile_analysis_classic_remove'),

@@ -1,0 +1,69 @@
+{% load static i18n %}
+{% get_current_language as LANG %}
+{% get_current_language_bidi as BIDI %}
+{% get_available_languages as LANGUAGES %}
+<!DOCTYPE html>
+<html lang="{{LANG}}" {% if BIDI %}dir="rtl" {% endif %}>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="fontiran.com:license" content="Y68A9">
+    <link rel="icon" href="{% static "build/images/favicon.ico" %}" type="image/ico" />
+    <title> {% block title %} {% trans 'پنل مدیریت' %} | {{settings.site_settings}} {% endblock title %}  </title>
+
+    <!-- Bootstrap -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    {% if BIDI %}
+    <link href="{% static "css/bootstrap-rtl.min.css" %}" rel="stylesheet">
+    {% endif %}
+    <!-- Font Awesome -->
+    <link href="{% static "css/font-awesome.min.css" %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static "css/custom.min.css" %}" rel="stylesheet">
+    {% if BIDI %}
+    <link href="{% static "css/custom-rtl.min.css" %}" rel="stylesheet">
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+
+
+    {% block extra_head %}{% endblock %}
+    
+</head>
+<!-- /header content -->
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+
+            <!-- page content -->
+            <div class="right_col" role="main" style="margin: 0px;">
+                {%block page_content%}
+                {%endblock page_content%}
+            </div>
+            <!-- /page content -->
+        </div>
+    </div>
+
+   <!-- jQuery -->
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "admin/js/django_jalali.min.js" %}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{% static "js/custom.min.js" %}"></script>
+
+    <!-- Table To Csv Downloader Script-->
+    <script src="{% static "js/table2csv.js" %}"></script>
+
+    <!-- Extra Scripts -->
+    {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>
