@@ -17,6 +17,9 @@
             cursor: pointer;
             margin-bottom: 20px;
        }
+       .analysisBox img {
+            width: 100%;
+       }
         .analysisBox:hover {
             background-color: #eee;
         }
@@ -72,7 +75,8 @@
                                                         )">
                                     <div class="row">
                                         <div class="col-md-4 col-sm-4">
-                                            <img src="{{analysis.user.profile.avatar_url}}" alt="{{analysis.user.get_full_name}}">
+                                            <img src="{{analysis.user.profile.avatar_url}}" alt="{{analysis.user.get_full_name}}"
+                                                 class="image">
                                         </div>
                                         <div class="col-md-8 col-sm-8">
                                             <h4>{{analysis.title|truncatechars:20}}</h4>
