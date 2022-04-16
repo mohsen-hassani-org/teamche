@@ -24,9 +24,9 @@ class SignalForm(forms.ModelForm):
         """Meta definition for Signalform."""
 
         model = Signal
-        fields = ( 'asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
-        'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'classic_analysis', 'pta_analysis',
-        'self_entered', 'signal_datetime', 'signal_type', 'analysis_id', 'content_type')
+        fields = ('asset', 'entry_type', 'entry_point1','entry_point2', 'stop_loss1', 'stop_loss2',
+                  'take_profit1','take_profit2', 'take_profit3', 'risk_reward', 'self_entered',
+                  'signal_datetime', 'signal_type', 'analysis_id', 'content_type')
         widgets = {
             #Use localization and bootstrap 3
             'signal_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3),
@@ -44,17 +44,6 @@ class SignalForm(forms.ModelForm):
         self.fields['take_profit1'].widget.attrs.update({'placeholder': 'حد اول (الزامی)'})
         self.fields['take_profit2'].widget.attrs.update({'placeholder': 'حد دوم (اختیاری)'})
         self.fields['take_profit3'].widget.attrs.update({'placeholder': 'حد سوم (اختیاری)'})
-        self.fields['classic_analysis'].queryset = ClassicAnalysis.objects.filter(signal=None, team=self.team)
-        self.fields['pta_analysis'].queryset = PTAAnalysis.objects.filter(signal=None, team=self.team)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        # One of classic and pta analysis must be filled
-        classic = cleaned_data.get('classic_analysis', None)
-        pta = cleaned_data.get('pta_analysis', None)
-        return
-        if not pta and not classic:
-            raise ValidationError(_('برای ایجاد سیگنال باید یک تحلیل انتخاب کنید'))
 
     def clean_content_type(self):
         content_type_id = self.cleaned_data.get('content_type')
