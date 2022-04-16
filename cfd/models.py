@@ -192,6 +192,7 @@ class PTAAnalysis(models.Model):
     candle_pressure = models.BooleanField(default=False, verbose_name=_('فشارخوانی'))
     scenario = models.CharField(max_length=3, choices=ScenarioTypes.choices, verbose_name=_('سناریو'), default=ScenarioTypes.SCENARIO3)
     entrance = models.CharField(max_length=4, choices=EntranceTypes.choices, verbose_name=_('روش ورود'), default=EntranceTypes.DISCOUNT)
+    signals = GenericRelation('cfd.Signal', object_id_field='analysis_id', related_query_name='pta_analysis')
     comments = GenericRelation(Comment)
 
     def get_class_name(self):
@@ -200,6 +201,10 @@ class PTAAnalysis(models.Model):
     @classmethod
     def class_name(cls):
         return cls.__name__
+
+    @property
+    def signal(self):
+        return self.signals.first()
 
 
 class ClassicAnalysis(models.Model):
@@ -360,6 +365,7 @@ class ClassicAnalysis(models.Model):
     adx_signal = models.CharField(max_length=2, choices=SignalTypes.choices, verbose_name=_('سیگنال دریافتی'), null=True, blank=True) 
     adx_timeframe = models.CharField(max_length=3, choices=TimeFrames.choices, verbose_name=_('تایم‌فریم'), null=True, blank=True)
     tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
+    signals = GenericRelation('cfd.Signal', object_id_field='analysis_id', related_query_name='classic_analysis')
     comments = GenericRelation(Comment)
 
     def get_class_name(self):
@@ -369,6 +375,9 @@ class ClassicAnalysis(models.Model):
     def class_name(cls):
         return cls.__name__
 
+    @property
+    def signal(self):
+        return self.signals.first()
 
 class Signal(models.Model):
     class TradeType(models.TextChoices):
@@ -414,9 +423,6 @@ class Signal(models.Model):
     self_entered = models.BooleanField(default=True, verbose_name=_('وارد شده‌اید؟'))
     comments = GenericRelation(Comment, verbose_name=_('نظرات'))
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='signals', verbose_name=_('تیم'))
-
-    pta_analysis = models.OneToOneField(PTAAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل PTA'))
-    classic_analysis = models.OneToOneField(ClassicAnalysis, on_delete=models.SET_NULL, related_name='signal', null=True, blank=True, verbose_name=_('تحلیل Classic'))
 
     content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT, null=True)
     analysis_id = models.PositiveIntegerField(null=True)

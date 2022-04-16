@@ -234,11 +234,9 @@ def view_pta_analysis(request, team_id):
         analysis.user = analysis.user
         analysis.date = analysis.datetime.strftime('%Y %B %d')
         analysis.time = analysis.datetime.strftime('%H:%M:%S')
-        analysis.signal_status = analysis.signal if hasattr(
-            analysis, 'signal') else _('ندارد')
-        analysis.pip = analysis.signal.result_pip if hasattr(
-            analysis, 'signal') else 0
-    pips = filter_set.qs.aggregate(pip=Sum('signal__result_pip'))['pip']
+        analysis.signal_status = analysis.signal or _('ندارد')
+        analysis.pip = analysis.signal.result_pip if analysis.signal else '0'
+    pips = filter_set.qs.aggregate(pip=Sum('signals__result_pip'))['pip']
     data = {
         'items': filter_set.qs,
         'filter': filter_set,
@@ -281,8 +279,7 @@ def view_classic_analysis(request, team_id):
         analysis.num = '#{id}'.format(id=analysis.id)
         analysis.date = analysis.datetime.strftime('%Y %B %d')
         analysis.time = analysis.datetime.strftime('%H:%M:%S')
-        analysis.signal_status = analysis.signal if hasattr(
-            analysis, 'signal') else _('ندارد')
+        analysis.signal_status = analysis.signal or _('ندارد')
 
     data = {
         'items': filter_set.qs,
@@ -810,8 +807,8 @@ class ChooseAnalysis(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('انتخاب آنالیز')
         context['page_subtitle'] = _('انتخاب آنالیز برای تیم')
-        context['classic_analysis'] = ClassicAnalysis.objects.filter(team_id=team_id, signal=None).order_by('-id')
+        context['classic_analysis'] = ClassicAnalysis.objects.filter(team_id=team_id, signals=None).order_by('-id')
         context['classic_analysis_content_type'] = ContentType.objects.get(model=ClassicAnalysis._meta.model_name).id
-        context['pta_analysis'] = PTAAnalysis.objects.filter(team_id=team_id, signal=None).order_by('-id')
+        context['pta_analysis'] = PTAAnalysis.objects.filter(team_id=team_id, signals=None).order_by('-id')
         context['pta_analysis_content_type'] = ContentType.objects.get(model=PTAAnalysis._meta.model_name).id
         return context
