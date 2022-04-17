@@ -139,7 +139,7 @@ def signal_info(request, signal_id):
     team = signal.team
     team_registration_permission(user, team)
     classic_signal_count = classic_analysis_signal_count(
-        signal.classic_analysis)
+        signal.classic_analysis.first())
     if request.method == 'POST':
         comment_form = SignalCommentForm(request.POST)
         if comment_form.is_valid():
