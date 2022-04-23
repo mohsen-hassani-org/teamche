@@ -328,7 +328,7 @@ def pta_analysis_edit(request, analysis_id):
     # User cannot edit if analysis added to a signal
     analysis = get_object_or_404(PTAAnalysis, id=analysis_id)
     if request.method == 'POST':
-        if hasattr(analysis, 'signal'):
+        if analysis.signal:
             data = {
                 'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
                 'message_header': _('توجه!'),
@@ -360,7 +360,7 @@ def classic_analysis_edit(request, analysis_id):
     # User cannot edit if analysis added to a signal
     analysis = get_object_or_404(ClassicAnalysis, id=analysis_id)
     if request.method == 'POST':
-        if hasattr(analysis, 'signal'):
+        if analysis.signal:
             data = {
                 'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
                 'message_header': _('توجه!'),
@@ -388,7 +388,7 @@ def classic_analysis_edit(request, analysis_id):
 def pta_analysis_delete(request, analysis_id):
     # User cannot delete if analysis added to a signal
     analysis = get_object_or_404(PTAAnalysis, id=analysis_id)
-    if hasattr(analysis, 'signal'):
+    if analysis.signal:
         data = {
             'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
             'message_header': _('توجه!'),
@@ -405,7 +405,7 @@ def pta_analysis_delete(request, analysis_id):
 def classic_analysis_delete(request, analysis_id):
     # User cannot delete if analysis added to a signal
     analysis = get_object_or_404(ClassicAnalysis, id=analysis_id)
-    if hasattr(analysis, 'signal'):
+    if analysis.signal:
         data = {
             'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
             'message_header': _('توجه!'),
