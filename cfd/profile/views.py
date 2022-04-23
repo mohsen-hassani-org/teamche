@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Avg, Count, Min, Max, Sum
 from django.views.generic import TemplateView
 from django.utils.translation import ugettext as _
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -210,6 +211,7 @@ def add_signal(request, team_id):
                 signal.save()
             if signal.team.discord_url and signal.signal_type == Signal.SignalType.LIVE:
                 DiscordAlert.send_signal_alert(signal)
+            messages.success(request, _('سیگنال با موفقیت ایجاد شد.'))
             return redirect('cfd_profile_signals_month_view', team_id=team_id)
     else:
         user_signals = Signal.objects.filter(
@@ -340,6 +342,7 @@ def pta_analysis_edit(request, analysis_id):
         form = PTAAnalysisForm(request.POST, instance=analysis)
         if form.is_valid():
             form.save()
+            messages.success(request, _('تحلیل با موفقیت ویرایش شد'))
             return redirect('cfd_profile_analysis_pta_view', team_id=analysis.team.id)
     else:
         form = PTAAnalysisForm(instance=analysis)
@@ -372,6 +375,7 @@ def classic_analysis_edit(request, analysis_id):
         form = ClassicAnalysisForm(request.POST, instance=analysis)
         if form.is_valid():
             form.save()
+            messages.success(request, _('تحلیل با موفقیت ویرایش شد'))
             return redirect('cfd_profile_analysis_classic_view', team_id=analysis.team.id)
     else:
         form = ClassicAnalysisForm(instance=analysis)
@@ -389,15 +393,10 @@ def pta_analysis_delete(request, analysis_id):
     # User cannot delete if analysis added to a signal
     analysis = get_object_or_404(PTAAnalysis, id=analysis_id)
     if analysis.signal:
-        data = {
-            'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
-            'message_header': _('توجه!'),
-            'message_type': 'danger',
-            'message_dismissible': False,
-            'back_button': True,
-        }
-        return render(request, GENERIC_MESSAGE, data)
+        messages.error(request, _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'))
+        return redirect('cfd_profile_analysis_pta_view', team_id=analysis.team.id)
     analysis.delete()
+    messages.success(request, _('تحلیل با موفقیت حذف شد'))
     return redirect('cfd_profile_analysis_pta_view', team_id=analysis.team.id)
 
 
@@ -406,15 +405,10 @@ def classic_analysis_delete(request, analysis_id):
     # User cannot delete if analysis added to a signal
     analysis = get_object_or_404(ClassicAnalysis, id=analysis_id)
     if analysis.signal:
-        data = {
-            'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
-            'message_header': _('توجه!'),
-            'message_type': 'danger',
-            'message_dismissible': False,
-            'back_button': True,
-        }
-        return render(request, GENERIC_MESSAGE, data)
+        messages.error(request, _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'))
+        return redirect('cfd_profile_analysis_classic_view', team_id=analysis.team.id)
     analysis.delete()
+    messages.success(request, _('تحلیل با موفقیت حذف شد'))
     return redirect('cfd_profile_analysis_classic_view', team_id=analysis.team.id)
 
 
@@ -428,6 +422,7 @@ def add_pta_analysis(request, team_id):
             analysis.user = request.user
             analysis.team = team
             analysis.save()
+            messages.success(request, _('تحلیل با موفقیت ایجاد شد.'))
             return redirect('cfd_profile_analysis_pta_view', team_id=team_id)
     else:
         form = PTAAnalysisForm()
@@ -450,6 +445,7 @@ def add_classic_analysis(request, team_id):
             analysis.user = request.user
             analysis.team = team
             analysis.save()
+            messages.success(request, _('تحلیل با موفقیت ایجاد شد.'))
             if 'submit_and_signal' in request.POST:
                 return redirect('cfd_profile_signals_add', team_id=team_id)
             return redirect('cfd_profile_analysis_classic_view', team_id=team_id)
@@ -541,6 +537,7 @@ def fill_signal(request, signal_id):
             current_price = form.cleaned_data.get('current_price', None)
             filled_signal = form.save(commit=False)
             filled_signal.close_signal(current_price)
+            messages.success(request, _('سیگنال شما با موفقیت بسته شد'))
             return redirect('cfd_profile_signals_month_view', team_id=signal.team.id)
     else:
         form = FillSignalForm(instance=signal, initial={'result_datetime': datetime.now()})
@@ -597,6 +594,7 @@ def add_signal_event(request, signal_id):
                 event = form.save(commit=False)
                 event.signal = signal
                 event.save()
+            messages.success(request, _('رویداد جدید با موفقیت به سیگنال اضافه شد'))
             return redirect('cfd_profile_signals_info', signal_id=signal_id)
     else:
         form = SignalEventForm()
