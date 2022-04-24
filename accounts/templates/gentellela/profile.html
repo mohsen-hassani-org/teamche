@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static jalali_tags i18n %}
+{% load static jalali_tags i18n core_tags %}
 {% block title %} {{block.super}}
 {{ page_title }}
 {% endblock title %}
@@ -32,6 +32,20 @@
             font-size: 12px;
             font-weight: bold;
         }
+
+        .memento-mori-table {
+            width: 100%;
+        }
+
+        .memento-mori-table tr td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .passed {
+            background-color: #555;
+        }
+
     </style>
 {% endblock %}
 
@@ -45,155 +59,197 @@
 </div>
 <div class="clearfix"></div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>
-                    {% trans 'پنل مدیریت' %}
-                </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#apps" id="apps-tab" role="tab"
-                                    data-toggle="tab" aria-expanded="true">دسترسی سریع</a>
-                            </li>
-                            <li role="presentation" class=""><a href="#profile" role="tab" id="profile-tab"
-                                    data-toggle="tab" aria-expanded="false">پروفایل</a>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>
+                            {% trans 'پنل مدیریت' %}
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
                         </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade active in" id="apps" aria-labelledby="home-tab">
-                                <div class="row">
-                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
-                                        <div class="app-box">
-                                            <a href="{% url 'account_profile' %}"><i class="fa fa-home"></i><div>صفحه اصلی</div></a>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+        
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#apps" id="apps-tab" role="tab"
+                                            data-toggle="tab" aria-expanded="true">دسترسی سریع</a>
+                                    </li>
+                                    <li role="presentation" class=""><a href="#profile" role="tab" id="profile-tab"
+                                            data-toggle="tab" aria-expanded="false">پروفایل</a>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="apps" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="app-box">
+                                                    <a href="{% url 'account_profile' %}"><i class="fa fa-home"></i><div>صفحه اصلی</div></a>
+                                                </div>
+                                            </div>
+                                            {% if perms.team %}
+                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="app-box">
+                                                    <a href="{% url 'team_profile_teams_mine' %}"><i class="fa fa-users"></i><div>{% trans 'تیم‌ها' %}</div></a>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            
+                                            {% if perms.file %}
+                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="app-box">
+                                                    <a href="{% url 'file_manage_file_list' %}"><i class="fa fa-archive"></i><div>{% trans 'فایل‌ها' %}</div></a>
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                    {% if perms.team %}
-                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
-                                        <div class="app-box">
-                                            <a href="{% url 'team_profile_teams_mine' %}"><i class="fa fa-users"></i><div>{% trans 'تیم‌ها' %}</div></a>
+                                    <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 profile_left">
+                                            <div class="profile_img">
+                                                <div id="crop-avatar">
+                                                    <!-- Current avatar -->
+                                                    <img class="img-responsive avatar-view"
+                                                        src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'account/profile.png' %}{% endif %}"
+                                                        alt="Avatar" title="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                                            <h3>{{user.first_name}} {{user.last_name}}</h3>
+                                            <ul class="list-unstyled user_data">
+                                                <li><i class="fa fa-user user-profile-icon"></i>
+                                                    <span>{% trans 'نام کاربری' %}: {{user.username}}</span>
+                                                </li>
+        
+                                                <li>
+                                                    <i class="fa fa-envelope user-profile-icon"></i>
+                                                    <span>
+                                                        {% if user.email %}{{user.email}}{% else %}{% trans 'آدرس ایمیل ثبت نشده است' %}{% endif %}</span>
+                                                </li>
+        
+                                                <li class="m-top-xs">
+                                                    <i class="fa fa-sign-in user-profile-icon"></i>
+                                                    <span>{% trans 'آخرین ورود' %}: {% if user.last_login %}{{user.last_login}}{% else %}{% trans 'نامشخص' %}{% endif %}</span>
+                                                </li>
+                                            </ul>
+                                            <a class="btn btn-default" href="{% url 'account_profile_edit' %}"><i
+                                                    class="fa fa-edit m-right-xs"></i>&nbsp;{% trans 'ویرایش پروفایل' %}</a>
+                                            <a class="btn btn-default" href="{% url 'account_profile_change_password' %}"><i
+                                                    class="fa fa-key m-right-xs"></i>&nbsp;{% trans 'تغییر رمز ورود' %}</a>
                                         </div>
                                     </div>
-                                    {% endif %}
-                                    
-                                    {% if perms.file %}
-                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
-                                        <div class="app-box">
-                                            <a href="{% url 'file_manage_file_list' %}"><i class="fa fa-archive"></i><div>{% trans 'فایل‌ها' %}</div></a>
-                                        </div>
-                                    </div>
-                                    {% endif %}
                                 </div>
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+        
+            {% for team in request.user.teams.all %}
+            <div class="col-md-12 col-lg-12">
+                <div class="x_panel">
+                    {% comment %} <div class="x_title">
+                        <h2>
+                            {{team.name}}
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div> {% endcomment %}
+                    <div class="x_content">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 profile_left">
-                                    <div class="profile_img">
+                                    <div class="team_avatar">
                                         <div id="crop-avatar">
                                             <!-- Current avatar -->
                                             <img class="img-responsive avatar-view"
-                                                src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'account/profile.png' %}{% endif %}"
+                                                src="{% if team.avatar %}{{ team.avatar.url }}{% else %}{% static 'team/avatar.png' %}{% endif %}"
                                                 alt="Avatar" title="">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-                                    <h3>{{user.first_name}} {{user.last_name}}</h3>
-                                    <ul class="list-unstyled user_data">
-                                        <li><i class="fa fa-user user-profile-icon"></i>
-                                            <span>{% trans 'نام کاربری' %}: {{user.username}}</span>
-                                        </li>
-
-                                        <li>
-                                            <i class="fa fa-envelope user-profile-icon"></i>
-                                            <span>
-                                                {% if user.email %}{{user.email}}{% else %}{% trans 'آدرس ایمیل ثبت نشده است' %}{% endif %}</span>
-                                        </li>
-
-                                        <li class="m-top-xs">
-                                            <i class="fa fa-sign-in user-profile-icon"></i>
-                                            <span>{% trans 'آخرین ورود' %}: {% if user.last_login %}{{user.last_login}}{% else %}{% trans 'نامشخص' %}{% endif %}</span>
-                                        </li>
-                                    </ul>
-                                    <a class="btn btn-default" href="{% url 'account_profile_edit' %}"><i
-                                            class="fa fa-edit m-right-xs"></i>&nbsp;{% trans 'ویرایش پروفایل' %}</a>
-                                    <a class="btn btn-default" href="{% url 'account_profile_change_password' %}"><i
-                                            class="fa fa-key m-right-xs"></i>&nbsp;{% trans 'تغییر رمز ورود' %}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% for team in request.user.teams.all %}
-    <div class="col-md-12 col-lg-6">
-        <div class="x_panel">
-            {% comment %} <div class="x_title">
-                <h2>
-                    {{team.name}}
-                </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div> {% endcomment %}
-            <div class="x_content">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 profile_left">
-                            <div class="team_avatar">
-                                <div id="crop-avatar">
-                                    <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view"
-                                        src="{% if team.avatar %}{{ team.avatar.url }}{% else %}{% static 'team/avatar.png' %}{% endif %}"
-                                        alt="Avatar" title="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-                            <h3>{{team.name}}</h3>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <i class="fa fa-user user-profile-icon"></i><span> {% trans 'رهبر تیم' %}: {{team.leader}}</span>
-                                </div>
-                                <div class="col-md-4">
-                                    <i class="fa fa-users user-profile-icon"></i>
-                                    <span>{% trans 'اعضا' %}: {{team.users.count}}</span>
-                                </div>
-                            </div>
-                            <br />
-                        <div class="row">
-                            <div class="col-md-12">
+                                    <h3>{{team.name}}</h3>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <i class="fa fa-user user-profile-icon"></i><span> {% trans 'رهبر تیم' %}: {{team.leader}}</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa fa-users user-profile-icon"></i>
+                                            <span>{% trans 'اعضا' %}: {{team.users.count}}</span>
+                                        </div>
+                                    </div>
+                                    <br />
                                 <div class="row">
-                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_teams_view' team.id %}"><i class="fa fa-eye"></i> {% trans 'مشاهده' %} </a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'cfd_profile_signals_month_view' team.id %}"><i class="fa fa-dollar"></i> CFD </a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'dmo_profile_dmo_view_this_month' team.id %}"><i class="fa fa-line-chart"></i> DMO </a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_meetings_list' team.id %}">{% trans 'جلسات' %} </a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_attendance_view_today' team.id %}">{% trans 'حضور و غیاب' %} </a>
-                                    <a class="btn btn-default btn-xs" href="{% url 'team_profile_votes_list' team.id %}">{% trans 'نظرسنجی‌ها' %} </a>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <a class="btn btn-default btn-xs" href="{% url 'team_profile_teams_view' team.id %}"><i class="fa fa-eye"></i> {% trans 'مشاهده' %} </a>
+                                            <a class="btn btn-default btn-xs" href="{% url 'cfd_profile_signals_month_view' team.id %}"><i class="fa fa-dollar"></i> CFD </a>
+                                            <a class="btn btn-default btn-xs" href="{% url 'dmo_profile_dmo_view_this_month' team.id %}"><i class="fa fa-line-chart"></i> DMO </a>
+                                            <a class="btn btn-default btn-xs" href="{% url 'team_profile_meetings_list' team.id %}">{% trans 'جلسات' %} </a>
+                                            <a class="btn btn-default btn-xs" href="{% url 'team_profile_attendance_view_today' team.id %}">{% trans 'حضور و غیاب' %} </a>
+                                            <a class="btn btn-default btn-xs" href="{% url 'team_profile_votes_list' team.id %}">{% trans 'نظرسنجی‌ها' %} </a>
+                                        </div>
+                                    </div>
                                 </div>
+                                </div>
+                                
                             </div>
                         </div>
-                        </div>
-                        
                     </div>
+                </div>
+            </div>
+            {% endfor %}
+        
+        </div>
+
+        <div class="col-md-6">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Memento Mori
+                    </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    {% if AGE_TRESHOLD %}
+                        <table class="memento-mori-table">
+                            {% for y in YEARS %}
+                                <tr>
+                                    {% if y|mod:10 == 0 %}<tr style="height: 20px"></tr>{% endif %}
+                                    {% for w in WEEKS %}
+                                        <td {% if y|multiply:52|add:w < AGE_TRESHOLD %} class="passed" {% endif %}>
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <div style="text-align: center">
+                            <p>برای دیدن تعداد هفته‌های گذشته از عمر، تاریخ تولد خود را تکمیل کنید</p>
+                            <a class="btn btn-default" href="{% url 'account_profile_edit' %}"><i
+                                class="fa fa-edit m-right-xs"></i>&nbsp;{% trans 'ویرایش پروفایل' %}</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
 
 {%endblock page_content%}

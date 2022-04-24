@@ -1,5 +1,7 @@
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -11,7 +13,18 @@ from accounts import gvars
 
 @login_required
 def profile(request):
-    return render(request, 'gentellela/profile.html')
+    birth_date = request.user.profile.birth_date
+    age_treshold = None
+    if birth_date is not None:
+        date1 = birth_date- timedelta(days=birth_date.weekday())
+        date2 = datetime.now().date() - timedelta(days=datetime.now().date().weekday())
+        age_treshold = (date2 - date1).days / 7
+    context = {
+        'YEARS': list(range(70)),
+        'WEEKS': list(range(1, 53)),
+        'AGE_TRESHOLD': age_treshold,
+    }
+    return render(request, 'gentellela/profile.html', context)
 
 @login_required
 def profile_change_password(request):
@@ -42,6 +55,7 @@ def profile_edit(request):
         if all([form1.is_valid(), form2.is_valid()]):
             user = form1.save()
             profile = form2.save()
+            messages.success(request, _('اطلاعات با موفقیت بروزرسانی شد.'))
             return redirect('account_profile')
     else:
         form1 = forms.UserForm(instance=user)

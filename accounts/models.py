@@ -31,6 +31,7 @@ class Profile(models.Model):
         max_length=11, null=True, blank=True, verbose_name=_('شماره تماس'))
     avatar = models.ImageField(max_length=300, upload_to='account/avatars', default='account/profile.png',
                                validators=[file_size_validator], verbose_name=_('تصویر نمایه'))
+    birth_date = models.DateField(null=True, blank=True, verbose_name=_('تاریخ تولد'))
 
     class Meta:
         def __str__(self):
