@@ -177,7 +177,7 @@ class PTAAnalysis(models.Model):
     def __str__(self):
         return '{user} - date: {date} - time: {time}'.format(user=self.user, date=self.datetime.strftime('%Y/%m/%d'), time=self.datetime.strftime('%H:%M:%S'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='pta_analysis', verbose_name=_('کاربر'))
-    title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True)
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True, default='تحلیل PTA')
     desc = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
     datetime = models.DateTimeField(auto_now=True)
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='pta_analysis', verbose_name=_('تیم'))
