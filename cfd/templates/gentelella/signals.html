@@ -36,8 +36,10 @@
                         <span>{% trans 'مشاهده تمام سیگنال‌ها' %}</span>
                     <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_pta_view' team.id %}">
                         <span>{% trans 'تحلیل‌های PTA' %}</span>
-                    <a tabindex="2" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_classic_view' team.id %}">
+                    <a tabindex="3" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_classic_view' team.id %}">
                         <span>{% trans 'تحلیل‌های Classic' %}</span>
+                    <a tabindex="4" class="btn buttons-html5 btn-default" href="{% url 'cfd_profile_analysis_vp_view' team.id %}">
+                        <span>{% trans 'تحلیل‌های Volume Profile' %}</span>
                     </a>
                     {% if user.is_superuser %}
                     <a tabindex="2" class="btn buttons-html5 btn-warning" href="{% url 'cfd_manage_asset_view' %}">

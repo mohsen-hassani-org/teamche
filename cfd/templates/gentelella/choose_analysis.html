@@ -57,9 +57,12 @@
                     <li role="presentation" class="">
                         <a href="#pta" role="tab" id="ptaTab" data-toggle="tab" aria-controls="pta" aria-expanded="true">PTA</a>
                     </li>
+                    <li role="presentation" class="">
+                        <a href="#vp" role="tab" id="vpTab" data-toggle="tab" aria-controls="vp" aria-expanded="true">Volume Profile</a>
+                    </li>
                 </ul>
             </div>
-            <div id="myTabContent2" class="tab-content">
+            <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active fade in" id="classic" aria-labelledby="classicTab">
                     <div class="row">
                         {% for analysis in classic_analysis %}
@@ -96,6 +99,34 @@
                                 <div class="analysisBox" id="analysis{{pta_analysis_content_type}}_{{analysis.id}}"
                                     onclick="selectAnalysis({{analysis.id}},
                                                             {{pta_analysis_content_type}},
+                                                            '{{analysis.title}}',
+                                                            '{{analysis.user.profile.display_name}}',
+                                                            '{{analysis.user.profile.avatar_url}}',
+                                                            '{{analysis.datetime}}',
+                                                            '{{analysis.image_url}}',
+                                                        )">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <img src="{{analysis.user.profile.avatar_url}}" alt="{{analysis.user.get_full_name}}">
+                                        </div>
+                                        <div class="col-md-8 col-sm-8">
+                                            <h4>{{analysis.title|truncatechars:20}}</h4>
+                                            <p>{{analysis.user.profile.display_name|truncatechars:50}}</p>
+                                            <p>{{analysis.datetime}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="vp" aria-labelledby="vpTab">
+                    <div class="row">
+                        {% for analysis in vp_analysis %}
+                            <div class="col-md-4 col-sm-6">
+                                <div class="analysisBox" id="analysis{{vp_analysis_content_type}}_{{analysis.id}}"
+                                    onclick="selectAnalysis({{analysis.id}},
+                                                            {{vp_analysis_content_type}},
                                                             '{{analysis.title}}',
                                                             '{{analysis.user.profile.display_name}}',
                                                             '{{analysis.user.profile.avatar_url}}',

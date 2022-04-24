@@ -3,6 +3,9 @@ from datetime import datetime, timedelta
 from re import L
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Avg, Count, Min, Max, Sum
+from django.db.models.fields import DateField, TimeField
+from django.db.models.functions import Concat, Cast
+from django.db.models.expressions import Value, F
 from django.views.generic import TemplateView
 from django.utils.translation import ugettext as _
 from django.contrib import messages
@@ -11,10 +14,10 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from cfd.profile.forms import EvaluationForm, SignalEventForm, SignalForm, FillSignalForm, ChooseAnalysisForm,\
                             ClassicAnalysisForm, PTAAnalysisForm, SignalCommentForm,\
-                            AppendSignalMistakesForm, SignalEvaluationForm
-from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, SignalEvaluation, SignalEvent, Evaluation
+                            AppendSignalMistakesForm, SignalEvaluationForm, VolumeProfileAnalysisForm
+from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, SignalEvaluation, SignalEvent, Evaluation, VolumeProfileAnalysis
 from cfd.gvars import CLASSIC_ANALYSIS_FORM_TEMPLATE, PTA_ANALYSIS_FORM_TEMPLATE, SIGNAL_FORM, SIGNALS, SIGNAL_INFO
-from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE
+from cfd.gvars import GENERIC_MODEL_FORM, GENERIC_MODEL_LIST, HTTP403PAGE, GENERIC_MESSAGE, VP_ANALYSIS_FORM_TEMPLATE
 from cfd.profile.filters import SignalFilter, ClassicAnalysisFilter, PTAAnalysisFilter
 from cfd.profile.utils import classic_analysis_signal_count
 from cfd.profile.chart_handler import single_dataset_chart, multi_dataset_chart
@@ -316,6 +319,57 @@ def view_classic_analysis(request, team_id):
 
 
 @login_required
+def view_volume_profile_analysis(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    vp = VolumeProfileAnalysis.objects.filter(team=team).annotate(
+            num=Concat(Value("#"), F("id")),
+            date=Cast('datetime', DateField()),
+            time=Cast('datetime', TimeField()),
+            signal_status=F('signals'),
+            pip=Sum('signals__result_pip'),
+        ).order_by('-datetime')
+
+    # filter_set = PTAAnalysisFilter(request.GET, pta, team_id=team_id)
+    # for analysis in vp:
+    #     analysis.signal_status = analysis.signal or _('ندارد')
+    #     analysis.pip = analysis.signal.result_pip if analysis.signal else '0'
+    pips = vp.aggregate(pip=Sum('signals__result_pip'))['pip']
+    
+    data = {
+        'items': vp,
+        # 'filter': filter_set,
+        'page_title': _('تحلیل‌های Volume Profile'),
+        'fields': ['num', 'title', 'user', 'signal_status', 'date', 'time', 'pip'],
+        'headers': [_('شماره تحلیل'), _('عنوان'), _('تحلیل‌گر'), _('سیگنال'), _('تاریخ'), _('دقیقه'), _('پیپ نهایی'), ],
+        'header_buttons': [
+            {
+                'title': _('افزودن تحلیل جدید'),
+                'url_name': 'cfd_profile_analysis_vp_add',
+                'url_arg1': team_id,
+            },
+        ],
+        'action_buttons': [
+            {
+                'title': _('مشاهده و ویرایش'),
+                'url_name': 'cfd_profile_analysis_vp_edit',
+                'arg1_field': 'id',
+            },
+        ],
+        'footer_buttons': [
+            {
+                'title': _('بازگشت'),
+                'url_name': 'cfd_profile_signals_month_view',
+                'url_arg1': team_id,
+            },
+        ],
+        'delete_button_url_name': 'cfd_profile_analysis_vp_delete',
+        'extra_rows': [{'title': _('مجموع پیپ'), 'value': pips}]
+    }
+    return render(request, GENERIC_MODEL_LIST, data)
+
+
+
+@login_required
 def pta_analysis_info(request, analysis_id):
     pass
 
@@ -359,19 +413,41 @@ def pta_analysis_edit(request, analysis_id):
 
 
 @login_required
+def volume_profile_analysis_edit(request, analysis_id):
+    # User cannot edit if analysis added to a signal
+    analysis = get_object_or_404(VolumeProfileAnalysis, id=analysis_id)
+    if request.method == 'POST':
+        if analysis.signal:
+            messages.error(request, _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'))
+            return redirect('cfd_profile_analysis_vp_view', team_id=analysis.team.id)
+        form = VolumeProfileAnalysisForm(request.POST, instance=analysis)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('تحلیل با موفقیت ویرایش شد'))
+            return redirect('cfd_profile_analysis_vp_view', team_id=analysis.team.id)
+    else:
+        form = VolumeProfileAnalysisForm(instance=analysis)
+    data = {
+        'forms': [form],
+        'page_title': _('افزودن تحلیل Volume Profile'),
+        'page_subtitle': '#{id}'.format(id=analysis_id),
+        'form_submit_url_name': 'cfd_profile_analysis_vp_edit',
+        'form_submit_url_arg1': analysis_id,
+        'form_cancel_url_name': 'cfd_profile_analysis_vp_view',
+        'form_cancel_url_arg1': analysis.team.id,
+    }
+    return render(request, GENERIC_MODEL_FORM, data)
+
+
+
+@login_required
 def classic_analysis_edit(request, analysis_id):
     # User cannot edit if analysis added to a signal
     analysis = get_object_or_404(ClassicAnalysis, id=analysis_id)
     if request.method == 'POST':
         if analysis.signal:
-            data = {
-                'message': _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'),
-                'message_header': _('توجه!'),
-                'message_type': 'danger',
-                'message_dismissible': False,
-                'back_button': True,
-            }
-            return render(request, GENERIC_MESSAGE, data)
+            messages.error(request, _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'))
+            return redirect('cfd_profile_analysis_vp_view', team_id=analysis.team.id)
         form = ClassicAnalysisForm(request.POST, instance=analysis)
         if form.is_valid():
             form.save()
@@ -410,6 +486,19 @@ def classic_analysis_delete(request, analysis_id):
     analysis.delete()
     messages.success(request, _('تحلیل با موفقیت حذف شد'))
     return redirect('cfd_profile_analysis_classic_view', team_id=analysis.team.id)
+
+
+@login_required
+def volume_profile_analysis_delete(request, analysis_id):
+    # User cannot delete if analysis added to a signal
+    analysis = get_object_or_404(VolumeProfileAnalysis, id=analysis_id)
+    if analysis.signal:
+        messages.error(request, _('امکان حدف یا ویرایش تحلیل‌هایی که دارای سیگنال می‌باشند وجود ندارد'))
+        return redirect('cfd_profile_analysis_vp_view', team_id=analysis.team.id)
+    analysis.delete()
+    messages.success(request, _('تحلیل با موفقیت حذف شد'))
+    return redirect('cfd_profile_analysis_vp_view', team_id=analysis.team.id)
+
 
 
 @login_required
@@ -458,6 +547,29 @@ def add_classic_analysis(request, team_id):
         'team': team,
     }
     return render(request, CLASSIC_ANALYSIS_FORM_TEMPLATE, data)
+
+@login_required
+def add_volume_profile_analysis(request, team_id):
+    team = get_object_or_404(Team, id=team_id)
+    if request.method == 'POST':
+        form = VolumeProfileAnalysisForm(request.POST)
+        if form.is_valid():
+            analysis = form.save(commit=False)
+            analysis.user = request.user
+            analysis.team = team
+            analysis.save()
+            messages.success(request, _('تحلیل با موفقیت ایجاد شد.'))
+            return redirect('cfd_profile_analysis_vp_view', team_id=team_id)
+    else:
+        form = VolumeProfileAnalysisForm()
+    data = {
+        'forms': [form],
+        'page_title': _('افزودن تحلیل Volume Profile'),
+        'form_cancel_url_name': 'cfd_profile_analysis_vp_view',
+        'form_cancel_url_arg1': team_id,
+    }
+    return render(request, VP_ANALYSIS_FORM_TEMPLATE, data)
+
 
 
 @login_required
@@ -809,4 +921,6 @@ class ChooseAnalysis(TemplateView):
         context['classic_analysis_content_type'] = ContentType.objects.get(model=ClassicAnalysis._meta.model_name).id
         context['pta_analysis'] = PTAAnalysis.objects.filter(team_id=team_id, signals=None).order_by('-id')
         context['pta_analysis_content_type'] = ContentType.objects.get(model=PTAAnalysis._meta.model_name).id
+        context['vp_analysis'] = VolumeProfileAnalysis.objects.filter(team_id=team_id, signals=None).order_by('-id')
+        context['vp_analysis_content_type'] = ContentType.objects.get(model= VolumeProfileAnalysis._meta.model_name).id
         return context

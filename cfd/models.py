@@ -379,6 +379,81 @@ class ClassicAnalysis(models.Model):
     def signal(self):
         return self.signals.first()
 
+
+class VolumeProfileAnalysis(models.Model):
+
+    class EnvironmentalConditions(models.TextChoices):
+        GOOD = 'gd', _('خوب')
+        BAD = 'bd', _('ضعیف')
+
+    class MentalConditions(models.TextChoices):
+        GOOD = 'gd', _('خوب')
+        BAD = 'bd', _('ضعیف')
+
+    class TimeSessions(models.TextChoices):
+        NEW_YORK = 'ny', _('نیویورک')
+        SYDNEY = 'sy', _('سیدنی')
+        TOKYO = 'tk', _('توکیو')
+        LONDON = 'ld', _('لندن')
+        FRANKFURT = 'ff', _('فرانک فرت')
+
+    class FundamentalAnalysis(models.TextChoices):
+        YES = 'y', _('بله')
+        NO = 'n', _('خیر')
+
+    class TechnicalAnalysis(models.TextChoices):
+        YES = 'y', _('بله')
+        NO = 'n', _('خیر')
+
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='vp_analysis',
+                             verbose_name=_('کاربر'))
+    title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True, default='ولیوم پروفایل')
+    desc = models.TextField(null=True, blank=True, verbose_name=_('توضیحات'))
+    datetime = models.DateTimeField(auto_now=True)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='vp_analysis',
+                             verbose_name=_('تیم'))
+    image_url = models.URLField(max_length=300, null=True)
+
+    environmental_condition = models.CharField(max_length=2, choices=EnvironmentalConditions.choices,
+                                               verbose_name=_('شرایط محیطی'), default=EnvironmentalConditions.GOOD)
+    mental_condition = models.CharField(max_length=2, choices=MentalConditions.choices,
+                                        verbose_name=_('شرایط روحی'), default=MentalConditions.GOOD)
+    checked_forex_factory = models.BooleanField(verbose_name=_('فارکس فکتوری بررسی شده؟'), default=True)
+    time_session = models.CharField(max_length=2, choices=TimeSessions.choices,
+                                    verbose_name=_('تایم‌ معاملاتی'), default=TimeSessions.NEW_YORK)
+    time_session_is_suitable = models.BooleanField(verbose_name=_('تایم‌ معاملاتی مناسب است؟'), default=False)
+    fundamental_analysis = models.CharField(max_length=2, choices=FundamentalAnalysis.choices,
+                                            verbose_name=_('آنالیز فاندامنتال'), default=FundamentalAnalysis.YES)
+    technical_analysis = models.CharField(max_length=2, choices=TechnicalAnalysis.choices,
+                                           verbose_name=_('آنالیز تکنیکال'), default=TechnicalAnalysis.YES)
+    tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
+    signals = GenericRelation('cfd.Signal', object_id_field='analysis_id', related_query_name='vp_analysis')
+    comments = GenericRelation(Comment)
+
+    class Meta:
+        verbose_name = _('ولیوم پروفایل')
+        verbose_name_plural = _('ولیوم پروفایل')
+        ordering = ('-datetime',)
+
+    def get_class_name(self):
+        return self.__class__.__name__
+
+    @classmethod
+    def class_name(cls):
+        return cls.__name__
+
+    @property
+    def signal(self):
+        return self.signals.first()
+
+    def __str__(self):
+        return '{title} ({user}) - date: {date} {time}'.format(
+            title=self.title, 
+            user=self.user, 
+            date=self.datetime.strftime('%Y/%m/%d'), 
+            time=self.datetime.strftime('%H:%M:%S'))
+
+
 class Signal(models.Model):
     class TradeType(models.TextChoices):
         BUY = 'buy', _('خرید')

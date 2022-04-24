@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from datetimewidget.widgets import DateTimeWidget
 from cfd.models import Signal, PTAAnalysis, ClassicAnalysis, Comment, Asset, SignalEvent,\
-                        SignalEvaluation, Evaluation
+                        SignalEvaluation, Evaluation, VolumeProfileAnalysis
 
 
 
@@ -146,7 +146,14 @@ class PTAAnalysisForm(forms.ModelForm):
     class Meta:
         model = PTAAnalysis
         fields = ('any_news', 'news_detail', 'chart_move', 'impulsive_direction', 'zone_rejects', )
-        fields += ('pattern', 'candle_pressure', 'scenario', 'entrance', 'image_url', )
+        fields += ('pattern', 'candle_pressure', 'scenario', 'entrance', 'image_url', 'title')
+
+class VolumeProfileAnalysisForm(forms.ModelForm):
+    class Meta:
+        model = VolumeProfileAnalysis
+        fields = ('title', 'desc', 'image_url', 'environmental_condition', 'mental_condition',
+                  'checked_forex_factory', 'time_session', 'time_session_is_suitable', 
+                  'fundamental_analysis', 'technical_analysis', 'tradingview_url', )
 
 
 class SignalCommentForm(forms.ModelForm):

@@ -1,5 +1,6 @@
 PTA_ANALYSIS_FORM_TEMPLATE = 'gentelella/pta_analysis.html'
 CLASSIC_ANALYSIS_FORM_TEMPLATE = 'gentelella/classic_analysis.html'
+VP_ANALYSIS_FORM_TEMPLATE = 'gentelella/volume_profile_analysis.html'
 SIGNAL_FORM = 'gentelella/signal_form.html'
 SIGNAL_INFO = 'gentelella/signal_info.html'
 SIGNALS = 'gentelella/signals.html'
