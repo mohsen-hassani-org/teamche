@@ -5,4 +5,5 @@ RESET_PASSWORD_DONE_TEMPLATE = 'gentellela/reset_password_done.html'
 GENERIC_MODEL_VIEW_TEMPLATE = 'generic_model_list.html'
 GENERIC_MODEL_FORM_TEMPLATE = 'generic_model_form.html'
 GENERIC_MODEL_MULIFORM_TEMPLATE = 'generic_model_multiform.html'
+PROFILE_FORM_TEMPLATE = 'gentellela/profile_form.html'
 AVATAR_MAX_SIZE = 2 * 1024 * 1024

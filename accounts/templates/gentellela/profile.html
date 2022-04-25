@@ -35,15 +35,33 @@
 
         .memento-mori-table {
             width: 100%;
+            max-width: 1000px;
+            margin: 0px auto;
         }
 
         .memento-mori-table tr td {
-            padding: 5px;
+            height: 10px;
+            table-layout: fixed;
             border: 1px solid #ccc;
         }
 
         .passed {
             background-color: #555;
+        }
+
+        .memento-button {
+            font-size: smaller;
+            margin: 0px;
+        }
+
+        #mementoHelp {
+            display: none;
+        }
+
+        .memento-info {
+            text-align: center;
+            padding-top: 10px;
+            border: none !important;
         }
 
     </style>
@@ -218,8 +236,10 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>
-                        Memento Mori
+                        تقویم Memento Mori
                     </h2>
+                    <button class="btn btn-link memento-button" onclick="toggleMementoHelp()">راهنما؟</button>
+
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -227,11 +247,33 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <div id="mementoHelp">
+                    ممنتو موری (Memento Mori)، تقویمی بر پایه‌ی هفته‌های سال؛ در قالب مربع‌هایی
+                     کوچک که در پی هم به زنجیر کشیده شده‌اند. در مجموع هفتاد سطر
+                     که نشان دهنده هفتاد سال، و هر سطر پنجاه و دو هفته، تمام عمر شما
+                     را نشان می‌دهد. پس از گذر هر هفته یک مربع سیاه می‌شود و در این حالت،
+                     بخش سفید تقویم،در خوش‌بینانه‌ترین شکل، فرصت مانده از زندگی را نشان می‌دهد.<br>
+                    این تقویم، می‌تواند یادآور خوبی از گذر عمر باشد و شاید انگیزه‌ای برای دانستن قدر فرصت محدود زندگی.
+                    <a href="https://mrshabanali.com/%D8%AC%D8%B4%D9%86-%D9%81%D8%AA%D8%AD-%D9%88-%D8%B2%D9%85%D8%B2%D9%85%D9%87%E2%80%8C%D8%A7%DB%8C-%D8%AF%D8%B1-%DA%AF%D9%88%D8%B4-%D9%81%D8%A7%D8%AA%D8%AD%D8%A7%D9%86/">
+                        <i class="fa fa-external-link"></i>
+                        بیشتر بدانید
+                    </a>
+                    </div>
                     {% if AGE_TRESHOLD %}
                         <table class="memento-mori-table">
                             {% for y in YEARS %}
+                                {% if y|mod:10 == 0 %}
+                                    <tr style="height: 20px">
+                                        <td colspan="52" class="memento-info">
+                                            {% if y == 0 %}
+                                                شروع زندگی شما
+                                            {% else %}
+                                                {{y}} سالگی شما
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
-                                    {% if y|mod:10 == 0 %}<tr style="height: 20px"></tr>{% endif %}
                                     {% for w in WEEKS %}
                                         <td {% if y|multiply:52|add:w < AGE_TRESHOLD %} class="passed" {% endif %}>
                                         </td>
@@ -241,6 +283,10 @@
                         </table>
                     {% else %}
                         <div style="text-align: center">
+                            <p>
+                                ممنتو موری (Memento Mori)، تقویمی بر پایه‌ی هفته‌های سال؛ در قالب مربع‌هایی کوچک که در پی هم به زنجیر کشیده شده‌اند. در مجموع هفتاد سطر که نشان دهنده هفتاد سال، و هر سطر پنجاه و دو هفته، تمام عمر شما را نشان می‌دهد. پس از گذر هر هفته یک مربع سیاه می‌شود و در این حالت، بخش سفید تقویم، در خوش‌بینانه‌ترین شکل، فرصت مانده از زندگی را نشان می‌دهد.
+                                این تقویم، می‌تواند یادآور خوبی از گذر عمر باشد و شاید انگیزه‌ای برای دانستن قدر فرصت محدود زندگی.
+                            </p>
                             <p>برای دیدن تعداد هفته‌های گذشته از عمر، تاریخ تولد خود را تکمیل کنید</p>
                             <a class="btn btn-default" href="{% url 'account_profile_edit' %}"><i
                                 class="fa fa-edit m-right-xs"></i>&nbsp;{% trans 'ویرایش پروفایل' %}</a>
@@ -253,3 +299,13 @@
 </div>
 
 {%endblock page_content%}
+
+{% block extra_scripts %}
+
+    <script>
+        function toggleMementoHelp(){
+            $('#mementoHelp').toggle(200);
+        }
+    </script>
+
+{% endblock %}

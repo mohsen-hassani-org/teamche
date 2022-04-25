@@ -50,24 +50,27 @@ def profile_change_password(request):
 def profile_edit(request):
     user = request.user
     if request.method == 'POST':
-        form1 = forms.UserForm(request.POST, instance=user)
-        form2 = forms.ProfileForm(request.POST, request.FILES, instance=user.profile)
-        if all([form1.is_valid(), form2.is_valid()]):
-            user = form1.save()
-            profile = form2.save()
+        user_form = forms.UserForm(request.POST, instance=user)
+        profile_form = forms.ProfileForm(request.POST, request.FILES, instance=user.profile)
+        if all([user_form.is_valid(), profile_form.is_valid()]):
+            user = user_form.save()
+            profile = profile_form.save()
             messages.success(request, _('اطلاعات با موفقیت بروزرسانی شد.'))
             return redirect('account_profile')
     else:
-        form1 = forms.UserForm(instance=user)
-        form2 = forms.ProfileForm(instance=user.profile)
-    form = [form1, form2]
+        user_form = forms.UserForm(instance=user)
+        profile_form = forms.ProfileForm(instance=user.profile)
     context = {
-        'forms': form,
+        'user_form': user_form,
+        'profile_form': profile_form,
         'is_file_form': True,
+        'years': list(range(1201, 1470)),
         'page_title': _('ویرایش اطلاعات کاربری'),
         'page_subtitle': user,
         'form_submit_url_name': 'account_profile_edit',
         'form_cancel_url_name': 'account_profile',
         'form_submit_btn_text': _('ذخیره'),
+        'persian_date_fields': ['birth_date'],
+        
     }
-    return render(request, gvars.GENERIC_MODEL_MULIFORM_TEMPLATE, context)
+    return render(request, gvars.PROFILE_FORM_TEMPLATE, context)

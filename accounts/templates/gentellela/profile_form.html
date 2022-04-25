@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+{% load static jalali_tags i18n %}
+{% block title %} {{block.super}}
+{{ page_title }}
+{% endblock title %}
+
+{% block extra_head %}
+{{extra_head|safe}}
+<style>
+    .birth_date {
+        border-radius: 5px;
+    }
+    #id_email {
+        background-color: lightgray;
+    }
+</style>
+{% endblock extra_head %}
+
+
+
+{%block page_content%}
+<div class="x_panel">
+<div class="x_title">
+            <h2>
+                {% trans 'ویرایش پروفایل' %}
+                <small>{{user.username}}</small>
+            </h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" kerman_case="button"
+                        aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+    <div class="x_content">
+        <form id="updateProfile" data-parsley-validate class="form-horizontal form-label-left" action=""
+              enctype="multipart/form-data" method="POST">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Email -->
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{user_form.email.id_for_label}}">
+                    {{ user_form.email.label_tag }}
+                    {% if user_form.email.field.required %}
+                        <span class="required">*</span>
+                    {%endif %}
+                </label>
+                <div class="col-md-6 col-sm-10 col-xs-12">
+                {{ user_form.email }}
+                <small class="form-text text-muted">{{ user_form.email.help_text }}</small>
+                {% if user_form.email.errors %}
+                    {% for error in user_form.email.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+
+            <!-- First name -->
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{user_form.first_name.id_for_label}}">
+                    {{ user_form.first_name.label_tag }}
+                    {% if user_form.first_name.field.required %}
+                        <span class="required">*</span>
+                    {%endif %}
+                </label>
+                <div class="col-md-6 col-sm-10 col-xs-12">
+                {{ user_form.first_name }}
+                <small class="form-text text-muted">{{ user_form.first_name.help_text }}</small>
+                {% if user_form.first_name.errors %}
+                    {% for error in user_form.first_name.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+
+
+            <!-- Last name -->
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{user_form.last_name.id_for_label}}">
+                    {{ user_form.last_name.label_tag }}
+                    {% if user_form.last_name.field.required %}
+                        <span class="required">*</span>
+                    {%endif %}
+                </label>
+                <div class="col-md-6 col-sm-10 col-xs-12">
+                {{ user_form.last_name }}
+                <small class="form-text text-muted">{{ user_form.last_name.help_text }}</small>
+                {% if user_form.last_name.errors %}
+                    {% for error in user_form.last_name.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+
+            <!-- Phone number -->
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{profile_form.phone_number.id_for_label}}">
+                    {{ profile_form.phone_number.label_tag }}
+                    {% if profile_form.phone_number.field.required %}
+                        <span class="required">*</span>
+                    {%endif %}
+                </label>
+                <div class="col-md-6 col-sm-10 col-xs-12">
+                {{ profile_form.phone_number }}
+                <small class="form-text text-muted">{{ profile_form.phone_number.help_text }}</small>
+                {% if profile_form.phone_number.errors %}
+                    {% for error in profile_form.phone_number.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+
+            <!-- Avatar -->
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{profile_form.avatar.id_for_label}}">
+                    {{ profile_form.avatar.label_tag }}
+                    {% if profile_form.avatar.field.required %}
+                        <span class="required">*</span>
+                    {%endif %}
+                </label>
+                <div class="col-md-6 col-sm-10 col-xs-12">
+                {{ profile_form.avatar }}
+                <small class="form-text text-muted">{{ profile_form.avatar.help_text }}</small>
+                {% if profile_form.avatar.errors %}
+                    {% for error in profile_form.avatar.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+
+            <!-- Birth date -->
+            {{ profile_form.birth_date.as_hidden }}
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-2 col-xs-12" for="{{profile_form.birth_date.id_for_label}}">
+                    {{ profile_form.birth_date.label_tag }}
+                    {% if profile_form.birth_date.field.required %}
+                        <span class="required">*</span>
+                    {%endif %}
+                </label>
+                <div class="col-md-6 col-sm-10 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control birth_date" id="year">
+                                <option value="">سال</option>
+                                {% for year in years %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control birth_date" id="month">
+                                <option value="">ماه</option>
+                                <option value="1">فروردین</option>
+                                <option value="2">اردیبهشت</option>
+                                <option value="3">خرداد</option>
+                                <option value="4">تیر</option>
+                                <option value="5">مرداد</option>
+                                <option value="6">شهریور</option>
+                                <option value="7">مهر</option>
+                                <option value="8">آبان</option>
+                                <option value="9">آذر</option>
+                                <option value="10">دی</option>
+                                <option value="11">بهمن</option>
+                                <option value="12">اسفند</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control birth_date" id="day">
+                                <option value="">روز</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select>
+                        </div>
+                    </div>
+               <small class="form-text text-muted">{{ profile_form.birth_date.help_text }}</small>
+                {% if profile_form.birth_date.errors %}
+                    {% for error in profile_form.birth_date.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+
+
+
+
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    
+                    {% if submit_buttons %}
+                        {% for submit in submit_buttons %}
+                            <button type="submit" name="{{submit.name}}" class="btn {{submit.class}}">
+                                {{submit.title}}
+                            </button>
+                        {% endfor %}
+                    {% else %}
+                        <button type="submit" class="btn btn-success">
+                            {% if form_submit_btn_text %}
+                            {{form_submit_btn_text}}
+                            {% else %}
+                            {% trans 'ارسال' %}
+                            {% endif %}
+                        </button>
+                    {% endif %}
+
+                    {% if form_cancel_url_name %}
+                    <a {% if form_cancel_url_arg1 %} href="{% url form_cancel_url_name form_cancel_url_arg1 %}" {% else %}
+                        href="{% url form_cancel_url_name %}" {% endif %} class="btn btn-default">
+                        {% if form_cancel_btn_text %}
+                        {{form_cancel_btn_text}}
+                        {% else %}
+                        {% trans 'انصراف' %}
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        let user_birth_date = '{{user.profile.birth_date|to_jalali:"%Y-%m-%d"}}';
+        if(!user_birth_date){
+            return;
+        }
+        const [year, month, day] = user_birth_date.split('-');
+        $("#year").val(parseInt(year));
+        $("#month").val(parseInt(month));
+        $("#day").val(parseInt(day));
+
+        $('.birth_date').change(function(){
+            let year = $('#year').val();
+            let month = $('#month').val();
+            let day = $('#day').val();
+
+            if(year && month && day){
+                $('#id_birth_date').val(year + '-' + month + '-' + day);
+            }
+
+        });
+    });
+</script>
+{%endblock page_content%}
