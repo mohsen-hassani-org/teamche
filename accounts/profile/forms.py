@@ -30,6 +30,6 @@ class ProfileForm(ModelForm):
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
-        if phone_number and phone_number.startswith('09'):
-            return phone_number
-        raise ValidationError(_('شماره تماس باید با 09 شروع شود.'))
+        if phone_number and not phone_number.startswith('09'):
+            raise ValidationError(_('شماره تماس باید با 09 شروع شود.'))
+        return phone_number
