@@ -291,7 +291,7 @@
 <script>
     $(document).ready(function(){
         let user_birth_date = '{{user.profile.birth_date|to_jalali:"%Y-%m-%d"}}';
-        if(!user_birth_date){
+        if(user_birth_date.length > 8){
             return;
         }
         const [year, month, day] = user_birth_date.split('-');
