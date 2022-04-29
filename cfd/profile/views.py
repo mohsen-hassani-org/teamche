@@ -7,7 +7,9 @@ from django.db.models.fields import DateField, TimeField
 from django.db.models.functions import Concat, Cast
 from django.db.models.expressions import Value, F
 from django.views.generic import TemplateView
+from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
+from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -909,6 +911,7 @@ def evaluation_delete(request, evaluation_id):
     return redirect('cfd_profile_evaluations_list', team_id=evaluation.team.id)
 
     
+@method_decorator(never_cache, name='dispatch')
 class ChooseAnalysis(TemplateView):
     template_name = 'gentelella/choose_analysis.html'
 
