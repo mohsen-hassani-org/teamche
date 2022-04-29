@@ -151,9 +151,10 @@ class PTAAnalysisForm(forms.ModelForm):
 class VolumeProfileAnalysisForm(forms.ModelForm):
     class Meta:
         model = VolumeProfileAnalysis
-        fields = ('title', 'desc', 'image_url', 'environmental_condition', 'mental_condition',
-                  'checked_forex_factory', 'time_session', 'time_session_is_suitable', 
-                  'fundamental_analysis', 'technical_analysis', 'tradingview_url', )
+        fields = ('title', 'desc', 'image_url', 'tradingview_url', 'environmental_condition',
+                  'mental_condition', 'checked_forex_factory', 'time_session',
+                  'time_session_is_suitable', 'fundamental_analysis', 'technical_analysis', 
+                  'trade_time', 'major_trend', 'trade_time_trend', )
 
 
 class SignalCommentForm(forms.ModelForm):

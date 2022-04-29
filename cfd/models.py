@@ -405,6 +405,22 @@ class VolumeProfileAnalysis(models.Model):
         YES = 'y', _('بله')
         NO = 'n', _('خیر')
 
+    class TradingTimes(models.TextChoices):
+        DAILY = 'daily', _('روزانه')
+        SHORT = 'short', _('کوتاه مدت')
+        MID = 'mid', _('میان مدت') 
+        LONG = 'long', _('بلند مدت')
+
+    class MajorTrends(models.TextChoices):
+        UP_TREND = 'up', _('صعودی')
+        DOWN_TREND = 'down', _('نزولی')
+        SIDE = 'side', _('رنج')
+
+    class TradeTimeTrends(models.TextChoices):
+        UP_TREND = 'up', _('صعودی')
+        DOWN_TREND = 'down', _('نزولی')
+        SIDE = 'side', _('رنج')
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='vp_analysis',
                              verbose_name=_('کاربر'))
     title = models.CharField(max_length=100, verbose_name=_('عنوان'), null=True, default='ولیوم پروفایل')
@@ -426,6 +442,12 @@ class VolumeProfileAnalysis(models.Model):
                                             verbose_name=_('آنالیز فاندامنتال'), default=FundamentalAnalysis.YES)
     technical_analysis = models.CharField(max_length=2, choices=TechnicalAnalysis.choices,
                                            verbose_name=_('آنالیز تکنیکال'), default=TechnicalAnalysis.YES)
+    trade_time = models.CharField(max_length=5, verbose_name=_('تایم معاملاتی'), choices=TradingTimes.choices,
+                                   default=TradingTimes.DAILY, null=True, blank=True)
+    major_trend = models.CharField(max_length=4, verbose_name=_('روند اصلی'), null=True, blank=True,
+                                        choices=MajorTrends.choices, default=MajorTrends.SIDE)
+    trade_time_trend = models.CharField(max_length=4, verbose_name=_('روند تایم معامله'), null=True, blank=True,
+                                        choices=TradeTimeTrends.choices, default=TradeTimeTrends.SIDE)
     tradingview_url = models.URLField(max_length=300, null=True, blank=True, verbose_name=_('آدرس تحلیل در TradingView'))
     signals = GenericRelation('cfd.Signal', object_id_field='analysis_id', related_query_name='vp_analysis')
     comments = GenericRelation(Comment)
