@@ -29,6 +29,8 @@ discord-webhook = "*"
 imgkit = "*"
 django-dbbackup = "*"
 django-extensions = "*"
+django-backup = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

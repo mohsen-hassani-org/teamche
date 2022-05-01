@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', include('accounts.urls')),
     path('dmo/', include('dmo.urls')),
     path('cfd/', include('cfd.urls')),
+    path('core/', include('core.urls')),
     path('team/', include('team.urls')),
     path('file/', include('file.urls')),
     path('i18n/', include('django.conf.urls.i18n')),

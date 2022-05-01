@@ -205,7 +205,7 @@
                                 </li>
                                 {% endif %}
                                 <!-- ACCOUNT APP END -->
-                                
+
                                 <!-- TEAM BEGIN -->
                                 <li>
                                     <a href="{% url 'team_profile_teams_mine' %}"><i class="fa fa-users"></i>{% trans 'تیم‌ها' %}</a>
@@ -226,6 +226,19 @@
                                 {% endif %}
                                 <!-- FILE APP END -->
 
+                                <!-- CORE APP BEGIN -->
+                                {% if request.user.is_staff %}
+                                <li>
+                                    <a><i class="fa fa-gears"></i>{% trans 'سیستم' %}<span
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{% url 'core:backups' %}">{% trans 'فایل‌های پشتیبان' %}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                <!-- CORE APP END -->
+                                
 
                             </ul>
                         </div>
