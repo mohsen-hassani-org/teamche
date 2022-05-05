@@ -16,5 +16,5 @@ pytz==2020.1
 six==1.15.0
 sqlparse==0.4.1
 toml==0.10.2
-django-backup
+django-dbbackup
 psycopg
