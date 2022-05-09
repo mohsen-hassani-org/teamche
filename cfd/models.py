@@ -494,7 +494,10 @@ class Signal(models.Model):
         verbose_name_plural = _('سیگنال‌ها')
         ordering = ['-result_datetime']
     def __str__(self):
-        return 'Signal by {user} on {asset} on {date}'.format(user=self.user, asset=self.asset, date=self.signal_datetime)
+        date = self.signal_datetime.strftime("%Y/%m/%d")
+        time = self.signal_datetime.strftime("%H:%M")
+        return '{user} @ {asset} - {date} {time}'.format(user=self.user, asset=self.asset,
+                                                  date=date, time=time)
     signal_datetime = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ و زمان'))
     result_datetime = models.DateTimeField(default=datetime.now, verbose_name=_('تاریخ و زمان پایان معامله'))
     canceled_datetime = models.DateTimeField(verbose_name=_('تاریخ و زمان لغو معامله'), null=True, blank=True)

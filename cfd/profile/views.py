@@ -293,7 +293,8 @@ def view_classic_analysis(request, team_id):
             if analysis.signal
             else ''
         )
-        analysis.signal_status = f'{analysis.signal} ({signal_type})' or _('ندارد')
+        signal_id = analysis.signal.id if analysis.signal else ''
+        analysis.signal_status = f'#{signal_id} {analysis.signal} ({signal_type})' or _('ندارد')
 
     data = {
         'items': filter_set.qs,
