@@ -281,12 +281,19 @@ def view_pta_analysis(request, team_id):
 def view_classic_analysis(request, team_id):
     team = get_object_or_404(Team, id=team_id)
     classic = ClassicAnalysis.objects.filter(team=team).order_by('-datetime')
+    if not request.GET:
+        classic = classic.filter(signals__signal_type=Signal.SignalType.LIVE)
     filter_set = ClassicAnalysisFilter(request.GET, classic, team_id=team_id)
     for analysis in filter_set.qs:
         analysis.num = '#{id}'.format(id=analysis.id)
         analysis.date = analysis.datetime.strftime('%Y %B %d')
         analysis.time = analysis.datetime.strftime('%H:%M:%S')
-        analysis.signal_status = analysis.signal or _('ندارد')
+        signal_type = (
+            analysis.signal.get_signal_type_display()
+            if analysis.signal
+            else ''
+        )
+        analysis.signal_status = f'{analysis.signal} ({signal_type})' or _('ندارد')
 
     data = {
         'items': filter_set.qs,

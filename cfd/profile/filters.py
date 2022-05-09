@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django_filters import FilterSet, ModelChoiceFilter
+from django_filters import FilterSet, ModelChoiceFilter, ChoiceFilter
 from cfd.models import PTAAnalysis, Signal, ClassicAnalysis
 User = get_user_model()
 
@@ -19,6 +19,13 @@ class SignalFilter(FilterSet):
         self.form.fields['user'].queryset = User.objects.filter(teams__id=team_id)
 
 class ClassicAnalysisFilter(FilterSet):
+    signal_type = ChoiceFilter(
+        choices=Signal.SignalType.choices,
+        label='Signal Type',
+        field_name='signals__signal_type',
+        empty_label=None,
+        null_label=None,
+    )
     class Meta:
         model = ClassicAnalysis
         fields = {
