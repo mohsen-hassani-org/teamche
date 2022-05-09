@@ -55,7 +55,7 @@ class FillSignalForm(forms.ModelForm):
     current_price = forms.DecimalField(required=True, label='قیمت کنونی')
     class Meta:
         model = Signal
-        fields = ('result_datetime', 'trade_id', 'result_pip', 'result_dollar', 'lot', 'result_image_url', 'mistakes')
+        fields = ('result_datetime', 'trade_id', 'result_pip', 'result_dollar', 'lot', 'result_image_url', 'mistakes', 'notes')
         widgets = {
             'result_datetime': DateTimeWidget(usel10n=True, bootstrap_version=3)
         }

@@ -521,6 +521,7 @@ class Signal(models.Model):
     status = models.CharField(max_length=8, choices=SignalStatus.choices, default=SignalStatus.PENDING, verbose_name=_('وضعیت'))
     result_image_url = models.URLField(max_length=300, null=True, verbose_name=_('تصویر نهایی'))
     self_entered = models.BooleanField(default=True, verbose_name=_('وارد شده‌اید؟'))
+    notes = models.TextField(null=True, blank=True, verbose_name=_('یادداشت'))
     comments = GenericRelation(Comment, verbose_name=_('نظرات'))
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, related_name='signals', verbose_name=_('تیم'))
 

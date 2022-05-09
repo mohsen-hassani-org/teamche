@@ -103,6 +103,15 @@
                     <!-- End image row -->
                     {% endif %}
 
+                    {% if signal.notes %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>{% trans 'یادداشت‌ها' %}</h4>
+                            <p>{{signal.notes|safe}}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
 
                 </section>
                 <div class="action-buttons">
