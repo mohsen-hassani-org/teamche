@@ -15,12 +15,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='dmo',
             name='month',
-            field=models.PositiveSmallIntegerField(default=dmo.models.Dmo.current_month, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(12)], verbose_name='ماه'),
+            field=models.PositiveSmallIntegerField(default=dmo.models.current_month, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(12)], verbose_name='ماه'),
         ),
         migrations.AlterField(
             model_name='dmo',
             name='year',
-            field=models.PositiveSmallIntegerField(default=dmo.models.Dmo.current_year, validators=[django.core.validators.MinValueValidator(1390), django.core.validators.MaxValueValidator(1499)], verbose_name='سال'),
+            field=models.PositiveSmallIntegerField(default=dmo.models.current_year, validators=[django.core.validators.MinValueValidator(1390), django.core.validators.MaxValueValidator(1499)], verbose_name='سال'),
         ),
         migrations.AlterField(
             model_name='dmoday',
