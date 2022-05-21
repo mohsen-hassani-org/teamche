@@ -31,6 +31,7 @@ django-dbbackup = "*"
 django-extensions = "*"
 django-backup = "*"
 psycopg2 = "*"
+django-rest-framework = "*"
 
 [dev-packages]
 
