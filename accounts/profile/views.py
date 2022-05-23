@@ -23,6 +23,9 @@ def profile(request):
         'YEARS': list(range(70)),
         'WEEKS': list(range(1, 53)),
         'AGE_TRESHOLD': age_treshold,
+        'todo_list': {
+            'date': datetime.now().date(),
+        }
     }
     return render(request, 'gentellela/profile.html', context)
 

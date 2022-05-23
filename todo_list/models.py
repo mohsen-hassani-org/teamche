@@ -1,18 +1,31 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from functools import reduce
+from django import db
+from django.conf import settings
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth import get_user_model
+from jalali_date import date2jalali
+from dmo.models import DmoDay, Dmo
 
 
 User = get_user_model()
 
 
 class TodoListManager(models.Manager):
-    def get_today(self, user):
-        today = datetime.now()
-        return self.get_or_create(user=user, date=today)
-
     def get_todo_list(self, user, date):
-        return self.filter(user=user, date=date)
+        todo_list, _ = self.get_or_create(user=user, date=date)
+        self._attach_dmo_items(todo_list)
+        return todo_list
+
+    def _attach_dmo_items(self, todo_list):
+        date = date2jalali(todo_list.date)
+        user_dmos = Dmo.objects.filter(user=todo_list.user, year=date.year, month=date.month)
+        for dmo in user_dmos:
+            if todo_list.items.filter(title=dmo.goal).exists():
+                continue
+            todo_list.items.create(title=dmo.goal)
+
 
     def move_lists_to_today(self):
         today = datetime.now()
@@ -74,9 +87,11 @@ class TodoListItem(models.Model):
     todo_list = models.ForeignKey(TodoList, verbose_name='Todo', related_name='items',
                                   on_delete=models.CASCADE)
     title = models.CharField(max_length=255, verbose_name='عنوان')
-    desc = models.TextField(verbose_name='توضیحات')
+    desc = models.TextField(verbose_name='توضیحات', blank=True)
     status = models.IntegerField(verbose_name='وضعیت', choices=Statuses.choices,
                                  default=Statuses.PENDING)
+    dmo_day = models.OneToOneField(DmoDay, on_delete=models.CASCADE, verbose_name='دمو',
+                                   related_name='todo_list_item', null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین ویرایش')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='ایجاد شده در')
     objects = TodoListItemManager()
@@ -93,11 +108,50 @@ class TodoListItem(models.Model):
         if commit:
             self.save()
 
+    def done_task(self, commit=True):
+        self.status = self.Statuses.DONE
+        if commit:
+            self.save()
+            
     def undone_task(self, commit=True):
         self.end_datetime = datetime.now()
         self.status = self.Statuses.NOT_DONE
         if commit:
             self.save()
+
+    def start_task(self):
+        if self.time_tracks.filter(end_datetime__isnull=True).exists():
+            raise Exception('Task is already started.')
+        TodoListItemTimeTrack.objects.create(
+            item=self,
+            start_datetime=datetime.now(),
+            end_datetime=None
+        )
+
+    def finish_task(self):
+        now = datetime.now()
+        self.time_tracks.filter(end_datetime=None).update(end_datetime=now)
+
+    def toggle_start_stop(self):
+        started_tracks = self.time_tracks.filter(end_datetime__isnull=True)
+        if started_tracks.exists():
+            started_tracks.update(end_datetime=datetime.now())
+            return
+        TodoListItemTimeTrack.objects.create(
+            item=self,
+            start_datetime=datetime.now(),
+            end_datetime=None
+        )
+
+    def get_total_time_seconds(self):
+        # db aggrigation doesn't work for some databases, so it's safer to use python
+        time_tracks = self.time_tracks.filter(end_datetime__isnull=False).values('start_datetime', 'end_datetime')
+        durations = [time['end_datetime'] - time['start_datetime'] for time in time_tracks]
+        return reduce(lambda a, b: a+b, durations, timedelta(seconds=0)).seconds
+
+    def get_last_ongoing_time_track(self):
+        return self.time_tracks.filter(end_datetime__isnull=True).last()
+
 
 
 class TodoListItemTimeTrack(models.Model):
@@ -114,13 +168,3 @@ class TodoListItemTimeTrack(models.Model):
 
     def __str__(self):
         return f'{self.item}'
-
-    def start_task(self, commit=True):
-        self.start_datetime = datetime.now()
-        if commit:
-            self.save()
-
-    def finish_task(self, commit=True):
-        self.end_datetime = datetime.now()
-        if commit:
-            self.save()

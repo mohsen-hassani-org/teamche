@@ -32,6 +32,7 @@ django-extensions = "*"
 django-backup = "*"
 psycopg2 = "*"
 django-rest-framework = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 

@@ -4,6 +4,10 @@
 {{ page_title }}
 {% endblock title %}
 {% block extra_head %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/jalalidatepicker.min.css' %}" />
+<script type="text/javascript" src="{% static 'js/jalalidatepicker.min.js' %}"></script>
+<script src="{% static 'js/moment/jalali-moment.browser.js' %}"></script>
+
     <style>
         .app-box {
             width: 100%;
@@ -62,6 +66,61 @@
             text-align: center;
             padding-top: 10px;
             border: none !important;
+        }
+
+        #month_form {
+            display: inline-block;
+            witdh: 200px;
+        } 
+
+        #month_form input {
+            height: 25px;
+            margin: 0px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fafafa;
+            text-align: center;
+
+        }
+
+        #todoListAddBox {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        #todoListContent {
+            display: flow-root;
+        }
+
+        .btn-todo-list {
+            margin: 0px auto;
+            padding: 0px 10px;
+        }
+
+        .loader {
+            width: 100%;
+            position: absolute;
+            height: 100%;
+            background-color: white;
+            opacity: 0.7;
+            z-index: 100;
+            text-align: center;
+            font-size: xx-large;
+        }
+
+        .loader .spinner {
+            border: 12px solid #f3f3f3;
+            border-top: 12px solid #1abb9c;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin: 100px auto;
+            animation: spin 2s linear infinite;
+        }
+            
+            @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
     </style>
@@ -236,6 +295,36 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>
+                        لیست کارهای روزانه
+                    </h2>
+                    <small><form method="GET" id="month_form">
+                        <input id="date_picker" name="todo_list_date" onchange="getTodoList()" data-jdp/>
+                    </form></small>
+
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" style="overflow: hidden;">
+                    <div id="todoListLoader" class="loader"><div class="spinner"></div></div>
+                    <div id="todoListContent">
+                    </div>
+                    <hr >
+                    <div id="todoListAddBox">
+                        <input name="todoListTitle" id="todoListTitle" type="text" class="form-control"
+                               placeholder="یک کار جدید ایجاد کنید" aria-describedby="basic-addon1">
+                        <input name="ایجاد" id="todoListAdd" type="button" class="btn btn-success"
+                                value="ایجاد" onclick="createNewTask()">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
                         تقویم Memento Mori
                     </h2>
                     <button class="btn btn-link memento-button" onclick="toggleMementoHelp()">راهنما؟</button>
@@ -301,11 +390,230 @@
 {%endblock page_content%}
 
 {% block extra_scripts %}
-
     <script>
+
+        const LOADER = '<div class="loader"><div class="loader-inner ball-pulse"></div></div>';
+
+        $(document).ready(function () {
+
+            jalaliDatepicker.startWatch({
+            });
+            const date = "{{todo_list.date|to_jalali:'%Y/%m/%d'}}";
+            $("#date_picker").val(date);
+            getTodoList();
+
+        });
+
+
         function toggleMementoHelp(){
             $('#mementoHelp').toggle(200);
         }
+
+
+        var TODO_LIST_TIMER_SPEND = 0;
+        var TODO_LIST_TIMER_ID = null;
+        setInterval(runningTaskTimer, 1000);
+
+        function getTodoList() {
+            showTodoListLoader();
+            TODO_LIST_TIMER_ID = null;
+            const date = getSelectedDateInGregorian();
+            const url = "{% url 'todo_list:todo_list-list' %}";
+            $.ajax({
+                url: url + date + '/items/',
+                type: 'GET',
+                success: function (data) {
+                    fillTodoList(data);
+                    hideTodoListLoader();
+                }
+            });
+        }
+
+        function fillTodoList(data) {
+            $('#todoListContent').html('');
+            if (data.length === 0) {
+                $('#todoListContent').html('هیچ کاری برای این تاریخ وجود ندارد');
+                return;
+            }
+            for (let item of data) {
+                let component = createTodoItemComponent(item);
+                $('#todoListContent').append(component);
+            }
+        }
+
+        function createNewTask() {
+            showTodoListLoader();
+            const date = getSelectedDateInGregorian();
+            const title = $('#todoListTitle').val();
+            const url = `/api/v1/todo-list/${date}/items/`;
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    title: title,
+                    description: '',
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val(),
+                },
+                success: function (data) {
+                    $('#todoListTitle').val('');
+                    getTodoList();
+                }
+            });
+        }
+
+        function showTodoListLoader() {
+            $('#todoListLoader').show();
+        }
+
+        function hideTodoListLoader() {
+            $('#todoListLoader').hide();
+        }
+
+        function getSelectedDateInGregorian() {
+            const date = $("#date_picker").val();
+            return moment.from(date, 'fa', 'YYYY/MM/DD').locale('en').format('YYYY-MM-DD');
+        }
+
+        function startStop(task_id) {
+            console.log("Toggle -> " + task_id)
+            showTodoListLoader();
+            const date = getSelectedDateInGregorian();
+            const url = `/api/v1/todo-list/${date}/items/${task_id}/play-pause`;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                },
+                success: function (data) {
+                    getTodoList();
+                }
+            });
+        }
+
+        function markDone(task_id) {
+            console.log("Done -> " + task_id)
+            showTodoListLoader();
+            const date = getSelectedDateInGregorian();
+            const url = `/api/v1/todo-list/${date}/items/${task_id}/done`;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                },
+                success: function (data) {
+                    getTodoList();
+                }
+            });
+        }
+
+        function markUndone(task_id) {
+            console.log("Undone -> " + task_id);
+            showTodoListLoader();
+            const date = getSelectedDateInGregorian();
+            const url = `/api/v1/todo-list/${date}/items/${task_id}/undone`;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                },
+                success: function (data) {
+                    getTodoList();
+                }
+            });
+        }
+
+        function editTask(task_id) {
+            console.log("Edit ->" + task_id)
+        }
+
+        function deleteTask(task_id) {
+            console.log("Delete -> " + task_id);
+            showTodoListLoader();
+            const date = getSelectedDateInGregorian();
+            const url = `/api/v1/todo-list/${date}/items/${task_id}/delete/`;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    getTodoList();
+                }
+            });
+        }
+
+
+        function createTodoItemComponent(item) {
+            const id = item.id;
+            const title = item.title;
+            const description = item.description || '';
+            const status = item.status;
+            let panel_color_class = '';
+            if (item.in_progress_from) {
+                panel_color_class = 'panel-primary';
+                TODO_LIST_TIMER_SPEND = item.in_progress_from + item.total_time_in_sec;
+                TODO_LIST_TIMER_ID = id;
+            } else if (status === 0) {
+                panel_color_class = 'panel-default'
+            } else if (status === 100) {
+                panel_color_class = 'panel-success'
+            } else {
+                panel_color_class = 'panel-danger'
+            }
+            const spendTime = secondToTime(item.total_time_in_sec);
+            const part1 = `
+                <div class="col-md-12">
+                    <div class="panel ${panel_color_class}">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h3 class="panel-title">${title}</h3>
+                                    <p>${description}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <span id="todoListLabel${id}">${spendTime}</span>
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                            </div>
+                        </div>
+            `;
+            const part2 = ``;
+            const part3 = `
+                        <div class="panel-body">
+                            <div style="display: flex; justify-content: space-around;">
+                                <a class="btn btn-todo-list" onclick="startStop(${id})">
+                                    <i class="fa fa-play-circle-o"></i>
+                                </a>
+                                <a class="btn btn-todo-list" onclick="markDone(${id})">
+                                    <i class="fa fa-check-circle-o"></i>
+                                </a>
+                                <a class="btn btn-todo-list" onclick="markUndone(${id})">
+                                    <i class="fa fa-times-circle-o"></i>
+                                </a>
+                                <a class="btn btn-todo-list" onclick="deleteTask(${id})">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return part1 + part2 + part3;
+        }
+
+        function runningTaskTimer() {
+            if(!TODO_LIST_TIMER_ID) {
+                return;
+            }
+            const label = $('#todoListLabel' + TODO_LIST_TIMER_ID);
+            const spended = secondToTime(TODO_LIST_TIMER_SPEND++);
+            label.text(spended);
+        }
+
+        function secondToTime(seconds) {
+            var date = new Date(null);
+            date.setSeconds(seconds); // specify vlue for SECONDS here
+            var result = date.toISOString().substr(11, 8);
+            return result;
+        }
+
     </script>
 
 {% endblock %}

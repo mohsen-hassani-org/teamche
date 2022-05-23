@@ -31,6 +31,7 @@ urlpatterns = [
     path('core/', include('core.urls')),
     path('team/', include('team.urls')),
     path('file/', include('file.urls')),
+    path('', include('todo_list.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 
