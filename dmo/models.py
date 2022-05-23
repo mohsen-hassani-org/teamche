@@ -119,6 +119,12 @@ class Dmo(models.Model):
         table += '</tr></table>'
         return table
 
+    def complete(self, day, done=True):
+        DmoDay.objects.get_or_create(
+            dmo=self, day=day,defaults={
+                'done': done
+            })[0]
+
 class Setting(models.Model):
     class Meta:
         verbose_name = _('تنظیم DMO')

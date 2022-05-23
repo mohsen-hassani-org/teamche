@@ -110,12 +110,24 @@ class TodoListItem(models.Model):
 
     def done_task(self, commit=True):
         self.status = self.Statuses.DONE
+        jalali_date = date2jalali(self.todo_list.date)
+        dmo = Dmo.objects.filter(user=self.todo_list.user, goal=self.title,
+                                 year=jalali_date.year, month=jalali_date.month
+                                ).first()
+        if dmo:
+            dmo.complete(jalali_date.day, done=True)
         if commit:
             self.save()
             
     def undone_task(self, commit=True):
         self.end_datetime = datetime.now()
         self.status = self.Statuses.NOT_DONE
+        jalali_date = date2jalali(self.todo_list.date)
+        dmo = Dmo.objects.filter(user=self.todo_list.user, goal=self.title,
+                                 year=jalali_date.year, month=jalali_date.month
+                                ).first()
+        if dmo:
+            dmo.complete(jalali_date.day, done=False)
         if commit:
             self.save()
 
