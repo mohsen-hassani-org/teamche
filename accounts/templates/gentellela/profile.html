@@ -71,7 +71,7 @@
         #month_form {
             display: inline-block;
             witdh: 200px;
-        } 
+        }
 
         #month_form input {
             height: 25px;
@@ -117,7 +117,7 @@
             margin: 100px auto;
             animation: spin 2s linear infinite;
         }
-            
+
             @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -151,7 +151,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-        
+
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -177,7 +177,7 @@
                                                 </div>
                                             </div>
                                             {% endif %}
-                                            
+
                                             {% if perms.file %}
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                                 <div class="app-box">
@@ -204,13 +204,13 @@
                                                 <li><i class="fa fa-user user-profile-icon"></i>
                                                     <span>{% trans 'نام کاربری' %}: {{user.username}}</span>
                                                 </li>
-        
+
                                                 <li>
                                                     <i class="fa fa-envelope user-profile-icon"></i>
                                                     <span>
                                                         {% if user.email %}{{user.email}}{% else %}{% trans 'آدرس ایمیل ثبت نشده است' %}{% endif %}</span>
                                                 </li>
-        
+
                                                 <li class="m-top-xs">
                                                     <i class="fa fa-sign-in user-profile-icon"></i>
                                                     <span>{% trans 'آخرین ورود' %}: {% if user.last_login %}{{user.last_login}}{% else %}{% trans 'نامشخص' %}{% endif %}</span>
@@ -225,11 +225,11 @@
                                 </div>
                             </div>
                         </div>
-        
+
                     </div>
                 </div>
             </div>
-        
+
             {% for team in request.user.teams.all %}
             <div class="col-md-12 col-lg-12">
                 <div class="x_panel">
@@ -281,14 +281,14 @@
                                     </div>
                                 </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
-        
+
         </div>
 
         <div class="col-md-6">
@@ -422,6 +422,7 @@
             $.ajax({
                 url: url + date + '/items/',
                 type: 'GET',
+                cache: false,
                 success: function (data) {
                     fillTodoList(data);
                     hideTodoListLoader();
@@ -482,6 +483,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+                cache: false,
                 data: {
                 },
                 success: function (data) {
@@ -498,6 +500,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+                cache: false,
                 data: {
                 },
                 success: function (data) {
@@ -514,6 +517,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+                cache: false,
                 data: {
                 },
                 success: function (data) {
@@ -534,6 +538,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+                cache: false,
                 success: function (data) {
                     getTodoList();
                 }
