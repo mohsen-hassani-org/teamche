@@ -282,7 +282,7 @@ def view_classic_analysis(request, team_id):
     team = get_object_or_404(Team, id=team_id)
     classic = ClassicAnalysis.objects.filter(team=team).order_by('-datetime')
     if not request.GET:
-        classic = classic.filter(signals__signal_type=Signal.SignalType.LIVE)
+        classic = classic.filter(Q(signals__signal_type=Signal.SignalType.LIVE) | Q(signals__isnull=True))
     filter_set = ClassicAnalysisFilter(request.GET, classic, team_id=team_id)
     for analysis in filter_set.qs:
         analysis.num = '#{id}'.format(id=analysis.id)
