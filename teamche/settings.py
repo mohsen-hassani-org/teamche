@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'cfd',
     'dmo',
     'team',
+    'landing',
 ]
 
 MIDDLEWARE = [
@@ -172,6 +173,10 @@ DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, 'backups/')}
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_FINDERS = (
+  'django.contrib.staticfiles.finders.FileSystemFinder',
+  'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 LOGIN_URL = 'account_login'
