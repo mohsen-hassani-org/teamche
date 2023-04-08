@@ -18,3 +18,8 @@ sqlparse==0.4.1
 toml==0.10.2
 django-dbbackup
 psycopg
+requests
+imgkit
+django_extensions
+discord_webhook
+drf-nested-routers
